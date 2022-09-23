@@ -9,8 +9,6 @@ const SearchForm = ({handleSearch})=>{
     // the logic behind the search form, the function responsiable for calling the api is in App.js
     // you could find the hook in the hooks directory
     const query = useField("text")
-
-    console.log(query,"the query")
     const handleSubmit = (event)=>{
     event.preventDefault()
     handleSearch(query.value)

@@ -8,26 +8,45 @@ from rest_framework.permissions import IsAuthenticated  # <-- Here
 from rest_framework import status
 
 from rest_framework import generics
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
 
 class UserDetailAPI(APIView):
   authentication_classes = (TokenAuthentication,)
   permission_classes = (IsAuthenticated,)
   def get(self,request,*args,**kwargs):
-    print(kwargs['id'], "---------------------------------------------------------------------")
-
     user = User.objects.get(id=kwargs['id'])
     serializer = UserSerializer(user)
     return Response(serializer.data)
+
 
 class RegisterUserAPIView(generics.CreateAPIView):
   permission_classes = (AllowAny,)
   serializer_class = RegisterSerializer
 
+
+
+class TokenObtainView(ObtainAuthToken):
+  def post(self, request, *args, **kwargs):
+    print(request, "---------------------------------")
+    serializer = self.serializer_class(data=request.data,
+                                        context={'request': request})
+    serializer.is_valid(raise_exception=True)
+    user = serializer.validated_data['user']              
+    token, created = Token.objects.get_or_create(user=user)
+    custom_response = {
+            'token': token.key,
+            'username': user.username
+        }
+    return Response(custom_response)
+
+
+
 class LogoutView(APIView):
     queryset = User.objects.all()
     permission_classes = (IsAuthenticated,)
-
+ 
     @staticmethod
     def delete(request, *args, **kwargs):
         request.user.auth_token.delete()

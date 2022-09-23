@@ -22,7 +22,6 @@ def testing(request):
 class UserViewSet(generics.ListCreateAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)           # <-- And here
-
     """
     API endpoint that allows users to be viewed or edited.
     """

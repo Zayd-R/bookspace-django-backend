@@ -2,28 +2,38 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Books from './componets/Books';
 import SearchForm from './componets/SearchForm';
-import {
-  useMatch,
-  Routes, Route, Link
-} from "react-router-dom"
+import { Routes, Route, Link} from "react-router-dom"
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import {Button} from 'react-bootstrap'
+
 import HomePage from './componets/HomePage';
 import Book from './componets/Book';
-// const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=&startIndex=20`)
-// const result2 = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=20`)
+import { useDispatch, useSelector } from 'react-redux'
+import userService from './services/user'
+import {loginUser, logoutUser} from './reducers/userReducer'
+import logService from './services/login';
+import LoginForm from './componets/LoginForm';
+
+// soon to implement API to allow user to filter the search
+// const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=${filterQuery}&startIndex=20`)
 
 
 
 function App() {
   const [data, setData] = useState([])
- const decoration = {textDecoration: 'none', color: 'black', padding: '5px'}
-//   google API to get the books
+  const user = useSelector(state=>state.user)
+  const dispatch = useDispatch()
+  console.log(user)
+
+  const decoration = {textDecoration: 'none', color: 'black', padding: '5px'}
+
+  //   google API to get the books
   const handleSearch =  (query)=>{
     // clearing the data each time a research is made to give some nice styling and not make the site just static
-    setData([])
+  setData([])
    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=40 `)
     .then(result=>{
       setData(result.data.items)
@@ -34,17 +44,34 @@ function App() {
 
 // still testing the auth functions I made to the backend , you could see all the api you could use in the service directory,
 // I all add new API endpoints each time I finish one
+  // useEffect(()=>{
+  //   axios.post('http://127.0.0.1:8000/api-token-auth/',{"username":"zayd", "password":123456})
+  //   .then(Token=>console.log(Token.data))
+  //   .catch(error=>console.log(error))
+  // },[])
+
+  // get the user token if the user was logged in
   useEffect(()=>{
-    axios.post('http://127.0.0.1:8000/api-token-auth/',{"username":"zayd", "password":123456})
-    .then(Token=>console.log(Token.data))
-    .catch(error=>console.log(error))
+       const userFromStorage =  userService.getUser()
+       if(userFromStorage){
+        dispatch(loginUser(userFromStorage))
+       }
   },[])
 
+
+const logout = ()=>{
+    logService.logout()
+    userService.clearUser()
+    dispatch(logoutUser())
+    
+
+}
+
   // to prevent crashes
-  if(data === []){
+  if(!user){
     return(
-      <h1>loading....</h1>
-    )
+      <LoginForm/>
+      )
   }
   return (
     <>
@@ -56,7 +83,8 @@ function App() {
           <Nav className="me-auto">
           <Link style={decoration}>Home</Link> 
             <Link style={decoration}>Faviourate</Link>
-           <Link style={decoration}>Login</Link> 
+            {user ? <Link onClick={logout} style={decoration}>Logout</Link>:  <Link style={decoration}>Login</Link> }
+           
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -76,9 +104,9 @@ function App() {
     <div className="container">
     
   <Routes>
+
     <Route path="/"  element={<HomePage />} />
     <Route exact path="/books/:id"  element={<Book />} />
-
     <Route exact  path="/search"  element={<><SearchForm handleSearch={handleSearch} />  <Books data={data}/> </>} />
     
 
