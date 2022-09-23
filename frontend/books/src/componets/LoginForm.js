@@ -29,10 +29,10 @@ const handleLogin = (event)=>{
             <h1>Login form</h1>
            <Form onSubmit={handleLogin}>
             <Form.Label>Username</Form.Label>
-            <Form.Control {...username}  placeholder="Username"/>
+            <Form.Control {...username}  placeholder="Username..."/>
 
             <Form.Label>Password</Form.Label>
-            <Form.Control {...password} placeholder="Password"/>
+            <Form.Control {...password} placeholder="Password..."/>
             <Button type="submit">Login</Button>
            </Form>
         </div>

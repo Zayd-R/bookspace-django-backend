@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Books from './componets/Books';
 import SearchForm from './componets/SearchForm';
-import { Routes, Route, Link} from "react-router-dom"
+import { Routes, Route, Link, Navigate} from "react-router-dom"
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -16,6 +16,7 @@ import userService from './services/user'
 import {loginUser, logoutUser} from './reducers/userReducer'
 import logService from './services/login';
 import LoginForm from './componets/LoginForm';
+import Register from './componets/Register';
 
 // soon to implement API to allow user to filter the search
 // const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=${filterQuery}&startIndex=20`)
@@ -50,6 +51,8 @@ function App() {
   //   .catch(error=>console.log(error))
   // },[])
 
+
+
   // get the user token if the user was logged in
   useEffect(()=>{
        const userFromStorage =  userService.getUser()
@@ -58,21 +61,15 @@ function App() {
        }
   },[])
 
-
+// logout and destroy token
 const logout = ()=>{
     logService.logout()
     userService.clearUser()
     dispatch(logoutUser())
-    
-
 }
 
   // to prevent crashes
-  if(!user){
-    return(
-      <LoginForm/>
-      )
-  }
+ 
   return (
     <>
       <Navbar bg="light" expand="lg">
@@ -83,7 +80,7 @@ const logout = ()=>{
           <Nav className="me-auto">
           <Link style={decoration}>Home</Link> 
             <Link style={decoration}>Faviourate</Link>
-            {user ? <Link onClick={logout} style={decoration}>Logout</Link>:  <Link style={decoration}>Login</Link> }
+            {user ? <Link onClick={logout} style={decoration}>Logout</Link>:  <Link style={decoration} to='/login'>Login</Link> }
            
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -102,13 +99,16 @@ const logout = ()=>{
     </Navbar>
 
     <div className="container">
-    
   <Routes>
 
     <Route path="/"  element={<HomePage />} />
     <Route exact path="/books/:id"  element={<Book />} />
     <Route exact  path="/search"  element={<><SearchForm handleSearch={handleSearch} />  <Books data={data}/> </>} />
+    {/* for now this path is only accessed if the user is not authinticated , after adding new routes and feature we will create a private router */}
+    <Route path="/register" element={!user ?<Register/> : <Navigate replace to="/login" />} />
+
     
+    <Route path="/login" element={<LoginForm/>} />
 
 
   </Routes>
