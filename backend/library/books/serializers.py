@@ -17,6 +17,4 @@ class BooksSerializers(serializers.ModelSerializer):
     class Meta:
         model = BooksAdded
         fields = ["id",'book_title',"user_id", "book_id", "book_state", "book_image"]
-    def create(self, validated_data):
-        print(validated_data,"+++++++++++++++++++++++++++++++++++")
-   
+  
