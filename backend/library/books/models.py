@@ -29,7 +29,7 @@ class BooksAdded(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,related_name="booksToRead")
     book_title = models.TextField(default="No title")
     book_state =  models.TextField(default="No title")
-    book_id = models.TextField(default="0000")
+    book_id = models.TextField(blank=True)
     book_image = models.TextField(blank=True)
     
     class Meta:
