@@ -17,6 +17,7 @@ import { loginUser, logoutUser } from './reducers/userReducer'
 import logService from './services/login'
 import LoginForm from './componets/LoginForm'
 import Register from './componets/Register'
+import UserShelve from './componets/UserShelve.js'
 
 // soon to implement API to allow user to filter the search
 // const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=${filterQuery}&startIndex=20`)
@@ -29,6 +30,13 @@ function App() {
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
   // console.log(user)
+
+  useEffect(() => {
+    const booksData = JSON.parse(window.localStorage.getItem('lastSearch'))
+    if (booksData) {
+      setData(booksData.books)
+    }
+  }, [])
 
   const decoration = { textDecoration: 'none', color: 'black', padding: '5px' }
 
@@ -43,6 +51,10 @@ function App() {
       .then((result) => {
         setData(result.data.items)
         console.log(result.data.items)
+        window.localStorage.setItem(
+          'lastSearch',
+          JSON.stringify({ query, books: result.data.items })
+        )
       })
       .catch((error) => console.log(error))
   }
@@ -61,13 +73,14 @@ function App() {
     if (userFromStorage) {
       dispatch(loginUser(userFromStorage))
     }
-  }, [])
+  }, [dispatch])
 
   // logout and destroy token
   const logout = () => {
     logService.logout()
     userService.clearUser()
     dispatch(logoutUser())
+    setData([])
   }
 
   // to prevent crashes
@@ -96,7 +109,9 @@ function App() {
               </Link>
               {user ? (
                 <>
-                  <Link style={decoration}>Favorite</Link>
+                  <Link to='/my-shelve' style={decoration}>
+                    My Shelve
+                  </Link>
                   <Link onClick={logout} style={decoration}>
                     Logout
                   </Link>
@@ -145,6 +160,7 @@ function App() {
           />
 
           <Route path='/login' element={<LoginForm />} />
+          <Route path='/my-shelve' element={<UserShelve />} />
         </Routes>
       </div>
     </>
