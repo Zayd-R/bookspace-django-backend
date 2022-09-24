@@ -23,7 +23,6 @@ import Register from './componets/Register'
 
 // TODO: Implement Redux persist
 // TODO: Improve Layout
-// TODO: Fix Navbar routes
 
 function App() {
   const [data, setData] = useState([])
@@ -72,6 +71,8 @@ function App() {
   }
 
   // to prevent crashes
+
+  // TODO: Create Navbar component and move logic there
 
   return (
     <>
