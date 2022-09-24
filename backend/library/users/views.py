@@ -37,7 +37,8 @@ class TokenObtainView(ObtainAuthToken):
     token, created = Token.objects.get_or_create(user=user)
     custom_response = {
             'token': token.key,
-            'username': user.username
+            'username': user.username,
+            'user_id': user.id
         }
     return Response(custom_response)
 

@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux'
 // basic homepage that still need styling.
 const HomePage = ()=>{
     const user = useSelector(state=>state.user)
+
+    
     return(
         <div className="improtant">
             {user ? <h1>Hello ---{user.username}</h1> : ''}
