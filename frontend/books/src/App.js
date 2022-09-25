@@ -18,7 +18,7 @@ import logService from './services/login'
 import LoginForm from './componets/LoginForm'
 import Register from './componets/Register'
 import UserShelve from './componets/UserShelve.js'
-
+import BookService from './services/books'
 // soon to implement API to allow user to filter the search
 // const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=${filterQuery}&startIndex=20`)
 
@@ -30,6 +30,12 @@ function App() {
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
   // console.log(user)
+  // make sure to not run this hook unless there is a user , or the server will not reponse and the frontend will get error
+  useEffect(()=>{
+    if(user){
+      BookService.getUserBooks()
+    }
+  },[user])
 
   useEffect(() => {
     const booksData = JSON.parse(window.localStorage.getItem('lastSearch'))

@@ -42,7 +42,7 @@ class BooksView(generics.ListCreateAPIView):
 
   
 class BookView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     queryset = BooksAdded.objects.all()
     lookup_field = "book_id"
     serializer_class = BooksSerializers

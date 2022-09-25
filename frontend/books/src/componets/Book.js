@@ -22,7 +22,7 @@ const Book = () => {
         })
         .catch((error) => console.log(error))
     }
-  }, [match, book])
+  }, []) //this should render only once.
 
   // loaidng screen to prevent crashes till the book is found
   if (book.length < 1) {

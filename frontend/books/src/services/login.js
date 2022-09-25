@@ -22,4 +22,4 @@ const logout = async () => {
   return response.data
 }
 
-export default { login, logout }
+export default { login, logout, config }
