@@ -14,6 +14,7 @@ from rest_framework.permissions import AllowAny
 from .serializers import BooksSerializers 
 from rest_framework.response import Response
 from .models import BooksAdded
+from .permissions import AuthorAllStaffAllButEditOrReadOnly
 
 def testing(request):
     users = User.objects.all()
@@ -31,7 +32,7 @@ def funbased(request):
 
 
 class BooksView(generics.ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AuthorAllStaffAllButEditOrReadOnly,)
     queryset = BooksAdded.objects.all()
     serializer_class = BooksSerializers
 
@@ -42,7 +43,8 @@ class BooksView(generics.ListCreateAPIView):
 
   
 class BookView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [AuthorAllStaffAllButEditOrReadOnly]
+
     queryset = BooksAdded.objects.all()
     lookup_field = "book_id"
     serializer_class = BooksSerializers
