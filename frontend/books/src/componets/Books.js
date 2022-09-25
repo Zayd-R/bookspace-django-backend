@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Pagination } from 'react-bootstrap'
 import { Card, CardGroup, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
@@ -9,10 +9,22 @@ const Books = ({ data }) => {
   // basic logic to make some pagination
   const DATA_LIMIT = 10
   const PAGES = Math.round(data.length / DATA_LIMIT)
-  const [currentPage, setCurrentPage] = useState(1)
+  const lastSearch = JSON.parse(window.localStorage.getItem('lastSearch'))
+  const [currentPage, setCurrentPage] = useState(lastSearch?.currentPage || 1)
+  const [currentSearch, setCurrentSearch] = useState(lastSearch?.query || null)
   const padding = {
     padding: 50,
   }
+
+  useEffect(() => {
+    if (lastSearch?.query) setCurrentSearch(lastSearch.query)
+    if (lastSearch?.query === currentSearch) {
+      window.localStorage.setItem(
+        'lastSearch',
+        JSON.stringify({ ...lastSearch, currentPage })
+      )
+    } else setCurrentPage(1)
+  }, [lastSearch, currentPage, currentSearch])
 
   // the number of pages after search is made
   const array = []
