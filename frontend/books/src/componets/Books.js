@@ -11,11 +11,12 @@ const Books = ({ data }) => {
   const PAGES = Math.round(data.length / DATA_LIMIT)
   const lastSearch = JSON.parse(window.localStorage.getItem('lastSearch'))
   const [currentPage, setCurrentPage] = useState(lastSearch?.currentPage || 1)
-  const [currentSearch, setCurrentSearch] = useState(lastSearch?.query || null)
+  const [currentSearch, setCurrentSearch] = useState(lastSearch?.query || '')
   const padding = {
     padding: 50,
   }
 
+  // Persisted pagination
   useEffect(() => {
     if (lastSearch?.query) setCurrentSearch(lastSearch.query)
     if (lastSearch?.query === currentSearch) {

@@ -27,15 +27,18 @@ import BookService from './services/books'
 
 function App() {
   const [data, setData] = useState([])
+  const [userBooks, setUserBooks] = useState([])
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
   // console.log(user)
   // make sure to not run this hook unless there is a user , or the server will not reponse and the frontend will get error
-  useEffect(()=>{
-    if(user){
-      BookService.getUserBooks()
+  useEffect(() => {
+    if (user) {
+      BookService.getUserBooks().then((initialUserBooks) =>
+        setUserBooks(initialUserBooks)
+      )
     }
-  },[user])
+  }, [user])
 
   useEffect(() => {
     const booksData = JSON.parse(window.localStorage.getItem('lastSearch'))
@@ -166,7 +169,10 @@ function App() {
           />
 
           <Route path='/login' element={<LoginForm />} />
-          <Route path='/my-shelve' element={<UserShelve />} />
+          <Route
+            path='/my-shelve'
+            element={<UserShelve userBooks={userBooks} />}
+          />
         </Routes>
       </div>
     </>
