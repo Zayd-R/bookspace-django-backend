@@ -1,47 +1,7 @@
-import { useEffect } from 'react'
 import ProgressBar from 'react-bootstrap/ProgressBar'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { initializeUserBooks } from '../reducers/userBooksReducer'
-
-const AlreadyReadSummary = ({ books }) => {
-  const numberOfBooks = books.length === 1 ? 'book' : 'books'
-
-  return (
-    <>
-      <h5>Read</h5>
-      <p>
-        {books.length || 0} {numberOfBooks}
-      </p>
-    </>
-  )
-}
-
-const CurrentlyReadingSummary = ({ books }) => {
-  const numberOfBooks = books.length === 1 ? 'book' : 'books'
-
-  return (
-    <>
-      <h5>Currently Reading</h5>
-      <p>
-        {books.length || 0} {numberOfBooks}
-      </p>
-    </>
-  )
-}
-
-const ToReadSummary = ({ books }) => {
-  const numberOfBooks = books.length === 1 ? 'book' : 'books'
-
-  return (
-    <>
-      <h5>Want to Read</h5>
-      <p>
-        {books.length || 0} {numberOfBooks}
-      </p>
-    </>
-  )
-}
+import UserBooksStats from './UserBooksStats'
 
 const UserShelve = () => {
   const navigate = useNavigate()
@@ -61,13 +21,13 @@ const UserShelve = () => {
       <ProgressBar now={(booksRead.length / userBooks.length) * 100} />
       <h3>Shelves</h3>
       <div onClick={() => navigate('/my-shelve/read-books')}>
-        <AlreadyReadSummary books={booksRead} />
+        <UserBooksStats books={booksRead} title={'Read'} />
       </div>
       <div onClick={() => console.log('clicked')}>
-        <CurrentlyReadingSummary books={booksReading} />
+        <UserBooksStats books={booksReading} title={'Currently Reading'} />
       </div>
       <div onClick={() => console.log('clicked')}>
-        <ToReadSummary books={toRead} />
+        <UserBooksStats books={toRead} title={'Want to Read'} />
       </div>
     </>
   )
