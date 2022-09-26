@@ -47,6 +47,7 @@ const UserShelve = () => {
   const navigate = useNavigate()
   const userBooks = useSelector(({ userBooks }) => userBooks)
 
+  const cursor = { cursor: "pointer"}
   const startTime = performance.now()
 
   const booksRead = userBooks.filter((books) => books.book_state === 'read')
@@ -65,13 +66,13 @@ const UserShelve = () => {
       </h2>
       <ProgressBar now={(booksRead.length / userBooks.length) * 100} />
       <h3>Shelves</h3>
-      <div onClick={() => navigate('/my-shelve/read-books')}>
+      <div className='categories' onClick={() => navigate('/my-shelve/read-books')}>
         <AlreadyReadSummary books={booksRead} />
       </div>
-      <div onClick={() => console.log('clicked')}>
+      <div className='categories' onClick={() => console.log('clicked')}>
         <CurrentlyReadingSummary books={booksReading} />
       </div>
-      <div onClick={() => console.log('clicked')}>
+      <div className='categories' onClick={() => console.log('clicked')}>
         <ToReadSummary books={toRead} />
       </div>
     </>

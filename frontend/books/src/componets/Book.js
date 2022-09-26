@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useMatch, Routes, Route } from 'react-router-dom'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
+import Form from 'react-bootstrap/Form';
 
 const Book = () => {
   const [book, setBook] = useState([])
@@ -59,6 +60,14 @@ const Book = () => {
                     <label htmlFor='5'>☆</label>
                   </div>
                 )}
+
+            <Form.Select size="sm">
+                <option disabled>Add to list</option>
+                <option>Add to already read</option>
+                <option>Add to Reading</option>
+                <option>Add to to read</option>
+            </Form.Select>
+
               </div>
               <hr />
               <h1>Description </h1>

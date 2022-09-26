@@ -168,3 +168,11 @@ code {
 }
 
 .rating:hover > input:checked ~ label:before{ opacity: 0.4; }
+
+.categories{
+  cursor: pointer;
+}
+.categories:hover{
+  box-shadow: inset  #03678b;
+  color: white;
+}
