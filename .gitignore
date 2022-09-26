@@ -51,7 +51,7 @@ var/
 *.spec
 
 # SQLite
-db.sqlite3
+backend/library/db.sqlite3
 
 # Installer logs
 pip-log.txt
