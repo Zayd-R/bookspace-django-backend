@@ -11,6 +11,7 @@ urlpatterns = [
 
      path("funbased/", views.funbased, name="funbased"),
  
+     path("books/state/<str:state>", views.TestView.as_view(), name="testView"),
 
 
 ]

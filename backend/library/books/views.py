@@ -35,13 +35,31 @@ class BooksView(generics.ListCreateAPIView):
     permission_classes = (AuthorAllStaffAllButEditOrReadOnly,)
     queryset = BooksAdded.objects.all()
     serializer_class = BooksSerializers
+    
 
     def filter_queryset(self, queryset,**kwargs):
-        print(kwargs)
         queryset = self.get_queryset().filter(user_id=self.request.user.id).order_by("book_state")
         return  queryset
 
   
+
+
+class TestView(generics.ListAPIView):
+    permission_classes = (AuthorAllStaffAllButEditOrReadOnly,)
+    queryset = BooksAdded.objects.all()
+    serializer_class = BooksSerializers
+    
+
+    def filter_queryset(self, queryset,**kwargs):
+        books_state = self.kwargs['state']
+        queryset = self.get_queryset().filter(user_id=self.request.user.id, book_state=books_state).order_by("book_state")
+        return  queryset
+
+
+
+
+
+
 class BookView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [AuthorAllStaffAllButEditOrReadOnly]
 
