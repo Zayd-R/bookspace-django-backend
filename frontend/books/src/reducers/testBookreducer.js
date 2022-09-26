@@ -7,7 +7,8 @@ import bookService from '../services/books'
 const initialState = {"reading":null,
                 "read": null,
                 "toRead":null
-}
+                }
+                
 const bookSlice = createSlice({
   name: 'userBooks',
   initialState,

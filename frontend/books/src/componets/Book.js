@@ -2,13 +2,10 @@ import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useMatch, Routes, Route } from 'react-router-dom'
 import axios from 'axios'
-<<<<<<< HEAD
-import { useSelector } from 'react-redux'
 import Form from 'react-bootstrap/Form';
-=======
 import { useDispatch, useSelector } from 'react-redux'
 import { addBook, deleteBookAction } from '../reducers/userBooksReducer'
->>>>>>> 49f3963fc9487f2c1ae769c7138e31b3ab771ec1
+import googleService from '../services/googleApi'
 
 const Book = () => {
   const [book, setBook] = useState([])
@@ -35,14 +32,8 @@ const Book = () => {
   const match = useMatch('/books/:id')
   useEffect(() => {
     if (match) {
-      axios
-        .get(`https://www.googleapis.com/books/v1/volumes/${match.params.id}`)
-        .then((result) => {
-          console.log(result.data, 'result of axios')
-          setBook(result.data)
-          console.log(book, 'book in useEffect')
-        })
-        .catch((error) => console.log(error))
+     googleService.getBook(match.params.id)
+     .then(book=>setBook(book))
     }
   }, []) //this should render only once.
 
@@ -113,12 +104,12 @@ const Book = () => {
                   </div>
                 )}
 
-            <Form.Select size="sm">
+            {/* <Form.Select size="sm">
                 <option disabled>Add to list</option>
                 <option>Add to already read</option>
                 <option>Add to Reading</option>
                 <option>Add to to read</option>
-            </Form.Select>
+            </Form.Select> */}
 
               </div>
               <hr />

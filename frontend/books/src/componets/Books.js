@@ -6,6 +6,7 @@ import search from '../images/search_1.png'
 
 // list of Books based on query
 const Books = ({ data }) => {
+  console.log(window.localStorage, "data")
   // basic logic to make some pagination
   const DATA_LIMIT = 10
   const PAGES = Math.round(data.length / DATA_LIMIT)

@@ -22,7 +22,7 @@ import BookService from './services/books'
 import AlreadyReadList from './componets/AlreadyReadList'
 import { initializeUserBooks } from './reducers/userBooksReducer'
 import { initializeUserReading, initializeUserToRead, initializeUserRead } from './reducers/testBookreducer'
-
+import googleService from './services/googleApi'
 // soon to implement API to allow user to filter the search
 // const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=${filterQuery}&startIndex=20`)
 
@@ -34,13 +34,11 @@ function App() {
   const [data, setData] = useState([])
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
-
   // console.log(useSelector(state=>state))
 
 
 
 // New API falied to be better performance than the old API
-
 useEffect(()=>{
   if(user){
     const startTime = performance.now()
@@ -50,7 +48,6 @@ useEffect(()=>{
     // dispatch(initializeUserRead())
     
     const endTime = performance.now()
-
    console.log(`Call to 3 dispatches took ${endTime - startTime} milliseconds`)
   }
 },[user,dispatch])
@@ -71,9 +68,12 @@ useEffect(()=>{
 
   useEffect(() => {
     const booksData = JSON.parse(window.localStorage.getItem('lastSearch'))
-    if (booksData) {
-      setData(booksData.books)
+    if(typeof booksData === 'undefined'){
+      setData([])
     }
+   else if (booksData) {
+      setData(booksData.books)
+    } 
   }, [])
 
   const decoration = { textDecoration: 'none', color: 'black', padding: '5px' }
@@ -118,7 +118,12 @@ useEffect(()=>{
   // to prevent crashes
 
   // TODO: Create Navbar component and move logic there
-
+  const resetStorage = ()=>{
+    console.log("hello")
+    window.localStorage.removeItem('lastSearch')
+    setData([])
+   }  
+ 
   return (
     <>
       <Navbar bg='light' expand='lg'>
@@ -181,7 +186,7 @@ useEffect(()=>{
             path='/search'
             element={
               <>
-                <SearchForm handleSearch={handleSearch} /> <Books data={data} />{' '}
+                <SearchForm handleSearch={handleSearch} resetStorage={resetStorage}/> <Books data={data} />{' '}
               </>
             }
           />

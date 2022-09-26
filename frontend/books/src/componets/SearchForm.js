@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form'
 import pic from '../images/Books-icon-book-new.png'
 import { useField } from '../hooks/fields'
 
-const SearchForm = ({ handleSearch }) => {
+const SearchForm = ({ handleSearch, resetStorage }) => {
   // we can implement it with redux toolkit
   // the logic behind the search form, the function responsiable for calling the api is in App.js
   // you could find the hook in the hooks directory
@@ -17,6 +17,12 @@ const SearchForm = ({ handleSearch }) => {
     handleSearch(query.value)
   }
 
+  const handleReset = ()=>{
+    query.onSubmit()
+    resetStorage()
+  }
+
+ 
   return (
     <>
       <Form onSubmit={handleSubmit}>
@@ -35,6 +41,11 @@ const SearchForm = ({ handleSearch }) => {
             <Button type='submit' variant='info'>
               Submit{' '}
             </Button>
+            
+            <Button onClick={handleReset} variant=''>
+              Reset
+              </Button>
+            
           </div>
         </div>
       </Form>
