@@ -21,6 +21,8 @@ import UserShelve from './componets/UserShelve.js'
 import BookService from './services/books'
 import AlreadyReadList from './componets/AlreadyReadList'
 import { initializeUserBooks } from './reducers/userBooksReducer'
+import { initializeUserReading, initializeUserToRead, initializeUserRead } from './reducers/testBookreducer'
+
 // soon to implement API to allow user to filter the search
 // const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=${filterQuery}&startIndex=20`)
 
@@ -32,11 +34,38 @@ function App() {
   const [data, setData] = useState([])
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
-  // console.log(user)
+
+  // console.log(useSelector(state=>state))
+
+
+
+// New API falied to be better performance than the old API
+
+useEffect(()=>{
+  if(user){
+    const startTime = performance.now()
+    console.log("sending data there")
+    dispatch(initializeUserReading())
+    // dispatch(initializeUserToRead())
+    // dispatch(initializeUserRead())
+    
+    const endTime = performance.now()
+
+   console.log(`Call to 3 dispatches took ${endTime - startTime} milliseconds`)
+  }
+},[user,dispatch])
+// ///////////////////////////////////////////////////////////////////////////////
+
+
   // make sure to not run this hook unless there is a user , or the server will not reponse and the frontend will get error
   useEffect(() => {
     if (user) {
+      const startTime = performance.now()
+
       dispatch(initializeUserBooks())
+      const endTime = performance.now()
+
+      console.log(`Call to 1 dispatches took ${endTime - startTime} milliseconds`)
     }
   }, [user, dispatch])
 
@@ -68,13 +97,7 @@ function App() {
       .catch((error) => console.log(error))
   }
 
-  // still testing the auth functions I made to the backend , you could see all the api you could use in the service directory,
-  // I all add new API endpoints each time I finish one
-  // useEffect(()=>{
-  //   axios.post('http://127.0.0.1:8000/api-token-auth/',{"username":"zayd", "password":123456})
-  //   .then(Token=>console.log(Token.data))
-  //   .catch(error=>console.log(error))
-  // },[])
+  
 
   // get the user token if the user was logged in
   useEffect(() => {

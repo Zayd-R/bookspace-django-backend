@@ -47,11 +47,16 @@ const UserShelve = () => {
   const navigate = useNavigate()
   const userBooks = useSelector(({ userBooks }) => userBooks)
 
+  const startTime = performance.now()
+
   const booksRead = userBooks.filter((books) => books.book_state === 'read')
   const booksReading = userBooks.filter(
     (books) => books.book_state === 'reading'
   )
   const toRead = userBooks.filter((books) => books.book_state === 'toRead')
+
+  const endTime = performance.now()
+  console.log(`Call to 3 filters took ${endTime - startTime} milliseconds`)
 
   return (
     <>
