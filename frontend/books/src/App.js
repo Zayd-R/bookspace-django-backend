@@ -19,26 +19,26 @@ import LoginForm from './componets/LoginForm'
 import Register from './componets/Register'
 import UserShelve from './componets/UserShelve.js'
 import BookService from './services/books'
+import AlreadyReadList from './componets/AlreadyReadList'
+import { initializeUserBooks } from './reducers/userBooksReducer'
 // soon to implement API to allow user to filter the search
 // const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=${filterQuery}&startIndex=20`)
 
 // TODO: Implement Redux persist
 // TODO: Improve Layout
+// TODO: navigate to home page on logout
 
 function App() {
   const [data, setData] = useState([])
-  const [userBooks, setUserBooks] = useState([])
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
   // console.log(user)
   // make sure to not run this hook unless there is a user , or the server will not reponse and the frontend will get error
   useEffect(() => {
     if (user) {
-      BookService.getUserBooks().then((initialUserBooks) =>
-        setUserBooks(initialUserBooks)
-      )
+      dispatch(initializeUserBooks())
     }
-  }, [user])
+  }, [user, dispatch])
 
   useEffect(() => {
     const booksData = JSON.parse(window.localStorage.getItem('lastSearch'))
@@ -169,10 +169,8 @@ function App() {
           />
 
           <Route path='/login' element={<LoginForm />} />
-          <Route
-            path='/my-shelve'
-            element={<UserShelve userBooks={userBooks} />}
-          />
+          <Route path='/my-shelve' element={<UserShelve />} />
+          <Route path='/my-shelve/read-books' element={<AlreadyReadList />} />
         </Routes>
       </div>
     </>

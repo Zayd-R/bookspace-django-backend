@@ -1,4 +1,8 @@
+import { useEffect } from 'react'
 import ProgressBar from 'react-bootstrap/ProgressBar'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { initializeUserBooks } from '../reducers/userBooksReducer'
 
 const AlreadyReadSummary = ({ books }) => {
   const numberOfBooks = books.length === 1 ? 'book' : 'books'
@@ -39,7 +43,10 @@ const ToReadSummary = ({ books }) => {
   )
 }
 
-const UserShelve = ({ userBooks }) => {
+const UserShelve = () => {
+  const navigate = useNavigate()
+  const userBooks = useSelector(({ userBooks }) => userBooks)
+
   const booksRead = userBooks.filter((books) => books.book_state === 'read')
   const booksReading = userBooks.filter(
     (books) => books.book_state === 'reading'
@@ -53,7 +60,7 @@ const UserShelve = ({ userBooks }) => {
       </h2>
       <ProgressBar now={(booksRead.length / userBooks.length) * 100} />
       <h3>Shelves</h3>
-      <div onClick={() => console.log('clicked')}>
+      <div onClick={() => navigate('/my-shelve/read-books')}>
         <AlreadyReadSummary books={booksRead} />
       </div>
       <div onClick={() => console.log('clicked')}>
