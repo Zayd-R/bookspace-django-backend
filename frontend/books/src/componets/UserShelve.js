@@ -7,6 +7,8 @@ const UserShelve = () => {
   const navigate = useNavigate()
   const userBooks = useSelector(({ userBooks }) => userBooks)
 
+  console.table(userBooks)
+
   const booksRead = userBooks.filter((books) => books.book_state === 'read')
   const booksReading = userBooks.filter(
     (books) => books.book_state === 'reading'

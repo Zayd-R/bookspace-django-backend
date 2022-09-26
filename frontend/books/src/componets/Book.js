@@ -2,12 +2,29 @@ import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useMatch, Routes, Route } from 'react-router-dom'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { addBook, deleteBookAction } from '../reducers/userBooksReducer'
 
 const Book = () => {
   const [book, setBook] = useState([])
+  const [starred, setStarred] = useState(false)
 
   const user = useSelector((state) => state.user)
+  const userBooks = useSelector(({ userBooks }) => userBooks)
+
+  const dispatch = useDispatch()
+
+  const isAlreadySaved = userBooks.filter(
+    (userBook) => userBook.book_id === book.id
+  )
+
+  useEffect(() => {
+    if (isAlreadySaved.length) setStarred(true)
+    else setStarred(false)
+  }, [isAlreadySaved])
+
+  //TODO: Save other relevant data to display on individual view of saved books
+  //TODO: Save object of different image sizes instead of a string
 
   // if refresh the page , search google api and get the book
   const match = useMatch('/books/:id')
@@ -23,6 +40,28 @@ const Book = () => {
         .catch((error) => console.log(error))
     }
   }, []) //this should render only once.
+
+  const saveBookToMyShelve = () => {
+    const bookToSave = {
+      user_id: user.user_id,
+      book_title: book.volumeInfo.title,
+      book_state: 'toRead',
+      book_id: book.id,
+      book_image: book.volumeInfo.imageLinks.thumbnail,
+    }
+    dispatch(addBook(bookToSave))
+  }
+
+  const removeBookFromMyShelve = () => {
+    dispatch(deleteBookAction(book.id))
+  }
+
+  const starHandler = () => {
+    if (isAlreadySaved.length) removeBookFromMyShelve()
+    else saveBookToMyShelve()
+
+    // setStarred(!starred)
+  }
 
   // loaidng screen to prevent crashes till the book is found
   if (book.length < 1) {
@@ -55,8 +94,17 @@ const Book = () => {
                 <div>Number of Pages: {book.volumeInfo.pageCount}</div>
                 {!user ? null : (
                   <div className='rating'>
-                    <input type='radio' name='rating' value='5' id='5' />
-                    <label htmlFor='5'>☆</label>
+                    <input
+                      type='radio'
+                      checked={starred}
+                      onChange={() => null}
+                      name='rating'
+                      value='5'
+                      id='5'
+                    />
+                    <label onClick={starHandler} htmlFor='5'>
+                      ☆
+                    </label>
                   </div>
                 )}
               </div>

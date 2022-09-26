@@ -5,12 +5,13 @@ const baseUrl = 'http://127.0.0.1:8000/books-api/books/'
 // for each user just send the token and you will get all the books with difrrent states for that user
 const getUserBooks = () => {
   const request = axios.get(baseUrl, logService.config())
+
   return request
     .then((response) => response.data)
     .catch((error) => console.log(error))
 }
 
-const addNewBook = (newBook) => {
+const saveBook = (newBook) => {
   const request = axios.post(baseUrl, newBook, logService.config())
 
   return request
@@ -32,11 +33,11 @@ const updateState = (book_id, bookToUpdate) => {
 }
 
 const deleteBook = (book_id) => {
-  const request = axios.delete(`${baseUrl}/${book_id}`, logService.config())
+  const request = axios.delete(`${baseUrl}${book_id}`, logService.config())
 
   return request
     .then((response) => response.data)
     .catch((error) => console.log(error))
 }
 
-export default { getUserBooks, addNewBook, updateState, deleteBook }
+export default { getUserBooks, saveBook, updateState, deleteBook }
