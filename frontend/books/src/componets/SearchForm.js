@@ -42,7 +42,7 @@ const SearchForm = ({ handleSearch, resetStorage }) => {
               Submit{' '}
             </Button>
             
-            <Button onClick={handleReset} variant=''>
+            <Button  onClick={handleReset} variant=''>
               Reset
               </Button>
             

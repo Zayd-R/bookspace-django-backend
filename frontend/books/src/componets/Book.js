@@ -6,10 +6,15 @@ import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from 'react-redux'
 import { addBook, deleteBookAction } from '../reducers/userBooksReducer'
 import googleService from '../services/googleApi'
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 
 const Book = () => {
   const [book, setBook] = useState([])
   const [starred, setStarred] = useState(false)
+  const [show, setShow] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   const user = useSelector((state) => state.user)
   const userBooks = useSelector(({ userBooks }) => userBooks)
@@ -103,13 +108,46 @@ const Book = () => {
                     </label>
                   </div>
                 )}
+         <div className='block'>
+          <div className='child'>
+         <Button variant="primary" >
+            Want to read
+        </Button>
+        </div>
+        &nbsp;&nbsp; <div className="arrow child" onClick={() => setShow(true)}></div>
+        </div>
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        dialogClassName="modal-90w"
+        aria-labelledby="example-custom-modal-styling-title"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Custom Modal Styling
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+       <div>
+       Add to want to read<input type='radio'></input>
+       </div>
+       <div>
+       Add to reading <input type='radio'></input>
+       </div>
+       <div>
+       Add to already read <input type='radio'></input>
+       </div>
+      
+        </Modal.Body>
+      </Modal>
+      {/* or */}
+      <Form.Select>
+        <option disabled>Add to a Shelf</option>
+        <option>Add to reading</option>
+        <option>Add to to already read</option>
+        <option>Add to toRead</option>
 
-            {/* <Form.Select size="sm">
-                <option disabled>Add to list</option>
-                <option>Add to already read</option>
-                <option>Add to Reading</option>
-                <option>Add to to read</option>
-            </Form.Select> */}
+      </Form.Select>
 
               </div>
               <hr />
