@@ -18,8 +18,8 @@ const bookSlice = createSlice({
         book.id !== action.payload.id ? book : action.payload
       )
     },
-    deleteBook(state, action) {
-      return state.filter((book) => book.id !== action.payload)
+    removeBook(state, action) {
+      return state.filter((book) => book.book_id !== action.payload)
     },
     appendComment(state, action) {
       const { bookID, ...comment } = action.payload
@@ -36,7 +36,7 @@ export const {
   setUserBooks,
   appendBook,
   updateBook,
-  deleteBook,
+  removeBook,
   appendComment,
 } = bookSlice.actions
 
@@ -50,7 +50,7 @@ export const initializeUserBooks = () => {
 export const addBook = (content) => {
   return async (dispatch) => {
     // try {
-    const newBook = await bookService.addNewBook(content)
+    const newBook = await bookService.saveBook(content)
     dispatch(appendBook(newBook))
     // dispatch(appendUserBook(newBook))
     // dispatch(
@@ -84,10 +84,11 @@ export const updateBookAction = (fieldsToUpdate) => {
 }
 
 export const deleteBookAction = (id) => {
+  console.log('reducerID', id)
   return async (dispatch) => {
     // try {
-    await bookService.remove(id)
-    dispatch(deleteBook(id))
+    await bookService.deleteBook(id)
+    dispatch(removeBook(id))
     // } catch (exception) {
     //   dispatch(
     //     setNotification(
