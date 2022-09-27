@@ -66,10 +66,10 @@ export const addBook = (content) => {
   }
 }
 
-export const updateBookAction = (fieldsToUpdate) => {
+export const updateBookAction = (book_id,bookToUpdate) => {
   return async (dispatch) => {
     // try {
-    const updatedBook = await bookService.update(fieldsToUpdate)
+    const updatedBook = await bookService.updateState(book_id,bookToUpdate)
     dispatch(updateBook(updatedBook))
     // } catch (exception) {
     //   dispatch(
@@ -108,3 +108,4 @@ export const appendCommentAction = (bookComment) => {
 }
 
 export default bookSlice.reducer
+

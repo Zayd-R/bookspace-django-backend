@@ -22,7 +22,7 @@ const saveBook = (newBook) => {
 
 const updateState = (book_id, bookToUpdate) => {
   const request = axios.put(
-    `${baseUrl}/${book_id}`,
+    `${baseUrl}${book_id}`,
     bookToUpdate,
     logService.config()
   )
