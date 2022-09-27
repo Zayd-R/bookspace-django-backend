@@ -21,7 +21,11 @@ import UserShelve from './componets/UserShelve.js'
 import BookService from './services/books'
 import AlreadyReadList from './componets/AlreadyReadList'
 import { initializeUserBooks } from './reducers/userBooksReducer'
-import { initializeUserReading, initializeUserToRead, initializeUserRead } from './reducers/testBookreducer'
+import {
+  initializeUserReading,
+  initializeUserToRead,
+  initializeUserRead,
+} from './reducers/testBookreducer'
 import googleService from './services/googleApi'
 import CurrentlyReadingList from './componets/CurrentlyReadingList'
 import WantToReadList from './componets/WantToReadList'
@@ -38,23 +42,20 @@ function App() {
   const dispatch = useDispatch()
   // console.log(useSelector(state=>state))
 
+  // New API falied to be better performance than the old API
+  // useEffect(()=>{
+  //   if(user){
+  //     const startTime = performance.now()
+  //     console.log("sending data there")
+  //     dispatch(initializeUserReading())
+  //     // dispatch(initializeUserToRead())
+  //     // dispatch(initializeUserRead())
 
-
-// New API falied to be better performance than the old API
-// useEffect(()=>{
-//   if(user){
-//     const startTime = performance.now()
-//     console.log("sending data there")
-//     dispatch(initializeUserReading())
-//     // dispatch(initializeUserToRead())
-//     // dispatch(initializeUserRead())
-    
-//     const endTime = performance.now()
-//    console.log(`Call to 3 dispatches took ${endTime - startTime} milliseconds`)
-//   }
-// },[user,dispatch])
-// ///////////////////////////////////////////////////////////////////////////////
-
+  //     const endTime = performance.now()
+  //    console.log(`Call to 3 dispatches took ${endTime - startTime} milliseconds`)
+  //   }
+  // },[user,dispatch])
+  // ///////////////////////////////////////////////////////////////////////////////
 
   // make sure to not run this hook unless there is a user , or the server will not reponse and the frontend will get error
   useEffect(() => {
@@ -64,32 +65,30 @@ function App() {
       dispatch(initializeUserBooks())
       const endTime = performance.now()
 
-      console.log(`Call to 1 dispatches took ${endTime - startTime} milliseconds`)
+      // console.log(`Call to 1 dispatches took ${endTime - startTime} milliseconds`)
     }
   }, [user, dispatch])
 
   useEffect(() => {
     const booksData = JSON.parse(window.localStorage.getItem('lastSearch'))
-    if(typeof booksData === 'undefined'){
+    if (typeof booksData === 'undefined') {
       setData([])
-    }
-   else if (booksData) {
+    } else if (booksData) {
       setData(booksData.books)
-    } 
+    }
   }, [])
 
   const decoration = { textDecoration: 'none', color: 'black', padding: '5px' }
 
   //   google API to get the books
-  const handleSearch =  (query) => {
+  const handleSearch = (query) => {
     // clearing the data each time a research is made to give some nice styling and not make the site just static
     setData([])
-    googleService.searchBooks(query)
-    .then(data=>setData(data))  
-    .catch((error) => console.log(error))
+    googleService
+      .searchBooks(query)
+      .then((data) => setData(data))
+      .catch((error) => console.log(error))
   }
-
-  
 
   // get the user token if the user was logged in
   useEffect(() => {
@@ -110,12 +109,12 @@ function App() {
   // to prevent crashes
 
   // TODO: Create Navbar component and move logic there
-  const resetStorage = ()=>{
-    console.log("hello")
+  const resetStorage = () => {
+    console.log('hello')
     window.localStorage.removeItem('lastSearch')
     setData([])
-   }  
- 
+  }
+
   return (
     <>
       <Navbar bg='light' expand='lg'>
@@ -178,7 +177,11 @@ function App() {
             path='/search'
             element={
               <>
-                <SearchForm handleSearch={handleSearch} resetStorage={resetStorage}/> <Books data={data} />{' '}
+                <SearchForm
+                  handleSearch={handleSearch}
+                  resetStorage={resetStorage}
+                />{' '}
+                <Books data={data} />{' '}
               </>
             }
           />
@@ -191,9 +194,14 @@ function App() {
           <Route path='/login' element={<LoginForm />} />
           <Route path='/my-shelve' element={<UserShelve />} />
           <Route path='/my-shelve/read-books' element={<AlreadyReadList />} />
-          <Route path='/my-shelve/reading-books' element={<CurrentlyReadingList />} />
-          <Route path='/my-shelve/want-to-read-books' element={<WantToReadList />} />
-
+          <Route
+            path='/my-shelve/reading-books'
+            element={<CurrentlyReadingList />}
+          />
+          <Route
+            path='/my-shelve/want-to-read-books'
+            element={<WantToReadList />}
+          />
         </Routes>
       </div>
     </>

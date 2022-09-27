@@ -7,7 +7,7 @@ const UserShelve = () => {
   const navigate = useNavigate()
   const userBooks = useSelector(({ userBooks }) => userBooks)
 
-  const startTime = performance.now()
+  // const startTime = performance.now()
   console.table(userBooks)
 
   const booksRead = userBooks.filter((books) => books.book_state === 'read')
@@ -16,8 +16,8 @@ const UserShelve = () => {
   )
   const toRead = userBooks.filter((books) => books.book_state === 'toRead')
 
-  const endTime = performance.now()
-  console.log(`Call to 3 filters took ${endTime - startTime} milliseconds`)
+  // const endTime = performance.now()
+  // console.log(`Call to 3 filters took ${endTime - startTime} milliseconds`)
 
   return (
     <>
@@ -26,13 +26,22 @@ const UserShelve = () => {
       </h2>
       <ProgressBar now={(booksRead.length / userBooks.length) * 100} />
       <h3>Shelves</h3>
-      <div className='categories' onClick={() => navigate('/my-shelve/read-books')}>
+      <div
+        className='categories'
+        onClick={() => navigate('/my-shelve/read-books')}
+      >
         <UserBooksStats books={booksRead} title={'Read'} />
       </div>
-      <div className='categories' onClick={() => navigate('/my-shelve/reading-books')}>
+      <div
+        className='categories'
+        onClick={() => navigate('/my-shelve/reading-books')}
+      >
         <UserBooksStats books={booksReading} title={'Currently Reading'} />
       </div>
-      <div className='categories' onClick={() => navigate('/my-shelve/want-to-read-books')}>
+      <div
+        className='categories'
+        onClick={() => navigate('/my-shelve/want-to-read-books')}
+      >
         <UserBooksStats books={toRead} title={'Want to Read'} />
       </div>
     </>

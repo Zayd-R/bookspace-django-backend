@@ -2,28 +2,28 @@ import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useMatch, Routes, Route } from 'react-router-dom'
 import axios from 'axios'
-import Form from 'react-bootstrap/Form';
+import Form from 'react-bootstrap/Form'
 import { useDispatch, useSelector } from 'react-redux'
-import { addBook, deleteBookAction, updateBookAction } from '../reducers/userBooksReducer'
+import {
+  addBook,
+  deleteBookAction,
+  updateBookAction,
+} from '../reducers/userBooksReducer'
 import googleService from '../services/googleApi'
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import ToggleButton from 'react-bootstrap/ToggleButton';
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+import ToggleButton from 'react-bootstrap/ToggleButton'
 
 const Book = () => {
   const [book, setBook] = useState([])
-  const [starred, setStarred] = useState([])
-  // const [show, setShow] = useState(false);
-  // const [checked, setChecked] = useState(false);
+  const [starred, setStarred] = useState(false)
+
+  const dispatch = useDispatch()
 
   const user = useSelector((state) => state.user)
-  const theBook = useSelector(({ userBooks }) => userBooks.find(theBook => theBook.book_id === book.id))
-
-  const userBooks = useSelector(({ userBooks }) => userBooks)
-
-  console.log(userBooks, "the books after change")
-  const dispatch = useDispatch()
-  
+  const bookInShelve = useSelector(({ userBooks }) =>
+    userBooks.find((bookInShelve) => bookInShelve.book_id === book.id)
+  )
 
   //TODO: Save other relevant data to display on individual view of saved books
   //TODO: Save object of different image sizes instead of a string
@@ -32,21 +32,15 @@ const Book = () => {
   const match = useMatch('/books/:id')
   useEffect(() => {
     if (match) {
-     googleService.getBook(match.params.id)
-     .then(book=>setBook(book))
+      googleService.getBook(match.params.id).then((book) => setBook(book))
     }
   }, []) //this should render only once.
 
-useEffect(()=>{
-  const isAlreadySaved = userBooks.find(userBook=> userBook.book_id === book.id)
-  if(isAlreadySaved){
-    setStarred(isAlreadySaved)
-  }
-},[book])
-  
-
-console.log(book,"the book and the starred", starred)
-
+  useEffect(() => {
+    if (bookInShelve) {
+      setStarred(true)
+    }
+  }, [bookInShelve])
 
   const saveBookToMyShelve = () => {
     const bookToSave = {
@@ -59,7 +53,7 @@ console.log(book,"the book and the starred", starred)
     dispatch(addBook(bookToSave))
   }
 
-  const updateShelf = (state)=>{
+  const updateShelf = (state) => {
     const bookToUpdate = {
       user_id: user.user_id,
       book_title: book.volumeInfo.title,
@@ -67,57 +61,56 @@ console.log(book,"the book and the starred", starred)
       book_id: book.id,
       book_image: book.volumeInfo.imageLinks.thumbnail,
     }
-    dispatch(updateBookAction(book.id,bookToUpdate))
+    dispatch(updateBookAction(book.id, bookToUpdate))
   }
 
   const removeBookFromMyShelve = () => {
     dispatch(deleteBookAction(book.id))
   }
 
-  // const starHandler = () => {
-  //   if (isAlreadySaved.length) removeBookFromMyShelve()
-  //   else saveBookToMyShelve()
-
-  //   // setStarred(!starred)
-  // }
-
-  // loaidng screen to prevent crashes till the book is found
-
-  const setSelect = ()=>{
-    if(starred){
-      return(
-        <select id={starred.book_id} value={theBook ? theBook.book_state : 'toRead'} onChange={handleSelectChange}>
-        <option value="none" disabled>Move to...</option>
-        <option value="reading">Currently Reading</option>
-        <option value="toRead">Want to Read</option>
-        <option value="read">Read</option>
-        <option value="none">None</option>
-      </select>
-      ) 
-    }else{
-      return(
-        <select id={book.id} onChange={handleSelectChange}>
-        <option value="none" disabled>Move to...</option>
-        <option value="reading">Currently Reading</option>
-        <option value="toRead">Want to Read</option>
-        <option value="read">Read</option>
-        <option value="none">None</option>
-      </select>
-      )
+  const handleSelectChange = (event) => {
+    if (starred && event.target.value === 'none') {
+      removeBookFromMyShelve()
+      setStarred(false)
+    } else if (starred) {
+      return updateShelf(event.target.value)
+    } else {
+      return saveBookToMyShelve()
     }
   }
 
-const handleSelectChange = (event)=>{
-  console.log(event.target, 'the event', event.target.value,"the value")
-  if(starred){
-   return updateShelf(event.target.value)
-  } else{
-    return saveBookToMyShelve()
+  //TODO: Arrange default select after refresh and for non saved books
+  const setSelect = () => {
+    if (starred) {
+      return (
+        <select
+          id={book.id}
+          value={bookInShelve.book_state}
+          onChange={handleSelectChange}
+        >
+          <option value='none' disabled>
+            Move to...
+          </option>
+          <option value='reading'>Currently Reading</option>
+          <option value='toRead'>Want to Read</option>
+          <option value='read'>Read</option>
+          <option value='none'>None</option>
+        </select>
+      )
+    } else {
+      return (
+        <select id={book.id} onChange={handleSelectChange}>
+          <option value='none' disabled>
+            Move to...
+          </option>
+          <option value='reading'>Currently Reading</option>
+          <option value='toRead'>Want to Read</option>
+          <option value='read'>Read</option>
+          <option value='none'>None</option>
+        </select>
+      )
+    }
   }
- 
-  
-  
-}
 
   if (book.length < 1) {
     return <h1>Loading....</h1>
@@ -157,56 +150,10 @@ const handleSelectChange = (event)=>{
                       value='5'
                       id='5'
                     />
-                    <label htmlFor='5'>
-                      ☆
-                    </label>
+                    <label htmlFor='5'>☆</label>
                   </div>
                 )}
-         {/* <div className='block'>
-          <div className='child'>
-         <Button variant="primary" >
-            Want to read
-        </Button> */}
-        {/* </div>
-        &nbsp;&nbsp; <div className="arrow child" onClick={() => setShow(true)}></div>
-        </div>
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        dialogClassName="modal-90w"
-        aria-labelledby="example-custom-modal-styling-title"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">
-            Custom Modal Styling
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-       <div>
-       Add to want to read<input type='radio'></input>
-       </div>
-       <div>
-       Add to reading <input type='radio'></input>
-       </div>
-       <div>
-       Add to already read <input type='radio'></input>
-       </div>
-      
-        </Modal.Body>
-      </Modal> */}
-      {/* or */}
-      {/* <Form.Select>
-        <option disabled>Add to a Shelf</option>
-        <option>Add to reading</option>
-        <option>Add to to already read</option>
-        <option>Add to toRead</option>
-
-      </Form.Select> */}
-       
-          {setSelect()}
-
-
-
+                {setSelect()}
               </div>
               <hr />
               <h1>Description </h1>
