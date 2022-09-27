@@ -29,10 +29,10 @@ const UserShelve = () => {
       <div className='categories' onClick={() => navigate('/my-shelve/read-books')}>
         <UserBooksStats books={booksRead} title={'Read'} />
       </div>
-      <div className='categories' onClick={() => console.log('clicked')}>
+      <div className='categories' onClick={() => navigate('/my-shelve/reading-books')}>
         <UserBooksStats books={booksReading} title={'Currently Reading'} />
       </div>
-      <div className='categories' onClick={() => console.log('clicked')}>
+      <div className='categories' onClick={() => navigate('/my-shelve/want-to-read-books')}>
         <UserBooksStats books={toRead} title={'Want to Read'} />
       </div>
     </>

@@ -29,10 +29,12 @@ class BooksAdded(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,related_name="booksToRead")
     book_title = models.TextField(default="No title")
     book_state =  models.TextField(default="No title")
-    book_id = models.TextField(blank=True)
+    book_id = models.TextField(unique=True)
     book_image = models.TextField(blank=True)
+    added = models.DateTimeField(auto_now_add=True)
+
     
     class Meta:
-        unique_together = ('user_id', 'book_title'),
+        unique_together = ('user_id', 'book_id'),
     def __str__(self):
         return self.book_title

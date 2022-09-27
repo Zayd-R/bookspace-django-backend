@@ -23,6 +23,8 @@ import AlreadyReadList from './componets/AlreadyReadList'
 import { initializeUserBooks } from './reducers/userBooksReducer'
 import { initializeUserReading, initializeUserToRead, initializeUserRead } from './reducers/testBookreducer'
 import googleService from './services/googleApi'
+import CurrentlyReadingList from './componets/CurrentlyReadingList'
+import WantToReadList from './componets/WantToReadList'
 // soon to implement API to allow user to filter the search
 // const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=${filterQuery}&startIndex=20`)
 
@@ -39,18 +41,18 @@ function App() {
 
 
 // New API falied to be better performance than the old API
-useEffect(()=>{
-  if(user){
-    const startTime = performance.now()
-    console.log("sending data there")
-    dispatch(initializeUserReading())
-    // dispatch(initializeUserToRead())
-    // dispatch(initializeUserRead())
+// useEffect(()=>{
+//   if(user){
+//     const startTime = performance.now()
+//     console.log("sending data there")
+//     dispatch(initializeUserReading())
+//     // dispatch(initializeUserToRead())
+//     // dispatch(initializeUserRead())
     
-    const endTime = performance.now()
-   console.log(`Call to 3 dispatches took ${endTime - startTime} milliseconds`)
-  }
-},[user,dispatch])
+//     const endTime = performance.now()
+//    console.log(`Call to 3 dispatches took ${endTime - startTime} milliseconds`)
+//   }
+// },[user,dispatch])
 // ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -79,22 +81,12 @@ useEffect(()=>{
   const decoration = { textDecoration: 'none', color: 'black', padding: '5px' }
 
   //   google API to get the books
-  const handleSearch = (query) => {
+  const handleSearch =  (query) => {
     // clearing the data each time a research is made to give some nice styling and not make the site just static
     setData([])
-    axios
-      .get(
-        `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=40 `
-      )
-      .then((result) => {
-        setData(result.data.items)
-        console.log(result.data.items)
-        window.localStorage.setItem(
-          'lastSearch',
-          JSON.stringify({ query, books: result.data.items })
-        )
-      })
-      .catch((error) => console.log(error))
+    googleService.searchBooks(query)
+    .then(data=>setData(data))  
+    .catch((error) => console.log(error))
   }
 
   
@@ -199,6 +191,9 @@ useEffect(()=>{
           <Route path='/login' element={<LoginForm />} />
           <Route path='/my-shelve' element={<UserShelve />} />
           <Route path='/my-shelve/read-books' element={<AlreadyReadList />} />
+          <Route path='/my-shelve/reading-books' element={<CurrentlyReadingList />} />
+          <Route path='/my-shelve/want-to-read-books' element={<WantToReadList />} />
+
         </Routes>
       </div>
     </>

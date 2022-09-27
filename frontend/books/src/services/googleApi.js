@@ -6,5 +6,13 @@ const getBook = async (book_id)=>{
 }
 
 
+const searchBooks = async (query)=>{
+    const books = await axios.get( `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=40 `)
+    window.localStorage.setItem(
+        'lastSearch',
+        JSON.stringify({ query, books: books.data.items })
+      )
+     return books.data.items  
+}
 
-export default {getBook}
+export default {getBook, searchBooks}

@@ -52,7 +52,7 @@ class TestView(generics.ListAPIView):
 
     def filter_queryset(self, queryset,**kwargs):
         books_state = self.kwargs['state']
-        queryset = self.get_queryset().filter(user_id=self.request.user.id, book_state=books_state).order_by("book_state")
+        queryset = self.get_queryset().filter(user_id=self.request.user.id, book_state=books_state).order_by("-added")
         return  queryset
 
 
