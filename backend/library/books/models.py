@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -32,6 +33,7 @@ class BooksAdded(models.Model):
     book_id = models.TextField(unique=True)
     book_image = models.TextField(blank=True)
     added = models.DateTimeField(auto_now_add=True)
+    review = models.IntegerField(blank=True, default=0)
 
     
     class Meta:

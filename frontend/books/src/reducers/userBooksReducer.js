@@ -11,11 +11,13 @@ const bookSlice = createSlice({
       return action.payload
     },
     appendBook(state, action) {
+      console.log(action.payload,"in reduces")
+
       return [...state, action.payload]
     },
     updateBook(state, action) {
       return state.map((book) =>
-        book.id !== action.payload.id ? book : action.payload
+        book.book_id !== action.payload.book_id ? book : action.payload
       )
     },
     removeBook(state, action) {

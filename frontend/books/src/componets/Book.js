@@ -13,6 +13,7 @@ import googleService from '../services/googleApi'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import ToggleButton from 'react-bootstrap/ToggleButton'
+import { Rating } from '@mui/material';
 
 const Book = () => {
   const [book, setBook] = useState([])
@@ -24,7 +25,7 @@ const Book = () => {
   const bookInShelve = useSelector(({ userBooks }) =>
     userBooks.find((bookInShelve) => bookInShelve.book_id === book.id)
   )
-
+ 
   //TODO: Save other relevant data to display on individual view of saved books
   //TODO: Save object of different image sizes instead of a string
 
@@ -42,24 +43,29 @@ const Book = () => {
     }
   }, [bookInShelve])
 
-  const saveBookToMyShelve = () => {
+  const saveBookToMyShelve = (state, review) => {
     const bookToSave = {
       user_id: user.user_id,
       book_title: book.volumeInfo.title,
-      book_state: 'toRead',
+      book_state: state,
       book_id: book.id,
       book_image: book.volumeInfo.imageLinks.thumbnail,
+      review: state === 'read' && review ? review : 0
+
     }
+    console.log(bookToSave,"book to save")
+
     dispatch(addBook(bookToSave))
   }
 
-  const updateShelf = (state) => {
+  const updateShelf = (state,review) => {
     const bookToUpdate = {
       user_id: user.user_id,
       book_title: book.volumeInfo.title,
       book_state: state,
       book_id: book.id,
       book_image: book.volumeInfo.imageLinks.thumbnail,
+      review: state === 'read' && review ? review : 0
     }
     dispatch(updateBookAction(book.id, bookToUpdate))
   }
@@ -67,7 +73,7 @@ const Book = () => {
   const removeBookFromMyShelve = () => {
     dispatch(deleteBookAction(book.id))
   }
-
+console.log(starred)
   const handleSelectChange = (event) => {
     if (starred && event.target.value === 'none') {
       removeBookFromMyShelve()
@@ -75,11 +81,12 @@ const Book = () => {
     } else if (starred) {
       return updateShelf(event.target.value)
     } else {
-      return saveBookToMyShelve()
+      return saveBookToMyShelve(event.target.value)
     }
   }
 
   //TODO: Arrange default select after refresh and for non saved books
+  // TODO: Optimize the UX 
   const setSelect = () => {
     if (starred) {
       return (
@@ -99,7 +106,7 @@ const Book = () => {
       )
     } else {
       return (
-        <select id={book.id} onChange={handleSelectChange}>
+        <select id={book.id} onChange={handleSelectChange} value='toRead'>
           <option value='none' disabled>
             Move to...
           </option>
@@ -111,6 +118,17 @@ const Book = () => {
       )
     }
   }
+
+
+const handleStars = (event)=>{
+  console.log( event.target.value,'---------------------')
+  
+  if(starred){
+    updateShelf('read', Number(event.target.value))
+  }else{
+    saveBookToMyShelve('read',Number(event.target.value))
+  }
+}
 
   if (book.length < 1) {
     return <h1>Loading....</h1>
@@ -153,6 +171,8 @@ const Book = () => {
                     <label htmlFor='5'>☆</label>
                   </div>
                 )}
+                <Rating name="size-large" value={bookInShelve? bookInShelve.review : 0} onChange={handleStars}  size="large" />
+
                 {setSelect()}
               </div>
               <hr />

@@ -16,5 +16,5 @@ class UserSerializer(serializers.ModelSerializer):
 class BooksSerializers(serializers.ModelSerializer):
     class Meta:
         model = BooksAdded
-        fields = ['book_title',"user_id", "book_id", "book_state", "book_image",'added']
+        fields = ['book_title',"user_id", "book_id", "book_state", "book_image",'added','review']
   
