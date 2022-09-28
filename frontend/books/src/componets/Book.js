@@ -14,10 +14,12 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import { Rating } from '@mui/material';
+import CommentPop from './Commentpop'
 
 const Book = () => {
   const [book, setBook] = useState([])
   const [starred, setStarred] = useState(false)
+  const [review, setReview] = useState(0)
 
   const dispatch = useDispatch()
 
@@ -25,7 +27,6 @@ const Book = () => {
   const bookInShelve = useSelector(({ userBooks }) =>
     userBooks.find((bookInShelve) => bookInShelve.book_id === book.id)
   )
- 
   //TODO: Save other relevant data to display on individual view of saved books
   //TODO: Save object of different image sizes instead of a string
 
@@ -40,10 +41,11 @@ const Book = () => {
   useEffect(() => {
     if (bookInShelve) {
       setStarred(true)
+      setReview(bookInShelve.review)
     }
   }, [bookInShelve])
 
-  const saveBookToMyShelve = (state, review) => {
+  const saveBookToMyShelve = (state,review) => {
     const bookToSave = {
       user_id: user.user_id,
       book_title: book.volumeInfo.title,
@@ -78,6 +80,7 @@ console.log(starred)
     if (starred && event.target.value === 'none') {
       removeBookFromMyShelve()
       setStarred(false)
+      setReview(0)
     } else if (starred) {
       return updateShelf(event.target.value)
     } else {
@@ -122,9 +125,9 @@ console.log(starred)
 
 const handleStars = (event)=>{
   console.log( event.target.value,'---------------------')
-  
+  setReview(Number(event.target.value))
   if(starred){
-    updateShelf('read', Number(event.target.value))
+    updateShelf('read',Number(event.target.value) )
   }else{
     saveBookToMyShelve('read',Number(event.target.value))
   }
@@ -171,9 +174,19 @@ const handleStars = (event)=>{
                     <label htmlFor='5'>☆</label>
                   </div>
                 )}
-                <Rating name="size-large" value={bookInShelve? bookInShelve.review : 0} onChange={handleStars}  size="large" />
+                <Rating name="size-large" value={review} onChange={handleStars}  size="large" />
 
                 {setSelect()}
+                <div>
+                <CommentPop review_value={review}
+                 setReviewParent={setReview} 
+                 starred={starred}
+                  updateShelf={updateShelf}
+                   saveBookToMyShelve={saveBookToMyShelve} 
+                   book_id={book.id}
+                   username={user.username}
+                   />
+                </div>
               </div>
               <hr />
               <h1>Description </h1>
@@ -226,9 +239,11 @@ const handleStars = (event)=>{
               <img
                 style={{ width: '70%' }}
                 src={
-                  book.volumeInfo.imageLinks.large
-                    ? book.volumeInfo.imageLinks.large
+                  book.volumeInfo.imageLinks 
+                  ? book.volumeInfo.imageLinks.large ? book.volumeInfo.imageLinks.large
+                    
                     : book.volumeInfo.imageLinks.thumbnail
+                    : ''
                 }
                 alt='book cover'
               />
@@ -236,6 +251,8 @@ const handleStars = (event)=>{
           </div>
         </div>
       </div>
+{/* //////////////////////// */}
+
     </section>
   )
 }

@@ -16,7 +16,7 @@ const Books = ({ data }) => {
   const padding = {
     padding: 50,
   }
-
+console.log(data)
   // Persisted pagination
   useEffect(() => {
     if (lastSearch?.query) setCurrentSearch(lastSearch.query)

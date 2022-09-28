@@ -1,6 +1,7 @@
 from email.policy import default
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
 '''
@@ -40,3 +41,18 @@ class BooksAdded(models.Model):
         unique_together = ('user_id', 'book_id'),
     def __str__(self):
         return self.book_title
+
+class Comments(models.Model):
+    book = models.ForeignKey(BooksAdded, on_delete=models.CASCADE, related_name="comments")
+    commenter = models.ForeignKey(User, on_delete=models.CASCADE, related_name="commenter")
+    comment = models.TextField()
+    date_posted = models.DateTimeField(default = timezone.now)
+    
+    def __str__(self):
+        return self.commenter.username
+    def serialize(self):
+        return {
+            "commenter": str(self.commenter.username),
+            "comment": str(self.comment),
+            "book_id": str(self.book.book_id)
+               }
