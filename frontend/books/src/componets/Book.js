@@ -1,8 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useMatch, Routes, Route } from 'react-router-dom'
-import axios from 'axios'
-import Form from 'react-bootstrap/Form'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   addBook,
@@ -10,11 +8,9 @@ import {
   updateBookAction,
 } from '../reducers/userBooksReducer'
 import googleService from '../services/googleApi'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
-import ToggleButton from 'react-bootstrap/ToggleButton'
 import { Rating } from '@mui/material';
 import CommentPop from './Commentpop'
+import ListComments from './Comments'
 
 const Book = () => {
   const [book, setBook] = useState([])
@@ -185,6 +181,7 @@ const handleStars = (event)=>{
                    saveBookToMyShelve={saveBookToMyShelve} 
                    book_id={book.id}
                    username={user.username}
+                   parentReview={bookInShelve.review}
                    />
                 </div>
               </div>
@@ -248,6 +245,7 @@ const handleStars = (event)=>{
                 alt='book cover'
               />
             </div>
+           <ListComments/>
           </div>
         </div>
       </div>

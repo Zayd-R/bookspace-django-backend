@@ -31,18 +31,38 @@ def comments(request, book_id):
        data = json.loads(request.body)
        user = User.objects.get(pk=request.user.id)
        book = BooksAdded.objects.get(book_id=book_id)
+    #    for each user one review , if exist => update the review
+       if Comments.objects.get(book=book, commenter=user):
+            Comments.objects.update(book=book, commenter=user, comment=data.get("comment"))
+            updated = Comments.objects.get(book=book, commenter=user)
+            return JsonResponse({"comment":[updated.serialize()]}, safe=False)
+    # if not exist create the new comment
        Comments.objects.create(book=book, commenter=user, comment=data.get("comment"))
        comments = Comments.objects.filter(book__book_id=book_id)
-       print(data,request.user.id, book_id,'----------------------------------')
        return JsonResponse({"success":"sucess",
                             "comments": [comment.serialize() for comment  in comments]})
 
 
-
+# get all the comments for the book 
    comments = Comments.objects.filter(book__book_id=book_id)
    comments_serialized = [comment.serialize() for comment  in comments]
    return JsonResponse(comments_serialized, safe=False)
     # return JsonResponse(,safe=False)
+
+
+
+@api_view(('GET',))
+@permission_classes((IsAuthenticated, ))
+def Comment(request, book_id):
+    try:
+        user = User.objects.get(pk=request.user.id)
+        book = BooksAdded.objects.get(book_id=book_id)
+        comment = Comments.objects.get(book=book,commenter=user)
+        return JsonResponse({"comment":[comment.serialize()]}, safe=False)
+    except:
+        return JsonResponse({"Error": 404})
+
+
 
 
 

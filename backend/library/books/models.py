@@ -52,7 +52,10 @@ class Comments(models.Model):
         return self.commenter.username
     def serialize(self):
         return {
+            "id": self.id,
             "commenter": str(self.commenter.username),
             "comment": str(self.comment),
-            "book_id": str(self.book.book_id)
+            "book_id": str(self.book.book_id),
+            "review": self.book.review,
+            "time": self.date_posted
                }
