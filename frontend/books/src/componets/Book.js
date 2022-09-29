@@ -248,7 +248,7 @@ const handleStars = (event)=>{
             <br/>
             <br/>
             <hr/>
-            <ListComments/>
+            <ListComments  />
           </div>
           
         </div>

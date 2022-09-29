@@ -48,7 +48,7 @@ class Comments(models.Model):
     commenter = models.ForeignKey(User, on_delete=models.CASCADE, related_name="commenter")
     comment = models.TextField()
     date_posted = models.DateTimeField(default = timezone.now)
-    children = models.IntegerField(null=True,default=None)
+    children = models.IntegerField(null=True,default=None,blank=True)
     
     def __str__(self):
         return self.commenter.username
