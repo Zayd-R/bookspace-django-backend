@@ -19,7 +19,10 @@ const getUserComment = async (book_id)=>{
    
     const response = await axios.get(`${baseUrl}comment/${book_id}`, logService.config())
     return response.data
-   
 }
 
-export default {getComments, addComment, getUserComment}
+const addReply= async (book_id, comment)=>{
+    const response = await axios.post(`${baseUrl}reply/${book_id}`,comment, logService.config() )
+    return response.data
+}
+export default {getComments, addComment, getUserComment,addReply}

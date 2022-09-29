@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import commentService from '../services/comments'
 import { Rating } from '@mui/material';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+
+import { useField } from '../hooks/fields'
 
 
 
@@ -10,7 +13,7 @@ function createTree(list) {
     node,
     roots = [],
     i
-
+ 
   for (i = 0; i < list.length; i += 1) {
     map[list[i].id] = i // initialize the map
     list[i].children = [] // initialize the children
@@ -29,43 +32,86 @@ function createTree(list) {
 }
 
 
-function Comment({ comment }) {
-    
+const  Comment = ({ comment, setRerender }) =>{
+    const [show, setShow] = useState(false)
+    const [replyTo, setReplyId] = useState(null)
 
+    const reply = useField("text")
   const nestedComments = (comment.children || []).map((comment) => {
-    return <Comment key={comment.id} comment={comment} type="child" />
+    return <Comment key={comment.id} comment={comment} type="child" setRerender={setRerender}/>
   })
+
+
+  const handleReply = (comment_id)=> {
+    console.log(comment_id)
+    setShow(!show)
+    setReplyId(comment_id)
+  }
+ const handleSubmit = (event)=>{
+  event.preventDefault()
+  console.log(replyTo)
+  commentService.addReply("utDtDwAAQBAJ",{comment:reply.value, parentId:replyTo})
+
+  .then(response=>{
+    console.log(response)
+    setShow(false)
+    setRerender(true)
+    reply.onSubmit()
+
+  })
+  .catch(error=>console.log(error))
+ } 
 
   return (
     <div style={{ marginLeft: '25px', marginTop: '16px' }}>
       <div
         style={{ color: '#555', margin: '0 0 2px 0', fontSize: '9pt' }}
       >
-        <h4>{comment.commenter} <Rating name="size-small"  value={comment.review} size="small" /></h4> 
-        <span><Button  onClick={()=>console.log(comment.id)}>Reply</Button></span>
-
+        <h4>{comment.commenter} {!comment.parentId? <Rating name="size-small"  value={comment.review} size="small" />: ''}</h4> 
       </div>
      <div style={{ color: '#333', fontSize: '10pt' }}>{comment.comment}</div>
+     <span><Button  onClick={()=>handleReply(comment.id)} variant='Outline'><b>Reply</b></Button></span>
+     <Form onSubmit={handleSubmit}>
+       {show && (
+         <div className='d-flex justify-content-center'>
+             
+           <input
+             {...reply}
+             className='form-control'
+             placeholder='Reply...'
+             required
+           />
+           
+           <Button variant='Outline' type='submit'>Submit</Button>
+           </div>
+           )}
+      </Form>
       {nestedComments}
     </div>
   )
 }
+
+
 const commentTree = (comments)=>{
     console.log(comments)
    return  createTree(comments)
 } 
 
 
-const ListComments = ()=>{
+const ListComments = ({book_id})=>{
     const [comments, setComments] = useState([])
-
+    const [reRender, setRerender] = useState(false)
     useEffect(()=>{
-        commentService.getComments("utDtDwAAQBAJ")
+        commentService.getComments(book_id)
         .then(response=>{
+          console.log(response,"---------------------")
             setComments(response)
            
         })
-    },[])
+    },[reRender])
+
+  
+
     const Tree = commentTree(comments)
     console.log(Tree)
     if(!Tree){
@@ -75,7 +121,7 @@ const ListComments = ()=>{
         <div>
             {Tree.map(comment=>{
                 return(
-                    <Comment key={comment.id} comment={comment} />
+                    <Comment key={comment.id} comment={comment} setRerender={setRerender}/>
                 )
             })}
         </div>

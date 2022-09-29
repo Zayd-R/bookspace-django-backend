@@ -19,7 +19,8 @@ const CommentPop = ({review_value, setReviewParent,starred, updateShelf,saveBook
     setUserComment(response.comment)
   })
 }
- },[])   
+ },[review_value])
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const comment = useField("text")
@@ -45,9 +46,7 @@ useEffect(()=>{
     })
 
   }
-
-
-if(!userComment){
+if(!userComment.comment){
 
   return (
       <>

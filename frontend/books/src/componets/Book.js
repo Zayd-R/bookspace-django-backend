@@ -147,7 +147,7 @@ const handleStars = (event)=>{
               <div className='subheadline mb-4'>
                 <div>
                   Authors:{' '}
-                  {book.volumeInfo.authors.map((author) => {
+                  {book.volumeInfo.authors && book.volumeInfo.authors.map((author) => {
                     return <span key={author}>{author}, </span>
                   })}
                 </div>
@@ -248,7 +248,7 @@ const handleStars = (event)=>{
             <br/>
             <br/>
             <hr/>
-            <ListComments  />
+            <ListComments  book_id={book.id}/>
           </div>
           
         </div>
