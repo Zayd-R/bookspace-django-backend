@@ -43,16 +43,20 @@ class BooksAdded(models.Model):
         return self.book_title
 
 class Comments(models.Model):
+    parentId = models.IntegerField(null=True,default=None)
     book = models.ForeignKey(BooksAdded, on_delete=models.CASCADE, related_name="comments")
     commenter = models.ForeignKey(User, on_delete=models.CASCADE, related_name="commenter")
     comment = models.TextField()
     date_posted = models.DateTimeField(default = timezone.now)
+    children = models.IntegerField(null=True,default=None)
     
     def __str__(self):
         return self.commenter.username
     def serialize(self):
         return {
             "id": self.id,
+            "parentId": self.parentId,
+            "children":self.children,
             "commenter": str(self.commenter.username),
             "comment": str(self.comment),
             "book_id": str(self.book.book_id),

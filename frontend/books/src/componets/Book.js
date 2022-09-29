@@ -181,7 +181,7 @@ const handleStars = (event)=>{
                    saveBookToMyShelve={saveBookToMyShelve} 
                    book_id={book.id}
                    username={user.username}
-                   parentReview={bookInShelve.review}
+                   parentReview={bookInShelve}
                    />
                 </div>
               </div>
@@ -245,8 +245,12 @@ const handleStars = (event)=>{
                 alt='book cover'
               />
             </div>
-           <ListComments/>
+            <br/>
+            <br/>
+            <hr/>
+            <ListComments/>
           </div>
+          
         </div>
       </div>
 {/* //////////////////////// */}

@@ -6,16 +6,19 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { useField } from '../hooks/fields'
 import commentService from '../services/comments'
+import comments from '../services/comments';
 const CommentPop = ({review_value, setReviewParent,starred, updateShelf,saveBookToMyShelve ,book_id, username, parentReview})=> {
   const [show, setShow] = useState(false);
   const [review, setReview]= useState(review_value)
   const [userComment, setUserComment] = useState({})
 
  useEffect(()=>{
+  if(parentReview){
   commentService.getUserComment(book_id)
   .then(response=>{
-    setUserComment(response.comment[0])
+    setUserComment(response.comment)
   })
+}
  },[])   
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -32,7 +35,7 @@ useEffect(()=>{
     commentService.addComment(book_id, commentToAdd)
     .then(response=>{
       setShow(false)
-      if(Number(parentReview) !== Number(review)){
+      if(Number(parentReview.review) !== Number(review)){
       if(starred){
         updateShelf('read', Number(review))
       }else{

@@ -17,6 +17,7 @@ from rest_framework.response import Response
 from .models import BooksAdded, Comments
 from .permissions import AuthorAllStaffAllButEditOrReadOnly
 from rest_framework.decorators import permission_classes, api_view
+from rest_framework import status
 
 
 # testing purposes
@@ -50,21 +51,28 @@ def comments(request, book_id):
     # return JsonResponse(,safe=False)
 
 
-
+#  get the review of the user
 @api_view(('GET',))
 @permission_classes((IsAuthenticated, ))
 def Comment(request, book_id):
-    try:
-        user = User.objects.get(pk=request.user.id)
-        book = BooksAdded.objects.get(book_id=book_id)
-        comment = Comments.objects.get(book=book,commenter=user)
-        return JsonResponse({"comment":[comment.serialize()]}, safe=False)
-    except:
-        return JsonResponse({"Error": 404})
+        try:
+            user = User.objects.get(pk=request.user.id)
+            book = BooksAdded.objects.get(book_id=book_id)
+            comment = Comments.objects.get(book=book,commenter=user,parentId=None)
+            print(Comments.objects.get(book=book,commenter=user,parentId=None), "---------------------------")
+
+            return JsonResponse({"comment":comment.serialize()}, safe=False)
+        except:
+            return Response({"error":"not found"},status=status.HTTP_404_NOT_FOUND)
+
+   
 
 
-
-
+@api_view(('POST',))
+@permission_classes((IsAuthenticated, ))
+def Reply(request, book_id):
+    data = json.loads(request.body)
+    print(data)
 
 
 class BooksView(generics.ListCreateAPIView):

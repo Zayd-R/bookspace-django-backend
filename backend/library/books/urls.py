@@ -10,6 +10,7 @@ urlpatterns = [
 
      path("v1-comments/<str:book_id>", views.comments, name="comments"),
      path("v1-comments/comment/<str:book_id>", views.Comment, name="comment"),
+     path("v1-comments/reply/<str:book_id>", views.Reply, name="reply"),
 
      path("books/state/<str:state>", views.TestView.as_view(), name="testView"),
 
