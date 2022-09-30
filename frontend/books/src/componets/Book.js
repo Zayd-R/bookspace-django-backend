@@ -1,6 +1,5 @@
-import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { useMatch, Routes, Route } from 'react-router-dom'
+import { useMatch} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   addBook,
@@ -11,12 +10,12 @@ import googleService from '../services/googleApi'
 import { Rating } from '@mui/material';
 import CommentPop from './Commentpop'
 import ListComments from './Comments'
-
+import Form from 'react-bootstrap/Form'
+import {initializeUserComment, initializeComments} from '../reducers/commentsReducer'
 const Book = () => {
   const [book, setBook] = useState([])
   const [starred, setStarred] = useState(false)
   const [review, setReview] = useState(0)
-
   const dispatch = useDispatch()
 
   const user = useSelector((state) => state.user)
@@ -31,15 +30,25 @@ const Book = () => {
   useEffect(() => {
     if (match) {
       googleService.getBook(match.params.id).then((book) => setBook(book))
+
     }
-  }, []) //this should render only once.
+  }, [match]) //this should render only once.
+
+useEffect(()=>{
+  dispatch(initializeComments(book.id))
+},[book])
 
   useEffect(() => {
     if (bookInShelve) {
       setStarred(true)
       setReview(bookInShelve.review)
     }
-  }, [bookInShelve])
+    dispatch(initializeUserComment(book.id))
+
+  }, [bookInShelve, dispatch])
+  
+  
+  
 
   const saveBookToMyShelve = (state,review) => {
     const bookToSave = {
@@ -89,7 +98,8 @@ console.log(starred)
   const setSelect = () => {
     if (starred) {
       return (
-        <select
+      
+        <Form.Select
           id={book.id}
           value={bookInShelve.book_state}
           onChange={handleSelectChange}
@@ -101,11 +111,11 @@ console.log(starred)
           <option value='toRead'>Want to Read</option>
           <option value='read'>Read</option>
           <option value='none'>None</option>
-        </select>
+        </Form.Select>
       )
     } else {
       return (
-        <select id={book.id} onChange={handleSelectChange} value='toRead'>
+        <Form.Select id={book.id} onChange={handleSelectChange} value='none'>
           <option value='none' disabled>
             Move to...
           </option>
@@ -113,7 +123,7 @@ console.log(starred)
           <option value='toRead'>Want to Read</option>
           <option value='read'>Read</option>
           <option value='none'>None</option>
-        </select>
+        </Form.Select>
       )
     }
   }
@@ -160,12 +170,7 @@ const handleStars = (event)=>{
                 {!user ? null : (
                   <div className='rating'>
                     <input
-                      type='radio'
-                      checked={starred}
-                      onChange={() => null}
                       name='rating'
-                      value='5'
-                      id='5'
                     />
                     <label htmlFor='5'>☆</label>
                   </div>
@@ -173,7 +178,10 @@ const handleStars = (event)=>{
                 <Rating name="size-large" value={review} onChange={handleStars}  size="large" />
 
                 {setSelect()}
+             
+
                 <div>
+                  
                 <CommentPop review_value={review}
                  setReviewParent={setReview} 
                  starred={starred}
@@ -181,8 +189,11 @@ const handleStars = (event)=>{
                    saveBookToMyShelve={saveBookToMyShelve} 
                    book_id={book.id}
                    username={user.username}
-                   parentReview={bookInShelve}
+                   bookInShelve={bookInShelve}
                    />
+
+
+
                 </div>
               </div>
               <hr />
@@ -248,7 +259,7 @@ const handleStars = (event)=>{
             <br/>
             <br/>
             <hr/>
-            <ListComments  book_id={book.id}/>
+            <ListComments  book_id={book.id} />
           </div>
           
         </div>

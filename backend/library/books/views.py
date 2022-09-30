@@ -33,15 +33,17 @@ def comments(request, book_id):
        user = User.objects.get(pk=request.user.id)
        book = BooksAdded.objects.get(book_id=book_id)
     #    for each user one review , if exist => update the review
-       if Comments.objects.get(book=book, commenter=user, parentId=None):
-            Comments.objects.filter(book=book, commenter=user, parentId=None).update(book=book, commenter=user, comment=data.get("comment"))
-            updated = Comments.objects.get(book=book, commenter=user, parentId=None)
-            return JsonResponse({"comment":[updated.serialize()]}, safe=False)
-    # if not exist create the new comment
-       Comments.objects.create(book=book, commenter=user, comment=data.get("comment"))
-       comments = Comments.objects.filter(book__book_id=book_id)
-       return JsonResponse({"success":"sucess",
-                            "comments": [comment.serialize() for comment  in comments]})
+       try:
+            if Comments.objects.get(book=book, commenter=user, parentId=None):
+                    Comments.objects.filter(book=book, commenter=user, parentId=None).update(book=book, commenter=user, comment=data.get("comment"))
+                    updated = Comments.objects.get(book=book, commenter=user, parentId=None)
+                    return JsonResponse({"comment":[updated.serialize()]}, safe=False)
+       except:
+        # if not exist create the new comment
+            Comments.objects.create(book=book, commenter=user, comment=data.get("comment"))
+            comments = Comments.objects.filter(book__book_id=book_id)
+            return JsonResponse({"success":"sucess",
+                                    "comments": [comment.serialize() for comment  in comments]})
 
 
 # get all the comments for the book 
@@ -87,7 +89,7 @@ class BooksView(generics.ListCreateAPIView):
     
 
     def filter_queryset(self, queryset,**kwargs):
-        queryset = self.get_queryset().filter(user_id=self.request.user.id).order_by("book_state")
+        queryset = self.get_queryset().filter(user_id=self.request.user.id).order_by("-added")
         return  queryset
 
   

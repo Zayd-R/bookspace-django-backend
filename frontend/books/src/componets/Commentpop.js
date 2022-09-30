@@ -5,50 +5,63 @@ import { Rating } from '@mui/material';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { useField } from '../hooks/fields'
-import commentService from '../services/comments'
-import comments from '../services/comments';
-const CommentPop = ({review_value, setReviewParent,starred, updateShelf,saveBookToMyShelve ,book_id, username, parentReview})=> {
+import { useDispatch, useSelector } from 'react-redux'
+import {updateUserComment, addUserComment} from '../reducers/commentsReducer'
+
+
+const CommentPop = ({review_value, setReviewParent,starred, updateShelf,saveBookToMyShelve ,book_id, bookInShelve})=> {
   const [show, setShow] = useState(false);
   const [review, setReview]= useState(review_value)
   const [userComment, setUserComment] = useState({})
 
- useEffect(()=>{
-  if(parentReview){
-  commentService.getUserComment(book_id)
-  .then(response=>{
-    setUserComment(response.comment)
-  })
-}
- },[review_value])
+  const dispatch = useDispatch()
+  const comments = useSelector(state=>state.comments.userComment)
+
+
+
+useEffect(()=>{
+  if(comments){
+    setUserComment(comments)
+
+  }
+},[comments,dispatch])
+
+useEffect(()=>{
+  setReview(review_value)
+},[review_value])
+
+
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const comment = useField("text")
+  const commentField = useField("text")
  
-useEffect(()=>{
-    setReview(review_value)
-},[review_value])
 
   const handleSubmit = (event)=>{
     event.preventDefault()
-    const commentToAdd = {comment: comment.value !== '' ?comment.value : userComment.comment}
-  
-    commentService.addComment(book_id, commentToAdd)
-    .then(response=>{
+
+    const commentToAdd = {comment: commentField.value !== '' ?commentField.value : userComment.comment}
+    if(!comments){
+      dispatch(addUserComment(book_id,commentToAdd))
+    }else{
+      dispatch(updateUserComment(book_id,commentToAdd))
+    }
+      commentField.onSubmit()
       setShow(false)
-      if(Number(parentReview.review) !== Number(review)){
+      if(Number(bookInShelve.review) !== Number(review) ||Number(review) === 0){
       if(starred){
         updateShelf('read', Number(review))
       }else{
         saveBookToMyShelve('read', Number(review))
       }
     }
-    })
-
   }
-if(!userComment.comment){
+if(!comments){
 
   return (
+      <>
+      {bookInShelve && 
       <>
       <Button variant="primary" onClick={handleShow}>
       Write a review
@@ -68,7 +81,7 @@ if(!userComment.comment){
           as="textarea"
           placeholder="Leave a comment here"
           style={{ height: '100px' }}
-          {...comment}
+          {...commentField}
         />
       </FloatingLabel>
       
@@ -84,6 +97,7 @@ if(!userComment.comment){
         </Modal.Footer>
  </Form>
       </Modal>
+      </> }
     </>
   )
   } else{
@@ -91,7 +105,7 @@ if(!userComment.comment){
       <div>
         <hr/>
        <h3>Your review</h3>
-       <p>{userComment.comment}</p>
+       <p>{userComment?.comment}</p>
        <Button variant="primary" onClick={handleShow}>
       Edit review
       </Button>
@@ -111,7 +125,7 @@ if(!userComment.comment){
           as="textarea"
           placeholder="Leave a comment here"
           style={{ height: '100px' }}
-          value={userComment.comment} onChange={(e) => {setUserComment( {...userComment, comment: e.target.value})}}
+          value={userComment?.comment} onChange={(e) => {setUserComment( {...userComment, comment: e.target.value})}}
         />
       </FloatingLabel>
       

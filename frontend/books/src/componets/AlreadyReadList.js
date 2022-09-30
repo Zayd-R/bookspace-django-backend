@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import {Link} from "react-router-dom"
-import { Card, CardGroup, Button } from 'react-bootstrap'
+import { Rating } from '@mui/material';
 
 
 const AlreadyReadList = () => {
@@ -14,20 +14,21 @@ const AlreadyReadList = () => {
       <h2>Books Read</h2>
       {booksRead.map((book) => (
 
-        <Card style={{ width: '18rem' }} key={book.book_id}>
-       
-          <Card.Img variant='top' src={book.book_image} />
-        <Card.Body>
-          <Card.Title>{book.title}</Card.Title>
-          <Card.Text>
-            Some quick example text to build on the card title and make
-            up the bulk of the card's content.
-          </Card.Text>
-          <Link to={`/books/${book.book_id}`}>
-            <Button variant='primary'>View Book</Button>
-          </Link>
-        </Card.Body>
-      </Card>
+<div id="productbox" key={book.book_id}> 
+
+<div className="product">
+<div className="product_img"><img src={book.book_image} alt={book.book_title}/></div>
+ <div className="product_content"> 
+<div className="product_title"><Link to={`/books/${book.book_id}`}>{book.book_title}</Link></div>
+<div className="clear"></div>
+<div className="price_info"> You rated it <Rating name="size-small" defaultValue={book.review}  size="small" />
+</div>
+<div className="clear"></div>
+<div className="price_info">{book.added}</div>
+
+</div>
+</div>
+</div>
 
       ))}
     </>

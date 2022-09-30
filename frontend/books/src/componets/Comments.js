@@ -3,11 +3,10 @@ import commentService from '../services/comments'
 import { Rating } from '@mui/material';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-
 import { useField } from '../hooks/fields'
-
-
-
+import { useDispatch, useSelector } from 'react-redux'
+import {initializeComments} from '../reducers/commentsReducer'
+// TODO: Test the componet with more than one user
 function createTree(list) {
   var map = {},
     node,
@@ -32,13 +31,13 @@ function createTree(list) {
 }
 
 
-const  Comment = ({ comment, setRerender }) =>{
+const  Comment = ({ comment, setRerender,book_id }) =>{
     const [show, setShow] = useState(false)
     const [replyTo, setReplyId] = useState(null)
 
     const reply = useField("text")
   const nestedComments = (comment.children || []).map((comment) => {
-    return <Comment key={comment.id} comment={comment} type="child" setRerender={setRerender}/>
+    return <Comment key={comment.id} comment={comment} type="child" setRerender={setRerender} book_id={book_id}/>
   })
 
 
@@ -50,7 +49,7 @@ const  Comment = ({ comment, setRerender }) =>{
  const handleSubmit = (event)=>{
   event.preventDefault()
   console.log(replyTo)
-  commentService.addReply("utDtDwAAQBAJ",{comment:reply.value, parentId:replyTo})
+  commentService.addReply(book_id,{comment:reply.value, parentId:replyTo})
 
   .then(response=>{
     console.log(response)
@@ -101,14 +100,19 @@ const commentTree = (comments)=>{
 const ListComments = ({book_id})=>{
     const [comments, setComments] = useState([])
     const [reRender, setRerender] = useState(false)
+    const dispatch = useDispatch()
+    console.log(book_id, "////////////////////////////////////")
+   
+     const reducerComments = useSelector(state=>state.comments)
+    
     useEffect(()=>{
         commentService.getComments(book_id)
         .then(response=>{
           console.log(response,"---------------------")
             setComments(response)
-           
         })
-    },[reRender])
+        
+    },[reducerComments,dispatch, reRender])
 
   
 
@@ -121,7 +125,7 @@ const ListComments = ({book_id})=>{
         <div>
             {Tree.map(comment=>{
                 return(
-                    <Comment key={comment.id} comment={comment} setRerender={setRerender}/>
+                    <Comment key={comment.id} comment={comment} setRerender={setRerender} book_id={book_id}/>
                 )
             })}
         </div>

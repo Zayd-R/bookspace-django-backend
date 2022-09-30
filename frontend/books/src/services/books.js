@@ -34,10 +34,11 @@ const deleteBook = async (book_id) => {
   const request = await axios.delete(`${baseUrl}${book_id}`, logService.config())
   return request.data
    }
-const TestNewAPI = async (state)=>{
-  const response =  await axios.get(`http://127.0.0.1:8000/books-api/books/state/${state}`,logService.config())
-   return response.data
- }
+
+// const TestNewAPI = async (state)=>{
+//   const response =  await axios.get(`http://127.0.0.1:8000/books-api/books/state/${state}`,logService.config())
+//    return response.data
+//  }
  
  
-export default { getUserBooks, saveBook, updateState, deleteBook, TestNewAPI }
+export default { getUserBooks, saveBook, updateState, deleteBook }

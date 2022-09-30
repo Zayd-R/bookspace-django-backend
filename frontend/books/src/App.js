@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Books from './componets/Books'
 import SearchForm from './componets/SearchForm'
 import { Routes, Route, Link, Navigate } from 'react-router-dom'
@@ -7,7 +6,6 @@ import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import NavDropdown from 'react-bootstrap/NavDropdown'
-import { Button } from 'react-bootstrap'
 
 import HomePage from './componets/HomePage'
 import Book from './componets/Book'
@@ -18,14 +16,9 @@ import logService from './services/login'
 import LoginForm from './componets/LoginForm'
 import Register from './componets/Register'
 import UserShelve from './componets/UserShelve.js'
-import BookService from './services/books'
 import AlreadyReadList from './componets/AlreadyReadList'
 import { initializeUserBooks } from './reducers/userBooksReducer'
-import {
-  initializeUserReading,
-  initializeUserToRead,
-  initializeUserRead,
-} from './reducers/testBookreducer'
+
 import googleService from './services/googleApi'
 import CurrentlyReadingList from './componets/CurrentlyReadingList'
 import WantToReadList from './componets/WantToReadList'
@@ -60,10 +53,8 @@ function App() {
   // make sure to not run this hook unless there is a user , or the server will not reponse and the frontend will get error
   useEffect(() => {
     if (user) {
-      const startTime = performance.now()
 
       dispatch(initializeUserBooks())
-      const endTime = performance.now()
 
       // console.log(`Call to 1 dispatches took ${endTime - startTime} milliseconds`)
     }
@@ -83,6 +74,7 @@ function App() {
   //   google API to get the books
   const handleSearch = (query) => {
     // clearing the data each time a research is made to give some nice styling and not make the site just static
+    window.localStorage.removeItem('lastSearch')
     setData([])
     googleService
       .searchBooks(query)
