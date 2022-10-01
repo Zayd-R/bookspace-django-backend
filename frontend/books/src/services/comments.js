@@ -16,8 +16,6 @@ const addComment = async (book_id, comment)=>{
 }
 
 const getUserComment = async (book_id)=>{
-
-   
     const response = await axios.get(`${baseUrl}comment/${book_id}`, logService.config())
     return response.data
 }

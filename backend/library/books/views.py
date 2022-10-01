@@ -65,7 +65,7 @@ def Comment(request, book_id):
 
             return JsonResponse({"comment":comment.serialize()}, safe=False)
         except:
-            return Response({"error":"not found"},status=status.HTTP_404_NOT_FOUND)
+            return JsonResponse({},safe=False)
 
    
 

@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import { useField } from '../hooks/fields'
 import { useDispatch, useSelector } from 'react-redux'
 import {updateUserComment, addUserComment} from '../reducers/commentsReducer'
+import {initializeUserComment, removeUserComment} from '../reducers/commentsReducer'
 
 
 const CommentPop = ({review_value, setReviewParent,starred, updateShelf,saveBookToMyShelve ,book_id, bookInShelve})=> {
@@ -17,14 +18,23 @@ const CommentPop = ({review_value, setReviewParent,starred, updateShelf,saveBook
   const dispatch = useDispatch()
   const comments = useSelector(state=>state.comments.userComment)
 
+   console.log(comments,"////////////////")
+   
+useEffect(()=>{
+  if(bookInShelve){
+    dispatch(initializeUserComment(book_id))
+  }else{
+ dispatch(removeUserComment())
+  }
+},[book_id, dispatch,starred])
 
-
+// for editing feature if usercomment is found
 useEffect(()=>{
   if(comments){
     setUserComment(comments)
-
   }
 },[comments,dispatch])
+
 
 useEffect(()=>{
   setReview(review_value)
@@ -125,7 +135,8 @@ if(!comments){
           as="textarea"
           placeholder="Leave a comment here"
           style={{ height: '100px' }}
-          value={userComment?.comment} onChange={(e) => {setUserComment( {...userComment, comment: e.target.value})}}
+          value={userComment?.comment} 
+          onChange={(e) => {setUserComment( {...userComment, comment: e.target.value})}}
         />
       </FloatingLabel>
       

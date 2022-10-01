@@ -34,18 +34,18 @@ const Book = () => {
     }
   }, [match]) //this should render only once.
 
-useEffect(()=>{
-  dispatch(initializeComments(book.id))
-},[book])
+// useEffect(()=>{
+//   dispatch(initializeComments(book.id)
+//   )
+// },[book])
 
   useEffect(() => {
     if (bookInShelve) {
       setStarred(true)
       setReview(bookInShelve.review)
     }
-    dispatch(initializeUserComment(book.id))
 
-  }, [bookInShelve, dispatch])
+  }, [bookInShelve])
   
   
   
@@ -259,7 +259,7 @@ const handleStars = (event)=>{
             <br/>
             <br/>
             <hr/>
-            <ListComments  book_id={book.id} />
+            {/* <ListComments  book_id={book.id} /> */}
           </div>
           
         </div>
