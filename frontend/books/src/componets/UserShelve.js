@@ -3,22 +3,25 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import UserBooksStats from './UserBooksStats'
 
+
 const UserShelve = () => {
+  
   const navigate = useNavigate()
   const userBooks = useSelector(({ userBooks }) => userBooks)
-
+  
   // const startTime = performance.now()
-  console.table(userBooks)
-
+  console.log(useSelector(state => state))
+  
   const booksRead = userBooks.filter((books) => books.book_state === 'read')
   const booksReading = userBooks.filter(
     (books) => books.book_state === 'reading'
   )
   const toRead = userBooks.filter((books) => books.book_state === 'toRead')
+  
 
   // const endTime = performance.now()
   // console.log(`Call to 3 filters took ${endTime - startTime} milliseconds`)
-
+  
   return (
     <>
       <h2>

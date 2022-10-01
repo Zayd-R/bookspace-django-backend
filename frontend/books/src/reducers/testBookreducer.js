@@ -9,8 +9,8 @@ const initialState = {"reading":null,
                 "toRead":null
                 }
                 
-const bookSlice = createSlice({
-  name: 'userBooks',
+const testSlice = createSlice({
+  name: 'testReducer',
   initialState,
   reducers: {
     userReading(state, action) {
@@ -36,7 +36,7 @@ export const {
     userToRead,
     userRead
 
-} = bookSlice.actions
+} = testSlice.actions
 
 export const initializeUserReading= () => {
     return async (dispatch) => {
@@ -57,13 +57,12 @@ export const initializeUserToRead= () => {
         dispatch(userToRead(booksToRead))
     }}
 
-export const initializeUserRead= () => {
+export const initializeUserRead= (booksRead) => {
         return async (dispatch) => {
-            const booksRead = await bookService.TestNewAPI('read')
             dispatch(userRead(booksRead))
 
         }}
 
 
 
-  export default bookSlice.reducer
+export default testSlice.reducer

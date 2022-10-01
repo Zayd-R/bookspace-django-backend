@@ -119,6 +119,7 @@ function App() {
             </Navbar.Brand>
           </Link>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
+          
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='me-auto'>
               <Link to='/' style={decoration}>
@@ -157,7 +158,13 @@ function App() {
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
+          <Navbar.Text>
+         
+            {user ?  <div>Signed in as: <Link >{user.username}</Link></div> : ''}
+           
+          </Navbar.Text>
         </Container>
+        
       </Navbar>
 
       <div className='container'>
