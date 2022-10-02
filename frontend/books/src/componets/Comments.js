@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import { useField } from '../hooks/fields'
 import { useDispatch, useSelector } from 'react-redux'
 import {initializeComments, addBookReply} from '../reducers/commentsReducer'
+import { useNavigate } from "react-router-dom";
+
 // TODO: Test the componet with more than one user
 function createTree(list) {
   var map = {},
@@ -34,7 +36,10 @@ const  Comment = ({ comment, setRerender,book_id }) =>{
     const [show, setShow] = useState(false)
     const [replyTo, setReplyId] = useState(null)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const user = useSelector((state) => state.user)
     const reply = useField("text")
+
   const nestedComments = (comment.children || []).map((comment) => {
     return <Comment key={comment.id} comment={comment} type="child"  book_id={book_id}/>
   })
@@ -46,6 +51,10 @@ const  Comment = ({ comment, setRerender,book_id }) =>{
   }
  const handleSubmit = (event)=>{
   event.preventDefault()
+  if(!user){
+    return navigate("/login")
+  }
+  
   const TheReply = {comment:reply.value, parentId:replyTo}
   dispatch(addBookReply(book_id,TheReply))
     setShow(false)

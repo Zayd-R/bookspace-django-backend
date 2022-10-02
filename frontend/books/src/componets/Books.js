@@ -6,17 +6,13 @@ import search from '../images/search_1.png'
 
 // list of Books based on query
 const Books = ({ data }) => {
-  console.log(window.localStorage, "data")
   // basic logic to make some pagination
   const DATA_LIMIT = 10
   const PAGES = Math.round(data.length / DATA_LIMIT)
   const lastSearch = JSON.parse(window.localStorage.getItem('lastSearch'))
   const [currentPage, setCurrentPage] = useState(lastSearch?.currentPage || 1)
   const [currentSearch, setCurrentSearch] = useState(lastSearch?.query || '')
-  const padding = {
-    padding: 50,
-  }
-console.log(data)
+ 
   // Persisted pagination
   useEffect(() => {
     if (lastSearch?.query) setCurrentSearch(lastSearch.query)
@@ -89,8 +85,12 @@ console.log(data)
                 <Card.Body>
                   <Card.Title>{book.volumeInfo.title}</Card.Title>
                   <Card.Text>
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
+                 <div
+                  dangerouslySetInnerHTML={{
+                    __html: book.searchInfo?.textSnippet 
+                  }} 
+                  />
+                  
                   </Card.Text>
                   <Link to={`/books/${book.id}`}>
                     <Button variant='primary'>View Book</Button>
