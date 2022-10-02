@@ -9,7 +9,7 @@ const HomePage = () => {
   return (
     <>
       <Grid container sx={{ height: 'auto' }}>
-        <Grid container xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
           <Grid item xs={12} sm={12} sx={{ mt: 6 }}>
             <Typography variant='myVariant'>
               Find the books you are looking for anywhere
@@ -29,7 +29,7 @@ const HomePage = () => {
             </Button>
           </Grid>
         </Grid>
-        <Grid container xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
           <Grid item xs={12} sm={12} sx={{ p: '2rem' }}>
             <Box
               component='img'
@@ -53,7 +53,7 @@ const HomePage = () => {
         </Typography>
       </Box>
       <Grid container sx={{ height: 'auto', mb: 16 }}>
-        <Grid container xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
           <Grid item xs={12} sm={12} sx={{ mt: 8 }}>
             <Typography variant='h5'>
               READING PRACTICE IMPROVES VOCABULARY
@@ -64,7 +64,7 @@ const HomePage = () => {
             </Typography>
           </Grid>
         </Grid>
-        <Grid container xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
           <Grid item xs={12} sm={12} sx={{ p: '2rem' }}>
             <Box
               component='img'
@@ -76,7 +76,7 @@ const HomePage = () => {
         </Grid>
       </Grid>
       <Grid container sx={{ height: 'auto', mb: 16 }}>
-        <Grid container xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
           <Grid item xs={12} sm={12} sx={{ p: '2rem' }}>
             <Box
               component='img'
@@ -86,7 +86,7 @@ const HomePage = () => {
             />
           </Grid>
         </Grid>
-        <Grid container xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
           <Grid item xs={12} sm={12} sx={{ mt: 8 }}>
             <Typography variant='h5'>ADVANCING TECHNOLOGY</Typography>
             <Typography variant='body1' sx={{ mt: 6, fontSize: 18 }}>
@@ -97,7 +97,7 @@ const HomePage = () => {
         </Grid>
       </Grid>
       <Grid container sx={{ height: 'auto', mb: 16 }}>
-        <Grid container xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
           <Grid item xs={12} sm={12} sx={{ mt: 8 }}>
             <Typography variant='h5'>DYNAMIC READING</Typography>
             <Typography variant='body1' sx={{ mt: 6, fontSize: 18 }}>
@@ -107,7 +107,7 @@ const HomePage = () => {
             </Typography>
           </Grid>
         </Grid>
-        <Grid container xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
           <Grid item xs={12} sm={12} sx={{ p: '2rem' }}>
             <Box
               component='img'
