@@ -53,7 +53,6 @@ function App() {
   // make sure to not run this hook unless there is a user , or the server will not reponse and the frontend will get error
   useEffect(() => {
     if (user) {
-
       dispatch(initializeUserBooks())
 
       // console.log(`Call to 1 dispatches took ${endTime - startTime} milliseconds`)
@@ -119,7 +118,7 @@ function App() {
             </Navbar.Brand>
           </Link>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
-          
+
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='me-auto'>
               <Link to='/' style={decoration}>
@@ -159,12 +158,15 @@ function App() {
             </Nav>
           </Navbar.Collapse>
           <Navbar.Text>
-         
-            {user ?  <div>Signed in as: <Link >{user.username}</Link></div> : ''}
-           
+            {user ? (
+              <div>
+                Signed in as: <Link>{user.username}</Link>
+              </div>
+            ) : (
+              ''
+            )}
           </Navbar.Text>
         </Container>
-        
       </Navbar>
 
       <div className='container'>
