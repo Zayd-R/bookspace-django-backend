@@ -191,7 +191,6 @@ const HomePage = () => {
             display: 'flex',
             justifyContent: 'center',
             alignContent: 'center',
-            mb: 10,
           }}
         >
           <Box
@@ -213,6 +212,20 @@ const HomePage = () => {
             sx={{ maxWidth: '65px', maxHeight: '65px', m: 2 }}
           />
         </Box>
+      </Box>
+      <Box
+        display='flex'
+        justifyContent='center'
+        alignItems='center'
+        sx={{
+          background: 'black',
+          height: 'auto',
+          mb: 15,
+        }}
+      >
+        <Typography variant='body1' color='white'>
+          Developed by Zain & Pablo
+        </Typography>
       </Box>
     </>
   )
