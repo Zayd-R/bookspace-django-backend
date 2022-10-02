@@ -18,7 +18,6 @@ const CommentPop = ({review_value, setReviewParent,starred, updateShelf,saveBook
   const dispatch = useDispatch()
   const comments = useSelector(state=>state.comments.userComment)
 
-   console.log(comments,"////////////////")
    
 useEffect(()=>{
   if(bookInShelve){
@@ -59,7 +58,7 @@ useEffect(()=>{
     }
       commentField.onSubmit()
       setShow(false)
-      if(Number(bookInShelve.review) !== Number(review) ||Number(review) === 0){
+      if(Number(bookInShelve.review) !== Number(review) ){
       if(starred){
         updateShelf('read', Number(review))
       }else{

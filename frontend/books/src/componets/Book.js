@@ -11,7 +11,8 @@ import { Rating } from '@mui/material';
 import CommentPop from './Commentpop'
 import ListComments from './Comments'
 import Form from 'react-bootstrap/Form'
-import {initializeUserComment, initializeComments} from '../reducers/commentsReducer'
+
+
 const Book = () => {
   const [book, setBook] = useState([])
   const [starred, setStarred] = useState(false)
@@ -60,7 +61,6 @@ const Book = () => {
       review: state === 'read' && review ? review : 0
 
     }
-    console.log(bookToSave,"book to save")
 
     dispatch(addBook(bookToSave))
   }
@@ -80,7 +80,7 @@ const Book = () => {
   const removeBookFromMyShelve = () => {
     dispatch(deleteBookAction(book.id))
   }
-console.log(starred)
+  
   const handleSelectChange = (event) => {
     if (starred && event.target.value === 'none') {
       removeBookFromMyShelve()
@@ -130,7 +130,6 @@ console.log(starred)
 
 
 const handleStars = (event)=>{
-  console.log( event.target.value,'---------------------')
   setReview(Number(event.target.value))
   if(starred){
     updateShelf('read',Number(event.target.value) )
@@ -259,7 +258,7 @@ const handleStars = (event)=>{
             <br/>
             <br/>
             <hr/>
-            {/* <ListComments  book_id={book.id} /> */}
+            <ListComments  book_id={book.id} />
           </div>
           
         </div>

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import commentService from '../services/comments'
 import { Rating } from '@mui/material';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useField } from '../hooks/fields'
 import { useDispatch, useSelector } from 'react-redux'
-import {initializeComments, addBookReply, setBookComments} from '../reducers/commentsReducer'
+import {initializeComments, addBookReply} from '../reducers/commentsReducer'
 // TODO: Test the componet with more than one user
 function createTree(list) {
   var map = {},
@@ -15,7 +14,6 @@ function createTree(list) {
  
   for (i = 0; i < list.length; i += 1) {
     map[list[i].id] = i // initialize the map
-    console.log(list, "************************")
    list[i].children = [] // initialize the children
   }
 
@@ -38,22 +36,19 @@ const  Comment = ({ comment, setRerender,book_id }) =>{
     const dispatch = useDispatch()
     const reply = useField("text")
   const nestedComments = (comment.children || []).map((comment) => {
-    return <Comment key={comment.id} comment={comment} type="child" setRerender={setRerender} book_id={book_id}/>
+    return <Comment key={comment.id} comment={comment} type="child"  book_id={book_id}/>
   })
 
 
   const handleReply = (comment_id)=> {
-    console.log(comment_id)
     setShow(!show)
     setReplyId(comment_id)
   }
  const handleSubmit = (event)=>{
   event.preventDefault()
-  console.log(replyTo)
   const TheReply = {comment:reply.value, parentId:replyTo}
   dispatch(addBookReply(book_id,TheReply))
     setShow(false)
-    setRerender(true)
     reply.onSubmit()
  } 
 
@@ -88,42 +83,30 @@ const  Comment = ({ comment, setRerender,book_id }) =>{
 
 
 const commentTree = (comments)=>{
-    console.log(comments)
    return  createTree(comments)
 } 
 
 
 const ListComments = ({book_id})=>{
-    const [comments, setComments] = useState([])
-    const [reRender, setRerender] = useState(false)
     const dispatch = useDispatch()
    
     const reducerComments = useSelector(state=>state.comments)
     
-    console.log(book_id,reducerComments, "////////////////////////////////////")
 
     useEffect(()=>{
-     commentService.getComments(book_id)
-     .then(response=>{
-      setComments(response)
-     })
-
+      dispatch(initializeComments(book_id))
     },[book_id,dispatch])
-    useEffect(()=>{
-     setComments(reducerComments.comments)
-    },[reRender])
 
-    if(!comments){
+   
+    if(!reducerComments){
       return <h1>loading...</h1>
   }
-    const Tree = commentTree(comments)
-    console.log(Tree)
-   
+    const Tree = commentTree(JSON.parse(JSON.stringify(reducerComments.comments)))
     return(
         <div>
             {Tree.map(comment=>{
                 return(
-                    <Comment key={comment.id} comment={comment} setRerender={setRerender} book_id={book_id}/>
+                    <Comment key={comment.id} comment={comment}  book_id={book_id}/>
                 )
             })}
         </div>

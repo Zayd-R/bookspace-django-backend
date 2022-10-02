@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import comments from '../services/comments'
 import commentService from '../services/comments'
 
 const commentSlice = createSlice({
@@ -9,18 +8,19 @@ const commentSlice = createSlice({
 },
   reducers: {
     setBookComments(state, {payload}) {
-      console.log(payload, "in the reducer")
       return {...state, comments: payload}
     },
     appendComment(state, {payload}) {
-      console.log(payload,"in reduces")
-      console.log(state.comments,"------------------------")
 
-      return {...state, comments: [...comments, payload]}
+      return {...state, comments: [...state.comments, payload]}
     },
     
     setUserComments(state,{payload}){
         return {...state, userComment:payload}
+    },
+    updateBookComments(state, {payload}){
+      const updated = state.comments.map(comment=> comment.id === payload.id ? payload : comment)
+      return {...state, comments: updated}
     }
   
     
@@ -30,7 +30,8 @@ const commentSlice = createSlice({
 export const {
     setBookComments,
     appendComment,
-    setUserComments
+    setUserComments,
+    updateBookComments
 } = commentSlice.actions
 
 export const initializeComments = (book_id) => {
@@ -64,8 +65,9 @@ export const removeUserComment = () => {
 
   export const addUserComment = (book_id,comment) => {
     return async (dispatch) => {
-    //  const comments =  await commentService.addComment(book_id,comment)
-     dispatch(setUserComments(comment))
+     const comments =  await commentService.addComment(book_id,comment)
+     dispatch(setUserComments(comments.comments[0]))
+     dispatch(appendComment(comments.comments[0]))
     }
   }
 
@@ -73,6 +75,7 @@ export const removeUserComment = () => {
     return async (dispatch) => {
      const comments =  await commentService.addComment(book_id, commentToAdd)
      dispatch(setUserComments(comments.comment[0]))
+     dispatch(updateBookComments(comments.comment[0]))
       
     }
   }
