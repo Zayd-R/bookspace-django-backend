@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import bookService from '../services/books'
-// import { setNotification } from './notificationReducer'
+import { setNotification } from './notificationReducer'
 // import { appendUserBook } from './usersReducer'
 
 const bookSlice = createSlice({
@@ -51,37 +51,36 @@ export const initializeUserBooks = () => {
 
 export const addBook = (content) => {
   return async (dispatch) => {
-    // try {
+    try {
     const newBook = await bookService.saveBook(content)
     dispatch(appendBook(newBook))
-    // dispatch(appendUserBook(newBook))
-    // dispatch(
-    //   setNotification(
-    //     `A new book ${content.title} by ${content.author} added`,
-    //     'success',
-    //     5
-    // )
-    // )
-    // } catch (exception) {
-    //   dispatch(setNotification('Title and URL must be provided', 'alert', 5))
-    // }
+   
+      dispatch(setNotification(
+        `A new book has been added`,
+        'success'   
+    ))
+    } catch (exception) {
+      dispatch(setNotification('Something went wrong , please try later', 'error'))
+    }
   }
 }
 
 export const updateBookAction = (book_id,bookToUpdate) => {
   return async (dispatch) => {
-    // try {
+    try {
     const updatedBook = await bookService.updateState(book_id,bookToUpdate)
     dispatch(updateBook(updatedBook))
-    // } catch (exception) {
-    //   dispatch(
-    //     setNotification(
-    //       "Can't give like right now, please try again later",
-    //       'alert',
-    //       5
-    //     )
-    //   )
-    // }
+    dispatch(setNotification('Book updated', 'success'))
+
+    } catch (exception) {
+      dispatch(
+        setNotification(
+          "Can't give like right now, please try again later",
+          'error'
+          
+        )
+      )
+    }
   }
 }
 

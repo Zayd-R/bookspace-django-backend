@@ -6,7 +6,9 @@ import { useField } from '../hooks/fields'
 import { useDispatch, useSelector } from 'react-redux'
 import {initializeComments, addBookReply} from '../reducers/commentsReducer'
 import { useNavigate } from "react-router-dom";
-
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import {setNotification} from '../reducers/notificationReducer'
 // TODO: Test the componet with more than one user
 function createTree(list) {
   var map = {},
@@ -52,6 +54,8 @@ const  Comment = ({ comment, setRerender,book_id }) =>{
  const handleSubmit = (event)=>{
   event.preventDefault()
   if(!user){
+    dispatch(setNotification("Please login first", "error"))
+
     return navigate("/login")
   }
   
@@ -108,7 +112,11 @@ const ListComments = ({book_id})=>{
 
    
     if(!reducerComments){
-      return <h1>loading...</h1>
+      return (
+        <Box sx={{ display: 'flex' }}>
+        <CircularProgress />
+      </Box>
+      )
   }
     const Tree = commentTree(JSON.parse(JSON.stringify(reducerComments.comments)))
     return(

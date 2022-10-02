@@ -12,12 +12,14 @@ import LoginForm from './componets/LoginForm'
 import Register from './componets/Register'
 import UserShelve from './componets/UserShelve.js'
 import AlreadyReadList from './componets/AlreadyReadList'
+import Notification from './componets/notification'
 import { initializeUserBooks } from './reducers/userBooksReducer'
 
 import googleService from './services/googleApi'
 import CurrentlyReadingList from './componets/CurrentlyReadingList'
 import WantToReadList from './componets/WantToReadList'
 import ResponsiveAppBar from './componets/ResponsiveNavbar'
+import {setNotification} from './reducers/notificationReducer'
 // soon to implement API to allow user to filter the search
 // const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=${filterQuery}&startIndex=20`)
 
@@ -99,6 +101,7 @@ function App() {
       <ResponsiveAppBar setData={setData} />
 
       <div className='container'>
+        <Notification />
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route exact path='/books/:id' element={<Book />} />

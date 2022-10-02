@@ -10,7 +10,6 @@ const config = () => {
 
 const login = async (credits) => {
   const response = await axios.post(baseurl, credits)
-  //   console.log('login data', response.data)
   return response.data
 }
 

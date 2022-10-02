@@ -12,6 +12,9 @@ import CommentPop from './Commentpop'
 import ListComments from './Comments'
 import Form from 'react-bootstrap/Form'
 import { useNavigate } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import { setNotification } from '../reducers/notificationReducer'
 
 
 const Book = () => {
@@ -91,6 +94,7 @@ const Book = () => {
   
   const handleSelectChange = (event) => {
     if(!user){
+      dispatch(setNotification("Please login first", "error"))
       return navigate("/login")
     }
     if (starred && event.target.value === 'none') {
@@ -142,6 +146,7 @@ const Book = () => {
 
 const handleStars = (event)=>{
   if(!user){
+    dispatch(setNotification("Please login first", "error"))
     return navigate("/login")
   }
   setReview(Number(event.target.value))
@@ -153,7 +158,11 @@ const handleStars = (event)=>{
 }
 
   if (book.length < 1) {
-    return <h1>Loading....</h1>
+    return(
+      <Box sx={{ display: 'flex' }}>
+      <CircularProgress />
+    </Box>
+    ) 
   }
 
   return (
@@ -221,7 +230,7 @@ const handleStars = (event)=>{
                   }}
                 />
               </div>
-              {!user ? null : (
+              
                 <div className='cta-holder row gx-md-3 gy-3 gy-md-0'>
                   <div className='col-12 col-md-auto'>
                     <a
@@ -240,7 +249,7 @@ const handleStars = (event)=>{
                     </a>
                   </div>
                 </div>
-              )}
+              
               <div className='hero-quotes mt-5'>
                 <div
                   id='quotes-carousel'

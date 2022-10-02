@@ -224,7 +224,7 @@ const HomePage = () => {
         }}
       >
         <Typography variant='body1' color='white'>
-          Developed by Zain & Pablo
+          Developed by Zayd & Pablo
         </Typography>
       </Box>
     </>

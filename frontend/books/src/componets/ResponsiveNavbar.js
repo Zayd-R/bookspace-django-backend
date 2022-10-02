@@ -15,7 +15,7 @@ import logService from '../services/login'
 import userService from '../services/user'
 import { logoutUser } from '../reducers/userReducer'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from '@mui/material'
+import { Link } from "react-router-dom";
 
 const ResponsiveAppBar = ({ setData }) => {
   const [anchorElNav, setAnchorElNav] = useState(null)
@@ -23,6 +23,7 @@ const ResponsiveAppBar = ({ setData }) => {
 
   const dispatch = useDispatch()
   const user = useSelector(({ user }) => user)
+  const LinkStyle = {textDecoration: 'none', color:'black'}
 
   const logout = () => {
     logService.logout()
@@ -58,7 +59,6 @@ const ResponsiveAppBar = ({ setData }) => {
             variant='h6'
             noWrap
             component='a'
-            href='/'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -69,7 +69,9 @@ const ResponsiveAppBar = ({ setData }) => {
               textDecoration: 'none',
             }}
           >
+            <Link to='/' style={LinkStyle}>
             BookSpace
+            </Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -102,13 +104,13 @@ const ResponsiveAppBar = ({ setData }) => {
               }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
-                <Link href={'/search'} underline='none' color='black'>
+                <Link to='/search' style={LinkStyle}>
                   Search
                 </Link>
               </MenuItem>
               {user ? (
                 <MenuItem onClick={handleCloseNavMenu}>
-                  <Link href={'/my-shelve'} underline='none' color='black'>
+                  <Link to='/my-shelve' style={LinkStyle}>
                     My Shelve
                   </Link>
                 </MenuItem>
@@ -119,7 +121,7 @@ const ResponsiveAppBar = ({ setData }) => {
             variant='h5'
             noWrap
             component='a'
-            href='/'
+            
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -131,21 +133,28 @@ const ResponsiveAppBar = ({ setData }) => {
               textDecoration: 'none',
             }}
           >
+            <Link to='/' style={LinkStyle}>
             BookSpace
+            </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
+              <div>
+                
+              <Link
                 component='a'
-                href={`/${
+                to={`/${
                   page === 'My Shelve' ? 'my-shelve' : page?.toLowerCase()
                 }`}
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                style={{ my: 2, color: 'white', display: 'block', padding:'5px', textDecoration: 'none'}}
               >
                 {page}
-              </Button>
+                {'  '}
+                <br/>
+              </Link>
+              </div>
             ))}
           </Box>
 
@@ -173,19 +182,19 @@ const ResponsiveAppBar = ({ setData }) => {
             >
               {user ? (
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Link onClick={logout} underline='none' color='black'>
+                  <Link onClick={logout} style={LinkStyle}>
                     Logout
                   </Link>
                 </MenuItem>
               ) : (
                 <Box>
                   <MenuItem onClick={handleCloseUserMenu}>
-                    <Link href={'/login'} underline='none' color='black'>
+                     <Link to='/login'  style={LinkStyle}>
                       Login
-                    </Link>
+                     </Link>
                   </MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>
-                    <Link href={'/register'} underline='none' color='black'>
+                    <Link to='/register'  style={LinkStyle}>
                       Register
                     </Link>
                   </MenuItem>
