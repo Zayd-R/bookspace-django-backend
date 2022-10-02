@@ -4,7 +4,7 @@ import userService from '../services/user'
 import { Form, Button } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { loginUser } from '../reducers/userReducer'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
   const username = useField('text')
@@ -39,7 +39,8 @@ const LoginForm = () => {
 
         <Form.Label>Password</Form.Label>
         <Form.Control {...password} placeholder='Password...' />
-        <Button type='submit'>Login</Button>
+        <br/>
+        <Button type='submit'>Login</Button>  Don't have an account? <Link to='/register'>Sign up</Link>
       </Form>
     </div>
   )

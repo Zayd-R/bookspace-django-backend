@@ -4,6 +4,7 @@ import userService from '../services/user'
 import {Form, Button} from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import registerService from '../services/register'
+import { useNavigate } from 'react-router-dom';
 
 const Register = ()=>{
     const username = useField("text")
@@ -12,6 +13,7 @@ const Register = ()=>{
     const email = useField("email")
     const password = useField("password")
     const password2 = useField("password")
+    const navigate = useNavigate()
 
 
 const createAccount = (event)=>{
@@ -25,9 +27,10 @@ const createAccount = (event)=>{
         "password2": password2.value
     }
     registerService.register(newUser)
-    .then(response=>console.log(response))
+    .then(()=>{
+        navigate('/login')
+    })
     .catch(error=>console.log(error,"error has occured"))
-    console.log("it is fine")
 }
 
     return (
@@ -52,6 +55,7 @@ const createAccount = (event)=>{
                 <Form.Label>Confirm password</Form.Label>
                 <Form.Control {...password2}/>
                {password.value !== password2.value ? <span>Passwords do not match</span>: ''}
+               <br/>
                 <Button type="submit">Create account</Button>
             </Form>
         </div>

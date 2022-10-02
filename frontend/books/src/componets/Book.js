@@ -11,6 +11,7 @@ import { Rating } from '@mui/material';
 import CommentPop from './Commentpop'
 import ListComments from './Comments'
 import Form from 'react-bootstrap/Form'
+import { useNavigate } from "react-router-dom";
 
 
 const Book = () => {
@@ -18,6 +19,7 @@ const Book = () => {
   const [starred, setStarred] = useState(false)
   const [review, setReview] = useState(0)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const user = useSelector((state) => state.user)
   const bookInShelve = useSelector(({ userBooks }) =>
@@ -52,6 +54,9 @@ const Book = () => {
   
 
   const saveBookToMyShelve = (state,review) => {
+    if(!user){
+      return navigate("/login")
+    }
     const bookToSave = {
       user_id: user.user_id,
       book_title: book.volumeInfo.title,
@@ -66,6 +71,9 @@ const Book = () => {
   }
 
   const updateShelf = (state,review) => {
+    if(!user){
+      return navigate("/login")
+    }
     const bookToUpdate = {
       user_id: user.user_id,
       book_title: book.volumeInfo.title,
@@ -82,6 +90,9 @@ const Book = () => {
   }
   
   const handleSelectChange = (event) => {
+    if(!user){
+      return navigate("/login")
+    }
     if (starred && event.target.value === 'none') {
       removeBookFromMyShelve()
       setStarred(false)
@@ -130,6 +141,9 @@ const Book = () => {
 
 
 const handleStars = (event)=>{
+  if(!user){
+    return navigate("/login")
+  }
   setReview(Number(event.target.value))
   if(starred){
     updateShelf('read',Number(event.target.value) )
@@ -187,7 +201,6 @@ const handleStars = (event)=>{
                   updateShelf={updateShelf}
                    saveBookToMyShelve={saveBookToMyShelve} 
                    book_id={book.id}
-                   username={user.username}
                    bookInShelve={bookInShelve}
                    />
 
