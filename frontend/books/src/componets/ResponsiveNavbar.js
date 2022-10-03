@@ -15,7 +15,7 @@ import logService from '../services/login'
 import userService from '../services/user'
 import { logoutUser } from '../reducers/userReducer'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 const ResponsiveAppBar = ({ setData }) => {
   const [anchorElNav, setAnchorElNav] = useState(null)
@@ -23,7 +23,7 @@ const ResponsiveAppBar = ({ setData }) => {
 
   const dispatch = useDispatch()
   const user = useSelector(({ user }) => user)
-  const LinkStyle = {textDecoration: 'none', color:'black'}
+  const LinkStyle = { textDecoration: 'none', color: 'black' }
 
   const logout = () => {
     logService.logout()
@@ -59,6 +59,7 @@ const ResponsiveAppBar = ({ setData }) => {
             variant='h6'
             noWrap
             component='a'
+            href='/'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -69,9 +70,7 @@ const ResponsiveAppBar = ({ setData }) => {
               textDecoration: 'none',
             }}
           >
-            <Link to='/' style={LinkStyle}>
             BookSpace
-            </Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -121,7 +120,7 @@ const ResponsiveAppBar = ({ setData }) => {
             variant='h5'
             noWrap
             component='a'
-            
+            href='/'
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -133,28 +132,30 @@ const ResponsiveAppBar = ({ setData }) => {
               textDecoration: 'none',
             }}
           >
-            <Link to='/' style={LinkStyle}>
             BookSpace
-            </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <div>
-                
-              <Link
-                component='a'
-                to={`/${
-                  page === 'My Shelve' ? 'my-shelve' : page?.toLowerCase()
-                }`}
-                key={page}
-                onClick={handleCloseNavMenu}
-                style={{ my: 2, color: 'white', display: 'block', padding:'5px', textDecoration: 'none'}}
-              >
-                {page}
-                {'  '}
-                <br/>
-              </Link>
-              </div>
+              <Box key={page}>
+                <Link
+                  component='a'
+                  to={`/${
+                    page === 'My Shelve' ? 'my-shelve' : page?.toLowerCase()
+                  }`}
+                  key={page + 'link'}
+                  onClick={handleCloseNavMenu}
+                  style={{
+                    my: 2,
+                    color: 'white',
+                    display: 'block',
+                    padding: '5px',
+                    textDecoration: 'none',
+                  }}
+                >
+                  {page}
+                  <br />
+                </Link>
+              </Box>
             ))}
           </Box>
 
@@ -189,12 +190,12 @@ const ResponsiveAppBar = ({ setData }) => {
               ) : (
                 <Box>
                   <MenuItem onClick={handleCloseUserMenu}>
-                     <Link to='/login'  style={LinkStyle}>
+                    <Link to='/login' style={LinkStyle}>
                       Login
-                     </Link>
+                    </Link>
                   </MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>
-                    <Link to='/register'  style={LinkStyle}>
+                    <Link to='/register' style={LinkStyle}>
                       Register
                     </Link>
                   </MenuItem>

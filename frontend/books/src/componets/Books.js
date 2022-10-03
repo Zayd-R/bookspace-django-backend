@@ -12,7 +12,7 @@ const Books = ({ data }) => {
   const lastSearch = JSON.parse(window.localStorage.getItem('lastSearch'))
   const [currentPage, setCurrentPage] = useState(lastSearch?.currentPage || 1)
   const [currentSearch, setCurrentSearch] = useState(lastSearch?.query || '')
- 
+
   // Persisted pagination
   useEffect(() => {
     if (lastSearch?.query) setCurrentSearch(lastSearch.query)
@@ -84,14 +84,13 @@ const Books = ({ data }) => {
                 )}
                 <Card.Body>
                   <Card.Title>{book.volumeInfo.title}</Card.Title>
-                  <Card.Text>
-                 <div
-                  dangerouslySetInnerHTML={{
-                    __html: book.searchInfo?.textSnippet 
-                  }} 
-                  />
-                  
-                  </Card.Text>
+                  <Card.Body style={{ padding: 0, marginBottom: '32px' }}>
+                    <Card.Text
+                      dangerouslySetInnerHTML={{
+                        __html: book.searchInfo?.textSnippet,
+                      }}
+                    />
+                  </Card.Body>
                   <Link to={`/books/${book.id}`}>
                     <Button variant='primary'>View Book</Button>
                   </Link>
