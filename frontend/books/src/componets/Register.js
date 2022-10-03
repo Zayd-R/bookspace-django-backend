@@ -6,6 +6,9 @@ import { useDispatch } from 'react-redux'
 import registerService from '../services/register'
 import { useNavigate } from 'react-router-dom';
 import { setNotification } from '../reducers/notificationReducer';
+import TextField from '@mui/material/TextField';
+
+
 const Register = ()=>{
     const username = useField("text")
     const first_name = useField('text')
@@ -46,29 +49,31 @@ const createAccount = (event)=>{
             <h1>Register Page</h1>
             <Form onSubmit={createAccount}>
                 <Form.Label>Username</Form.Label>
-                <Form.Control {...username}/>
+                <Form.Control {...username} placeholder="Username..."/>
 
                 <Form.Label>First name</Form.Label>
-                <Form.Control {...first_name}/>
+                <Form.Control {...first_name} placeholder="First name..."/>
 
                 <Form.Label>Last name</Form.Label>
-                <Form.Control {...last_name}/>
-
+                <Form.Control {...last_name} placeholder="Last name..."/>
+                
                 <Form.Label>Email</Form.Label>
-                <Form.Control {...email}/>
+                <Form.Control {...email} placeholder="Email..."/>
 
                 <Form.Label>Password</Form.Label>
-                <Form.Control {...password}/>
+                <Form.Control {...password} placeholder="Password..."/>
 
                 <Form.Label>Confirm password</Form.Label>
-                <Form.Control {...password2}/>
+                <Form.Control {...password2} placeholder="confirm Password..."/>
                 {  password2.value !== '' && (
                password.value !== password2.value ? <span style={{color: 'red'}}>Passwords do not match</span>: <span style={{color: 'green'}}>Passwords match</span>
 
                 )}
                <br/>
+
                 <Button type="submit">Create account</Button>
             </Form>
+
         </div>
     )
 }

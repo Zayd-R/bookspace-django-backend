@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { setNotification } from '../reducers/notificationReducer'
-
+ 
 
 const Book = () => {
   const [book, setBook] = useState([])
@@ -90,6 +90,8 @@ const Book = () => {
 
   const removeBookFromMyShelve = () => {
     dispatch(deleteBookAction(book.id))
+    dispatch(setNotification("book removed from your shelf", "success"))
+
   }
   
   const handleSelectChange = (event) => {

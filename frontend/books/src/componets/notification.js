@@ -5,7 +5,6 @@ import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
 const Notification = () => {
   const notification = useSelector(({ notification }) => notification)
-  console.log(notification, useSelector(( state) => state.notification),"+++++++++++++++++++++++++++++++++++++++++++")
   if (notification.message === null) {
     return null
   }
@@ -15,7 +14,7 @@ const Notification = () => {
         <Stack sx={{ width: '100%', padding:'5px' }} spacing={2}>
     <Alert severity={notification.type}>
       <AlertTitle>Error</AlertTitle>
-      {notification.message} —
+      {notification.message} 
     </Alert>
     </Stack>
 
@@ -26,7 +25,7 @@ const Notification = () => {
     <Stack sx={{ width: '100%', padding:'5px' }} spacing={2}>
     <Alert severity={notification.type}>
       <AlertTitle>Success</AlertTitle>
-      {notification.message} — 
+      {notification.message} 
     </Alert>
   </Stack>
   )
