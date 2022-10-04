@@ -67,8 +67,8 @@ const ResponsiveAppBar = ({ setData }) => {
               textDecoration: 'none',
             }}
           >
-            <Link to='/' style={{textDecoration: 'none', color: 'inherit'}}>
-            BookSpace
+            <Link to='/' style={{ textDecoration: 'none', color: 'inherit' }}>
+              BookSpace
             </Link>
           </Typography>
 
@@ -118,7 +118,6 @@ const ResponsiveAppBar = ({ setData }) => {
           <Typography
             variant='h5'
             noWrap
-          
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -130,31 +129,26 @@ const ResponsiveAppBar = ({ setData }) => {
               textDecoration: 'none',
             }}
           >
-            <Link to='/' style={{textDecoration: 'none', color: 'inherit'}}>
-            BookSpace
+            <Link to='/' style={{ textDecoration: 'none', color: 'inherit' }}>
+              BookSpace
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Box key={page}>
-                <Link
-                  component='a'
-                  to={`/${
-                    page === 'My Shelve' ? 'my-shelve' : page?.toLowerCase()
-                  }`}
-                  key={page + 'link'}
-                  onClick={handleCloseNavMenu}
-                  style={{
-                    my: 2,
-                    color: 'white',
-                    display: 'block',
-                    padding: '5px',
-                    textDecoration: 'none',
-                  }}
-                >
-                  {page}
-                  <br />
-                </Link>
+                <Typography variant='navBarLinks'>
+                  <Link
+                    to={`/${
+                      page === 'My Shelve' ? 'my-shelve' : page?.toLowerCase()
+                    }`}
+                    key={page + 'link'}
+                    onClick={handleCloseNavMenu}
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  >
+                    {page}
+                    <br />
+                  </Link>
+                </Typography>
               </Box>
             ))}
           </Box>

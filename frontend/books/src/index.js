@@ -25,6 +25,13 @@ const theme = createTheme({
       // I can pass myVariant as variant instead of h1,h2, etc.
       fontSize: '3rem',
     },
+    navBarLinks: {
+      my: 2,
+      padding: '5px',
+      '&:hover': {
+        borderBottom: '3px solid white',
+      },
+    },
   },
 })
 
