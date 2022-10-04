@@ -220,13 +220,9 @@ const HomePage = () => {
         sx={{
           background: 'black',
           height: 'auto',
-          mb: 15,
+          mb: 10,
         }}
-      >
-        <Typography variant='body1' color='white'>
-          Developed by Zayd & Pablo
-        </Typography>
-      </Box>
+      ></Box>
     </>
   )
 }
