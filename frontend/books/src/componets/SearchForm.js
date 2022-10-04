@@ -17,12 +17,11 @@ const SearchForm = ({ handleSearch, resetStorage }) => {
     handleSearch(query.value)
   }
 
-  const handleReset = ()=>{
+  const handleReset = () => {
     query.onSubmit()
     resetStorage()
   }
 
- 
   return (
     <>
       <Form onSubmit={handleSubmit}>
@@ -41,11 +40,10 @@ const SearchForm = ({ handleSearch, resetStorage }) => {
             <Button type='submit' variant='info'>
               Submit{' '}
             </Button>
-            
-            <Button  onClick={handleReset} variant=''>
+
+            <Button onClick={handleReset} variant=''>
               Reset
-              </Button>
-            
+            </Button>
           </div>
         </div>
       </Form>

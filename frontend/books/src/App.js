@@ -19,7 +19,8 @@ import googleService from './services/googleApi'
 import CurrentlyReadingList from './componets/CurrentlyReadingList'
 import WantToReadList from './componets/WantToReadList'
 import ResponsiveAppBar from './componets/ResponsiveNavbar'
-import {setNotification} from './reducers/notificationReducer'
+import { setNotification } from './reducers/notificationReducer'
+import Footer from './componets/Footer'
 // soon to implement API to allow user to filter the search
 // const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=${filterQuery}&startIndex=20`)
 
@@ -137,6 +138,7 @@ function App() {
           />
         </Routes>
       </div>
+      <Footer />
     </>
   )
 }
