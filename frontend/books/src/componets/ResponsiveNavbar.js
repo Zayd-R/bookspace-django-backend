@@ -158,6 +158,7 @@ const ResponsiveAppBar = ({ setData }) => {
               </Box>
             ))}
           </Box>
+           
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title='Open settings'>
@@ -181,6 +182,7 @@ const ResponsiveAppBar = ({ setData }) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+           
               {user ? (
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Link onClick={logout} style={LinkStyle}>

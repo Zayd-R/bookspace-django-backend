@@ -73,7 +73,7 @@ const Books = ({ data }) => {
         <div className='parent'>
           {getPaginatedData().map((book) => {
             return (
-              <Card style={{ width: '18rem' }} key={book.id}>
+              <Card style={{ width: '18rem' }} key={book.id}   bg='light'>
                 {book.volumeInfo.imageLinks ? (
                   <Card.Img
                     variant='top'

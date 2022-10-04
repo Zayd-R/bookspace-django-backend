@@ -13,6 +13,7 @@ import Register from './componets/Register'
 import UserShelve from './componets/UserShelve.js'
 import AlreadyReadList from './componets/AlreadyReadList'
 import Notification from './componets/notification'
+import About from './componets/About'
 import { initializeUserBooks } from './reducers/userBooksReducer'
 
 import googleService from './services/googleApi'
@@ -135,6 +136,10 @@ function App() {
             path='/my-shelve/want-to-read-books'
             element={<WantToReadList />}
           />
+          <Route
+           path='/about'
+           element={<About/>}
+           />
         </Routes>
       </div>
     </>
