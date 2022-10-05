@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Box, Button, Grid, Typography } from '@mui/material'
+import Footer from './Footer'
+
 // basic homepage that still need styling.
 const HomePage = () => {
   //TODO: Improve typography
@@ -222,36 +224,9 @@ const HomePage = () => {
           height: 'auto',
           mb: 10,
         }}
-<<<<<<< HEAD
-      >
-        <Typography variant='body1' color='white'>
-          Developed by 
-          <a href="https://github.com/Zayd123mouses" target="_blank" rel="noopener noreferrer"  style={{textDecoration: 'none', color: 'red'}}>
-            {' '}
-            Zayd
-         </a>
-         {' '}
-           & 
-          <a href="https://github.com/pablo-maff" target="_blank" rel="noopener noreferrer"  style={{textDecoration: 'none', color: 'red'}}>
-            {' '}
-          Pablo
-         </a> 
-         {'   '}
-      <br/>
-         <a href="https://github.com/Zayd123mouses/BookSpace" target="_blank" rel="noopener noreferrer"  style={{textDecoration: 'none', color: 'blue'}}>
-        
-                website Github 
-         </a> 
-       
-          
-         
-        </Typography>
-       
-      </Box>
-    
-=======
       ></Box>
->>>>>>> 1a49a628c4a8f26186ce8998f758e710d2318413
+      <Footer />
+
     </>
   )
 }

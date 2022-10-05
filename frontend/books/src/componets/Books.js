@@ -61,8 +61,13 @@ const Books = ({ data }) => {
         <br />
 
         <div className='pagination container'>
-          <img src={search} alt='book pic' width='30%' />
+          <img src={search} alt='book pic' width='20%' />
+         
         </div>
+        <br/>
+        <h6  className="font-weight-light text-home-secondary text-center text-md-left" > You don't need to know the name of the book, 
+        if you know the name of the author or publisher, just type, search and find </h6>
+
       </>
     )
   }
