@@ -32,6 +32,12 @@ const theme = createTheme({
         borderBottom: '3px solid white',
       },
     },
+    footerLinks: {
+      color: 'white',
+      '&:hover': {
+        borderBottom: '3px solid white',
+      },
+    },
   },
 })
 

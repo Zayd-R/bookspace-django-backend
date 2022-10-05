@@ -220,8 +220,9 @@ const HomePage = () => {
         sx={{
           background: 'black',
           height: 'auto',
-          mb: 15,
+          mb: 10,
         }}
+<<<<<<< HEAD
       >
         <Typography variant='body1' color='white'>
           Developed by 
@@ -248,6 +249,9 @@ const HomePage = () => {
        
       </Box>
     
+=======
+      ></Box>
+>>>>>>> 1a49a628c4a8f26186ce8998f758e710d2318413
     </>
   )
 }
