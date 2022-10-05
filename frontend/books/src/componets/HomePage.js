@@ -224,9 +224,30 @@ const HomePage = () => {
         }}
       >
         <Typography variant='body1' color='white'>
-          Developed by Zayd & Pablo
+          Developed by 
+          <a href="https://github.com/Zayd123mouses" target="_blank" rel="noopener noreferrer"  style={{textDecoration: 'none', color: 'red'}}>
+            {' '}
+            Zayd
+         </a>
+         {' '}
+           & 
+          <a href="https://github.com/pablo-maff" target="_blank" rel="noopener noreferrer"  style={{textDecoration: 'none', color: 'red'}}>
+            {' '}
+          Pablo
+         </a> 
+         {'   '}
+      <br/>
+         <a href="https://github.com/Zayd123mouses/BookSpace" target="_blank" rel="noopener noreferrer"  style={{textDecoration: 'none', color: 'blue'}}>
+        
+                website Github 
+         </a> 
+       
+          
+         
         </Typography>
+       
       </Box>
+    
     </>
   )
 }
