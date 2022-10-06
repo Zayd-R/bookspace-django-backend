@@ -1,14 +1,50 @@
+import { Avatar, Box, Divider, Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 const UserBooksStats = ({ books, title }) => {
   const numberOfBooks = books.length === 1 ? 'book' : 'books'
-  
+
+  const navigate = useNavigate()
+
+  // TODO: add books images to avatar
+
   return (
-    <>
-      <h5>{title}</h5>
-      <p>
-        {books.length || 0} {numberOfBooks}
-      </p>
-    </>
+    <Box
+      display='flex'
+      alignItems='center'
+      onClick={() => navigate('/my-shelve/read-books')}
+      className='categories'
+      sx={{
+        justifyContent: { md: 'center' },
+        p: { xs: 1, md: 2 },
+        '&:hover': {
+          boxShadow: 3,
+          bgcolor: '#03678b',
+        },
+      }}
+    >
+      <Avatar
+        variant='square'
+        alt='user profile pic'
+        src='https://www.svgrepo.com/show/212744/reading-student.svg'
+        sx={{ bgcolor: 'lightblue', width: 72, height: 72 }}
+      />
+      <Box sx={{ minWidth: { xs: 250, sm: 500 } }}>
+        <Box sx={{ ml: 3, my: 1 }}>
+          <Typography
+            variant='h5'
+            fontWeight='bold'
+            sx={{ fontSize: { xs: 22, md: 'h5.fontSize' } }}
+          >
+            {title}
+          </Typography>
+          <Typography variant='body1'>
+            {books.length || 0} {numberOfBooks}
+          </Typography>
+        </Box>
+        <Divider color='black' />
+      </Box>
+    </Box>
   )
 }
 
