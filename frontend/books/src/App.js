@@ -13,13 +13,13 @@ import Register from './componets/Register'
 import UserShelve from './componets/UserShelve.js'
 import AlreadyReadList from './componets/AlreadyReadList'
 import Notification from './componets/notification'
+import About from './componets/About'
 import { initializeUserBooks } from './reducers/userBooksReducer'
 
 import googleService from './services/googleApi'
 import CurrentlyReadingList from './componets/CurrentlyReadingList'
 import WantToReadList from './componets/WantToReadList'
 import ResponsiveAppBar from './componets/ResponsiveNavbar'
-import { setNotification } from './reducers/notificationReducer'
 import Footer from './componets/Footer'
 // soon to implement API to allow user to filter the search
 // const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=${filterQuery}&startIndex=20`)
@@ -136,9 +136,12 @@ function App() {
             path='/my-shelve/want-to-read-books'
             element={<WantToReadList />}
           />
+          <Route
+           path='/about'
+           element={<About/>}
+           />
         </Routes>
       </div>
-      <Footer />
     </>
   )
 }

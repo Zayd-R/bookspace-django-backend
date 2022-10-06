@@ -24,14 +24,18 @@ const SearchForm = ({ handleSearch, resetStorage }) => {
 
   return (
     <>
+    
       <Form onSubmit={handleSubmit}>
         <div className='containers d-flex justify-content-center'>
           <div className='input-group col-sm-7  input-group-lg'>
             <div className='input-group-prepend'>
               <span className='input-group-text google'>
                 <img src={pic} alt='book icon' />
+             
               </span>
+
             </div>
+           
             <input
               {...query}
               className='form-control'
@@ -46,6 +50,7 @@ const SearchForm = ({ handleSearch, resetStorage }) => {
             </Button>
           </div>
         </div>
+        
       </Form>
     </>
   )

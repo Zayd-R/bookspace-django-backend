@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Box, Button, Grid, Typography } from '@mui/material'
+import Footer from './Footer'
+
 // basic homepage that still need styling.
 const HomePage = () => {
   //TODO: Improve typography
@@ -223,6 +225,8 @@ const HomePage = () => {
           mb: 10,
         }}
       ></Box>
+      <Footer />
+
     </>
   )
 }
