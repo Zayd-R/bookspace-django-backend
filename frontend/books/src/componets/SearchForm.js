@@ -34,30 +34,6 @@ const SearchForm = ({ handleSearch, resetStorage }) => {
 
   return (
     <>
-      {/* <Form onSubmit={handleSubmit}>
-        <div className='containers d-flex justify-content-center'>
-          <div className='input-group col-sm-7  input-group-lg'>
-            <div className='input-group-prepend'>
-              <span className='input-group-text google'>
-                <img src={pic} alt='book icon' />
-              </span>
-            </div>
-
-            <input
-              {...query}
-              className='form-control'
-              placeholder='Search your books...'
-            />
-            <Button type='submit' variant='info'>
-              Submit{' '}
-            </Button>
-
-            <Button onClick={handleReset} variant=''>
-              Reset
-            </Button>
-          </div>
-        </div> */}
-      {/* </Form> */}
       <Box sx={{ mt: 10 }}>
         <form onSubmit={handleSubmit}>
           <TextField

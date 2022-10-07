@@ -29,7 +29,10 @@ import Footer from './componets/Footer'
 // TODO: navigate to home page on logout
 
 function App() {
-  const [data, setData] = useState([])
+  const [searchResult, setSearchResult] = useState({
+    items: [],
+    totalItems: null,
+  })
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
   // console.log(useSelector(state=>state))
@@ -38,7 +41,7 @@ function App() {
   // useEffect(()=>{
   //   if(user){
   //     const startTime = performance.now()
-  //     console.log("sending data there")
+  //     console.log("sending searchResult there")
   //     dispatch(initializeUserReading())
   //     // dispatch(initializeUserToRead())
   //     // dispatch(initializeUserRead())
@@ -61,20 +64,20 @@ function App() {
   useEffect(() => {
     const booksData = JSON.parse(window.localStorage.getItem('lastSearch'))
     if (typeof booksData === 'undefined') {
-      setData([])
+      setSearchResult({ items: [], totalItems: null })
     } else if (booksData) {
-      setData(booksData.books)
+      setSearchResult(booksData.books)
     }
   }, [])
 
   //   google API to get the books
   const handleSearch = (query) => {
-    // clearing the data each time a research is made to give some nice styling and not make the site just static
+    // clearing the searchResult each time a research is made to give some nice styling and not make the site just static
     window.localStorage.removeItem('lastSearch')
-    setData([])
+    setSearchResult({ items: [], totalItems: null })
     googleService
       .searchBooks(query)
-      .then((data) => setData(data))
+      .then((searchResult) => setSearchResult(searchResult))
       .catch((error) => console.log(error))
   }
 
@@ -93,12 +96,12 @@ function App() {
   // TODO: Create Navbar component and move logic there
   const resetStorage = () => {
     window.localStorage.removeItem('lastSearch')
-    setData([])
+    setSearchResult({ items: [], totalItems: null })
   }
 
   return (
     <>
-      <ResponsiveAppBar setData={setData} />
+      <ResponsiveAppBar setSearchResult={setSearchResult} />
 
       <div className='container'>
         <Notification />
@@ -114,7 +117,7 @@ function App() {
                   handleSearch={handleSearch}
                   resetStorage={resetStorage}
                 />{' '}
-                <Books data={data} />{' '}
+                <Books searchResult={searchResult} />{' '}
               </>
             }
           />

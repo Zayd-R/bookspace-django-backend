@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react'
 import { Pagination } from 'react-bootstrap'
 import { Card, CardGroup, Button } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import search from '../images/search_1.png'
+import { setNotification } from '../reducers/notificationReducer'
 
 // list of Books based on query
-const Books = ({ data }) => {
+const Books = ({ searchResult }) => {
   // basic logic to make some pagination
-  const DATA_LIMIT = 10
-  const PAGES = Math.round(data.length / DATA_LIMIT)
   const lastSearch = JSON.parse(window.localStorage.getItem('lastSearch'))
   const [currentPage, setCurrentPage] = useState(lastSearch?.currentPage || 1)
   const [currentSearch, setCurrentSearch] = useState(lastSearch?.query || '')
+
+  const dispatch = useDispatch()
 
   // Persisted pagination
   useEffect(() => {
@@ -23,6 +25,19 @@ const Books = ({ data }) => {
       )
     } else setCurrentPage(1)
   }, [lastSearch, currentPage, currentSearch])
+
+  const { items, totalItems } = searchResult
+
+  useEffect(() => {
+    if (totalItems === 0) {
+      dispatch(
+        setNotification('No results, try a different search term', 'error')
+      )
+    }
+  }, [totalItems, dispatch])
+
+  const DATA_LIMIT = 10
+  const PAGES = Math.round(items.length / DATA_LIMIT)
 
   // the number of pages after search is made
   const array = []
@@ -50,16 +65,18 @@ const Books = ({ data }) => {
   const getPaginatedData = () => {
     const startIndex = currentPage * DATA_LIMIT - DATA_LIMIT
     const endIndex = startIndex + DATA_LIMIT
-    return data.slice(startIndex, endIndex)
+    return items.slice(startIndex, endIndex)
   }
 
-  if (data.length < 1) {
+  if (items.length < 1) {
     return (
       <>
         <br />
         <br />
         <br />
-
+        {searchResult.totalItems === 0 ? (
+          <p>Not found, try a different search term</p>
+        ) : null}
         <div className='pagination container'>
           <img src={search} alt='book pic' width='20%' />
         </div>
