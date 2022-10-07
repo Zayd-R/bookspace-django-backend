@@ -54,7 +54,7 @@ const UserShelve = () => {
         sx={{ mb: 1 }}
       >
         <Typography variant='h4' component='h1' fontWeight='bold'>
-          SHELVES
+        SHELVES
           <Divider color='black' />
         </Typography>
       </Box>
