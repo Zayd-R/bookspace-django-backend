@@ -2,8 +2,16 @@
 import Form from 'react-bootstrap/Form'
 import pic from '../images/Books-icon-book-new.png'
 import { useField } from '../hooks/fields'
-import { Box, Button, InputBase, FormControl, FormGroup } from '@mui/material'
-import { SearchIcon } from '@mui/icons-material'
+import {
+  Box,
+  Button,
+  InputBase,
+  FormControl,
+  FormGroup,
+  TextField,
+  InputAdornment,
+} from '@mui/material'
+import { Clear, Search } from '@mui/icons-material'
 
 const SearchForm = ({ handleSearch, resetStorage }) => {
   // we can implement it with redux toolkit
@@ -50,19 +58,44 @@ const SearchForm = ({ handleSearch, resetStorage }) => {
           </div>
         </div> */}
       {/* </Form> */}
-      <form onSubmit={handleSubmit}>
-        <Box display='flex' sx={{ mt: 10 }}>
-          <InputBase
+      <Box sx={{ mt: 10 }}>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            variant='standard'
+            type='search'
             {...query}
             fullWidth
             placeholder='Search your books...'
-            type='search'
-            sx={{ bgcolor: 'white', p: 1.5, borderRadius: 8, fontSize: 20 }}
+            InputProps={{
+              disableUnderline: true,
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <Search />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment
+                  position='end'
+                  sx={{
+                    visibility: query.value ? 'visible' : 'hidden',
+                    '&:hover': { cursor: 'pointer' },
+                  }}
+                  onClick={handleReset}
+                >
+                  <Clear />
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              bgcolor: 'white',
+              p: 1.5,
+              borderRadius: 8,
+              fontSize: 20,
+              boxShadow: 5,
+            }}
           />
-          <Button type='submit'>Submit</Button>
-          <Button onClick={handleReset}>Reset</Button>
-        </Box>
-      </form>
+        </form>
+      </Box>
     </>
   )
 }

@@ -92,7 +92,6 @@ function App() {
 
   // TODO: Create Navbar component and move logic there
   const resetStorage = () => {
-    console.log('hello')
     window.localStorage.removeItem('lastSearch')
     setData([])
   }
@@ -136,10 +135,7 @@ function App() {
             path='/my-shelve/want-to-read-books'
             element={<WantToReadList />}
           />
-          <Route
-           path='/about'
-           element={<About/>}
-           />
+          <Route path='/about' element={<About />} />
         </Routes>
       </div>
     </>
