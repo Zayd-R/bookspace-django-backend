@@ -117,7 +117,9 @@ class BookView(generics.RetrieveUpdateDestroyAPIView):
     queryset = BooksAdded.objects.all()
     lookup_field = "book_id"
     serializer_class = BooksSerializers
-
+    # def filter_queryset(self, queryset):
+    #     queryset = self.get_queryset().filter(user_id=self.request.user.id).order_by("-added")
+    #     return  queryset
 
  
 

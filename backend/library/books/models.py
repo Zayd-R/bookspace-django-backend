@@ -31,7 +31,7 @@ class BooksAdded(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,related_name="booksToRead")
     book_title = models.TextField(default="No title")
     book_state =  models.TextField(default="No title")
-    book_id = models.TextField(unique=True)
+    book_id = models.TextField(unique=False)
     book_image = models.TextField(blank=True)
     added = models.DateTimeField(auto_now_add=True)
     review = models.IntegerField(blank=True, default=0)
