@@ -34,7 +34,7 @@ const SearchForm = ({ handleSearch, resetStorage }) => {
 
   return (
     <>
-      <Box sx={{ mt: 10 }}>
+      <Box sx={{ py: 1, my: 1 }}>
         <form onSubmit={handleSubmit}>
           <TextField
             variant='standard'
