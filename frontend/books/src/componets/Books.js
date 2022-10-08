@@ -1,3 +1,5 @@
+import { Box, Grid, Stack } from '@mui/material'
+import Masonry from '@mui/lab/Masonry'
 import { useEffect, useState } from 'react'
 import { Pagination } from 'react-bootstrap'
 import { Card, CardGroup, Button } from 'react-bootstrap'
@@ -5,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import search from '../images/search_1.png'
 import { setNotification } from '../reducers/notificationReducer'
+import BookCard from './BookCard'
 
 // list of Books based on query
 const Books = ({ searchResult }) => {
@@ -36,8 +39,8 @@ const Books = ({ searchResult }) => {
     }
   }, [totalItems, dispatch])
 
-  const DATA_LIMIT = 10
-  const PAGES = Math.round(items.length / DATA_LIMIT)
+  const DATA_LIMIT = 9
+  const PAGES = Math.ceil(items.length / DATA_LIMIT)
 
   // the number of pages after search is made
   const array = []
@@ -91,39 +94,23 @@ const Books = ({ searchResult }) => {
   }
 
   return (
-    <div>
-      <CardGroup>
-        <div className='parent'>
-          {getPaginatedData().map((book) => {
-            return (
-              <Card style={{ width: '18rem' }} key={book.id} bg='light'>
-                {book.volumeInfo.imageLinks ? (
-                  <Card.Img
-                    variant='top'
-                    src={book.volumeInfo.imageLinks.smallThumbnail}
-                  />
-                ) : (
-                  <Card.Img variant='top' src='' />
-                )}
-                <Card.Body>
-                  <Card.Title>{book.volumeInfo.title}</Card.Title>
-                  <Card.Body style={{ padding: 0, marginBottom: '32px' }}>
-                    <Card.Text
-                      dangerouslySetInnerHTML={{
-                        __html: book.searchInfo?.textSnippet,
-                      }}
-                    />
-                  </Card.Body>
-                  <Link to={`/books/${book.id}`}>
-                    <Button variant='primary'>View Book</Button>
-                  </Link>
-                </Card.Body>
-              </Card>
-            )
-          })}
-        </div>
-      </CardGroup>
-      <div className='pagination'>
+    <Box sx={{ mt: 5, mb: 10 }}>
+      <Masonry
+        columns={{ xs: 1, sm: 2, md: 3 }}
+        spacing={2}
+        sx={{
+          pb: 2,
+          pr: 2,
+          mt: 2,
+          mx: 'auto',
+        }}
+      >
+        {getPaginatedData().map((book) => (
+          <BookCard key={book.id} book={book} />
+        ))}
+      </Masonry>
+
+      {/* <div className='pagination'>
         <Button onClick={goToPreviousPage} disabled={currentPage === 1}>
           Previous
         </Button>
@@ -144,8 +131,8 @@ const Books = ({ searchResult }) => {
           Next
         </Button>
       </div>
-      <Pagination />
-    </div>
+      <Pagination /> */}
+    </Box>
   )
 }
 
