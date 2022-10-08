@@ -3,7 +3,6 @@ import Masonry from '@mui/lab/Masonry'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import search from '../images/search_1.png'
-import { setNotification } from '../reducers/notificationReducer'
 import BookCard from './BookCard'
 import BasicPagination from './BasicPagination'
 
@@ -28,15 +27,7 @@ const Books = ({ searchResult }) => {
   }, [lastSearch, currentPage, currentSearch])
 
   const { items, totalItems } = searchResult
-
-  useEffect(() => {
-    if (totalItems === 0) {
-      dispatch(
-        setNotification('No results, try a different search term', 'error')
-      )
-    }
-  }, [totalItems, dispatch])
-
+  
   const DATA_LIMIT = 9
   const PAGES = Math.ceil(items.length / DATA_LIMIT)
 

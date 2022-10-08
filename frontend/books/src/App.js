@@ -15,6 +15,7 @@ import AlreadyReadList from './componets/AlreadyReadList'
 import Notification from './componets/notification'
 import About from './componets/About'
 import { initializeUserBooks } from './reducers/userBooksReducer'
+import { setNotification } from './reducers/notificationReducer'
 
 import googleService from './services/googleApi'
 import CurrentlyReadingList from './componets/CurrentlyReadingList'
@@ -77,7 +78,14 @@ function App() {
     setSearchResult({ items: [], totalItems: null })
     googleService
       .searchBooks(query)
-      .then((searchResult) => setSearchResult(searchResult))
+      .then((searchResult) => {
+        if (!searchResult || searchResult.totalItems === 0) {
+          dispatch(
+            setNotification('No results, try a different search term', 'error')
+          )
+        }
+        setSearchResult(searchResult)
+      })
       .catch((error) => console.log(error))
   }
 
@@ -99,6 +107,7 @@ function App() {
     setSearchResult({ items: [], totalItems: null })
   }
 
+  
   return (
     <>
       <ResponsiveAppBar setSearchResult={setSearchResult} />
