@@ -116,8 +116,8 @@ function App() {
                 <SearchForm
                   handleSearch={handleSearch}
                   resetStorage={resetStorage}
-                />{' '}
-                <Books searchResult={searchResult} />{' '}
+                />
+                <Books searchResult={searchResult} />
               </>
             }
           />

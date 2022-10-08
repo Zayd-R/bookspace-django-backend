@@ -29,9 +29,13 @@ const BookCard = ({ book }) => {
           <Typography gutterBottom variant='h5' component='div'>
             {book.volumeInfo.title}
           </Typography>
-          <Typography variant='body2' color='text.secondary'>
-            {book.searchInfo?.textSnippet}
-          </Typography>
+          <Typography
+            variant='body2'
+            color='text.secondary'
+            dangerouslySetInnerHTML={{
+              __html: book.searchInfo?.textSnippet,
+            }}
+          />
         </CardContent>
       </CardActionArea>
     </Card>

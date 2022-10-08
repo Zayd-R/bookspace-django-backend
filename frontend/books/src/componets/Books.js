@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import Masonry from '@mui/lab/Masonry'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -40,12 +40,6 @@ const Books = ({ searchResult }) => {
   const DATA_LIMIT = 9
   const PAGES = Math.ceil(items.length / DATA_LIMIT)
 
-  // the number of pages after search is made
-  const array = []
-  for (let i = 1; i <= PAGES; i++) {
-    array.push(i)
-  }
-
   const handlePageChange = (event, value) => {
     setCurrentPage(value)
   }
@@ -59,23 +53,28 @@ const Books = ({ searchResult }) => {
 
   if (items.length < 1) {
     return (
-      <>
-        <br />
-        <br />
-        <br />
+      <Box
+        display='flex'
+        flexDirection='column'
+        alignItems='center'
+        sx={{ p: 1, m: 1 }}
+      >
         {searchResult.totalItems === 0 ? (
-          <p>Not found, try a different search term</p>
+          <Typography variant='h5' textAlign='center' sx={{ p: 1, m: 1 }}>
+            Not found, try a different search term...
+          </Typography>
         ) : null}
-        <div className='pagination container'>
-          <img src={search} alt='book pic' width='20%' />
-        </div>
-        <br />
-        <h6 className='font-weight-light text-home-secondary text-center text-md-left'>
-          {' '}
-          You don't need to know the name of the book, if you know the name of
-          the author or publisher, just type, search and find{' '}
-        </h6>
-      </>
+        <Box component='img' src={search} alt='book pic' sx={{ p: 1, m: 1 }} />
+        <Typography
+          variant='h6'
+          textAlign='center'
+          maxWidth={700}
+          sx={{ p: 1, m: 1 }}
+        >
+          You don't need to know the name of the book. If you know the name of
+          the author or publisher, just type, search and read
+        </Typography>
+      </Box>
     )
   }
 
