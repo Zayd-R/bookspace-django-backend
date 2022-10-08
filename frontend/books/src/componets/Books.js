@@ -1,13 +1,11 @@
-import { Box, Grid, Stack } from '@mui/material'
+import { Box } from '@mui/material'
 import Masonry from '@mui/lab/Masonry'
 import { useEffect, useState } from 'react'
-import { Pagination } from 'react-bootstrap'
-import { Card, CardGroup, Button } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
 import search from '../images/search_1.png'
 import { setNotification } from '../reducers/notificationReducer'
 import BookCard from './BookCard'
+import BasicPagination from './BasicPagination'
 
 // list of Books based on query
 const Books = ({ searchResult }) => {
@@ -48,23 +46,11 @@ const Books = ({ searchResult }) => {
     array.push(i)
   }
 
-  // next page button
-  const goToNextPage = () => {
-    setCurrentPage(currentPage + 1)
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value)
   }
 
-  // previous page button
-  const goToPreviousPage = () => {
-    setCurrentPage(currentPage - 1)
-  }
-
-  // clicking on page numberr
-  const changePage = (event) => {
-    const pageNumber = Number(event.target.textContent)
-    setCurrentPage(pageNumber)
-  }
-
-  //  slice the books list to show 10 books per page
+  //  slice the books list to show 9 books per page
   const getPaginatedData = () => {
     const startIndex = currentPage * DATA_LIMIT - DATA_LIMIT
     const endIndex = startIndex + DATA_LIMIT
@@ -94,45 +80,31 @@ const Books = ({ searchResult }) => {
   }
 
   return (
-    <Box sx={{ mt: 5, mb: 10 }}>
-      <Masonry
-        columns={{ xs: 1, sm: 2, md: 3 }}
-        spacing={2}
-        sx={{
-          pb: 2,
-          pr: 2,
-          mt: 2,
-          mx: 'auto',
-        }}
-      >
-        {getPaginatedData().map((book) => (
-          <BookCard key={book.id} book={book} />
-        ))}
-      </Masonry>
-
-      {/* <div className='pagination'>
-        <Button onClick={goToPreviousPage} disabled={currentPage === 1}>
-          Previous
-        </Button>
-        {array.map((item) => {
-          return (
-            <Button
-              key={item}
-              onClick={changePage}
-              className={`paginationItem ${
-                currentPage === item ? 'active' : 'notActive'
-              }`}
-            >
-              <span>{item}</span>
-            </Button>
-          )
-        })}
-        <Button onClick={goToNextPage} disabled={currentPage === PAGES}>
-          Next
-        </Button>
-      </div>
-      <Pagination /> */}
-    </Box>
+    <>
+      <Box sx={{ my: 2 }}>
+        <Masonry
+          columns={{ xs: 1, sm: 2, md: 3 }}
+          spacing={2}
+          sx={{
+            pb: 2,
+            pr: 2,
+            mt: 2,
+            mx: 'auto',
+          }}
+        >
+          {getPaginatedData().map((book) => (
+            <BookCard key={book.id} book={book} />
+          ))}
+        </Masonry>
+      </Box>
+      <Box display='flex' justifyContent='center' sx={{ mb: 2 }}>
+        <BasicPagination
+          nPages={PAGES}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+        />
+      </Box>
+    </>
   )
 }
 
