@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useMatch} from 'react-router-dom'
+import { useMatch } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   addBook,
@@ -7,15 +7,13 @@ import {
   updateBookAction,
 } from '../reducers/userBooksReducer'
 import googleService from '../services/googleApi'
-import { Rating } from '@mui/material';
+import { Rating, Typography, Box, Grid, Divider, Button } from '@mui/material'
 import CommentPop from './Commentpop'
 import ListComments from './Comments'
 import Form from 'react-bootstrap/Form'
-import { useNavigate } from "react-router-dom";
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom'
+import CircularProgress from '@mui/material/CircularProgress'
 import { setNotification } from '../reducers/notificationReducer'
- 
 
 const Book = () => {
   const [book, setBook] = useState([])
@@ -29,36 +27,30 @@ const Book = () => {
     userBooks.find((bookInShelve) => bookInShelve.book_id === book.id)
   )
   //TODO: Save other relevant data to display on individual view of saved books
-  //TODO: Save object of different image sizes instead of a string
 
   // if refresh the page , search google api and get the book
   const match = useMatch('/books/:id')
   useEffect(() => {
     if (match) {
       googleService.getBook(match.params.id).then((book) => setBook(book))
-
     }
   }, [match]) //this should render only once.
 
-// useEffect(()=>{
-//   dispatch(initializeComments(book.id)
-//   )
-// },[book])
+  // useEffect(()=>{
+  //   dispatch(initializeComments(book.id)
+  //   )
+  // },[book])
 
   useEffect(() => {
     if (bookInShelve) {
       setStarred(true)
       setReview(bookInShelve.review)
     }
-
   }, [bookInShelve])
-  
-  
-  
 
-  const saveBookToMyShelve = (state,review) => {
-    if(!user){
-      return navigate("/login")
+  const saveBookToMyShelve = (state, review) => {
+    if (!user) {
+      return navigate('/login')
     }
     const bookToSave = {
       user_id: user.user_id,
@@ -66,16 +58,15 @@ const Book = () => {
       book_state: state,
       book_id: book.id,
       book_image: book.volumeInfo.imageLinks.thumbnail,
-      review: state === 'read' && review ? review : 0
-
+      review: state === 'read' && review ? review : 0,
     }
 
     dispatch(addBook(bookToSave))
   }
 
-  const updateShelf = (state,review) => {
-    if(!user){
-      return navigate("/login")
+  const updateShelf = (state, review) => {
+    if (!user) {
+      return navigate('/login')
     }
     const bookToUpdate = {
       user_id: user.user_id,
@@ -83,21 +74,20 @@ const Book = () => {
       book_state: state,
       book_id: book.id,
       book_image: book.volumeInfo.imageLinks.thumbnail,
-      review: state === 'read' && review ? review : 0
+      review: state === 'read' && review ? review : 0,
     }
     dispatch(updateBookAction(book.id, bookToUpdate))
   }
 
   const removeBookFromMyShelve = () => {
     dispatch(deleteBookAction(book.id))
-    dispatch(setNotification("book removed from your shelf", "success"))
-
+    dispatch(setNotification('book removed from your shelf', 'success'))
   }
-  
+
   const handleSelectChange = (event) => {
-    if(!user){
-      dispatch(setNotification("Please login first", "error"))
-      return navigate("/login")
+    if (!user) {
+      dispatch(setNotification('Please login first', 'error'))
+      return navigate('/login')
     }
     if (starred && event.target.value === 'none') {
       removeBookFromMyShelve()
@@ -111,11 +101,10 @@ const Book = () => {
   }
 
   //TODO: Arrange default select after refresh and for non saved books
-  // TODO: Optimize the UX 
+  // TODO: Optimize the UX
   const setSelect = () => {
     if (starred) {
       return (
-      
         <Form.Select
           id={book.id}
           value={bookInShelve.book_state}
@@ -145,151 +134,126 @@ const Book = () => {
     }
   }
 
-
-const handleStars = (event)=>{
-  if(!user){
-    dispatch(setNotification("Please login first", "error"))
-    return navigate("/login")
+  const handleStars = (event) => {
+    if (!user) {
+      dispatch(setNotification('Please login first', 'error'))
+      return navigate('/login')
+    }
+    setReview(Number(event.target.value))
+    if (starred) {
+      updateShelf('read', Number(event.target.value))
+    } else {
+      saveBookToMyShelve('read', Number(event.target.value))
+    }
   }
-  setReview(Number(event.target.value))
-  if(starred){
-    updateShelf('read',Number(event.target.value) )
-  }else{
-    saveBookToMyShelve('read',Number(event.target.value))
-  }
-}
 
   if (book.length < 1) {
-    return(
+    return (
       <Box sx={{ display: 'flex' }}>
-      <CircularProgress />
-    </Box>
-    ) 
+        <CircularProgress />
+      </Box>
+    )
   }
 
+  console.log('book', book)
+
   return (
-    <section className='hero-section'>
-      <div className='container'>
-        <div className='row'>
-          <div className='col-12 col-md-7 pt-5 mb-5 align-self-center'>
-            <div className='promo pe-md-3 pe-lg-5'>
-              <h1 className='headline mb-3'>
-                {book.volumeInfo.title} <br />
-              </h1>
-              <hr />
-              <br />
-              <div className='subheadline mb-4'>
-                <div>
-                  Authors:{' '}
-                  {book.volumeInfo.authors && book.volumeInfo.authors.map((author) => {
-                    return <span key={author}>{author}, </span>
-                  })}
-                </div>
-                <br />
-                <div>Publisher: {book.volumeInfo.publisher.slice(1, -1)}</div>
-                <br />
-                <div>Published Date: {book.volumeInfo.publishedDate}</div>
-                <br />
-                <div>Number of Pages: {book.volumeInfo.pageCount}</div>
-                {!user ? null : (
-                  <div className='rating'>
-                    <input
-                      name='rating'
-                    />
-                    <label htmlFor='5'>☆</label>
-                  </div>
-                )}
-                <Rating name="size-large" value={review} onChange={handleStars}  size="large" />
+    <Box sx={{ p: 1, m: 1 }}>
+      <Typography variant='h4' component='h1' fontWeight='bold'>
+        {book.volumeInfo.title}
+      </Typography>
 
-                {setSelect()}
-             
-
-                <div>
-                  
-                <CommentPop review_value={review}
-                 setReviewParent={setReview} 
-                 starred={starred}
-                  updateShelf={updateShelf}
-                   saveBookToMyShelve={saveBookToMyShelve} 
-                   book_id={book.id}
-                   bookInShelve={bookInShelve}
-                   />
-
-
-
-                </div>
-              </div>
-              <hr />
-              <h1>Description </h1>
-              <br />
-              <div className='subheadline mb-4'>
-                {/* <h6>`${book.volumeInfo.description}`</h6> */}
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: book.volumeInfo.description
-                      ? book.volumeInfo.description
-                      : 'No description available',
-                  }}
-                />
-              </div>
-              
-                <div className='cta-holder row gx-md-3 gy-3 gy-md-0'>
-                  <div className='col-12 col-md-auto'>
-                    <a
-                      className='btn btn-primary w-100'
-                      href={book.volumeInfo.previewLink}
-                    >
-                      Read a sample
-                    </a>
-                  </div>
-                  <div className='col-12 col-md-auto'>
-                    <a
-                      className='btn btn-secondary scrollto w-100'
-                      href={book.volumeInfo.infoLink}
-                    >
-                      Check on GooglePLay
-                    </a>
-                  </div>
-                </div>
-              
-              <div className='hero-quotes mt-5'>
-                <div
-                  id='quotes-carousel'
-                  className='quotes-carousel carousel slide carousel-fade mb-5'
-                  data-bs-ride='carousel'
-                  data-bs-interval='8000'
-                ></div>
-              </div>
-            </div>
-          </div>
-
-          <div className='col-50 col-md-5 mb-8 '>
-            <br />
-            <br />
-            <div className='book-cover-holder'>
-              <img
-                style={{ width: '70%' }}
-                src={
-                  book.volumeInfo.imageLinks 
-                  ? book.volumeInfo.imageLinks.large ? book.volumeInfo.imageLinks.large
-                    
+      <Divider color='black' />
+      <Grid container height='auto' spacing={2}>
+        <Grid item xs={12} sm={4} display='flex'>
+          <Grid item xs={12} sm={12} sx={{ p: 1, m: 1 }}>
+            <Box
+              component='img'
+              maxWidth={200}
+              src={
+                book.volumeInfo.imageLinks
+                  ? book.volumeInfo.imageLinks.large
+                    ? book.volumeInfo.imageLinks.large
                     : book.volumeInfo.imageLinks.thumbnail
-                    : ''
-                }
-                alt='book cover'
-              />
-            </div>
-            <br/>
-            <br/>
-            <hr/>
-            <ListComments  book_id={book.id} />
-          </div>
-          
-        </div>
-      </div>
-{/* //////////////////////// */}
+                  : ''
+              }
+              alt='book cover'
+            />
+            <Box>
+              <Button
+                variant='outlined'
+                component='a'
+                href={book.volumeInfo.previewLink}
+              >
+                Read a Sample
+              </Button>
+              <Button
+                variant='outlined'
+                component='a'
+                href={book.volumeInfo.infoLink}
+              >
+                I'm in Google Play
+              </Button>
+            </Box>
+            <ListComments book_id={book.id} />
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={8}>
+          <Grid item xs={12} sm={12} sx={{ p: 1, m: 1 }}>
+            {book.volumeInfo.authors &&
+              book.volumeInfo.authors.map((author) => {
+                return (
+                  <Typography variant='body1' fontWeight='bold' key={author}>
+                    {author}
+                  </Typography>
+                )
+              })}
+            <Box>
+              <Typography variant='body1'>
+                {book.volumeInfo.publisher},{' '}
+                {book.volumeInfo.publishedDate.slice(0, 4)}
+              </Typography>
+              {book.volumeInfo.categories &&
+                book.volumeInfo.categories.map((category) => {
+                  return (
+                    <Typography variant='body1' key={category}>
+                      {category}
+                    </Typography>
+                  )
+                })}
+              <Typography variant='body1'>
+                {book.volumeInfo.pageCount} pages
+              </Typography>
+            </Box>
+            <Rating
+              name='size-large'
+              value={review}
+              onChange={handleStars}
+              size='large'
+            />
 
-    </section>
+            {setSelect()}
+            <CommentPop
+              review_value={review}
+              setReviewParent={setReview}
+              starred={starred}
+              updateShelf={updateShelf}
+              saveBookToMyShelve={saveBookToMyShelve}
+              book_id={book.id}
+              bookInShelve={bookInShelve}
+            />
+            <Typography
+              variant='body1'
+              dangerouslySetInnerHTML={{
+                __html: book.volumeInfo.description
+                  ? book.volumeInfo.description
+                  : 'No description available',
+              }}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+    </Box>
   )
 }
 
