@@ -46,7 +46,7 @@ const Books = ({ searchResult }) => {
         alignItems='center'
         sx={{ p: 1, m: 1 }}
       >
-        {searchResult.totalItems === 0 ? (
+        {totalItems === 0 ? (
           <Typography variant='h5' textAlign='center' sx={{ p: 1, m: 1 }}>
             Not found, try a different search term...
           </Typography>

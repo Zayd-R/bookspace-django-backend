@@ -15,8 +15,8 @@ const UserShelve = () => {
   // TODO: Add user image to avatar
 
   return (
-    <Paper sx={{ p: 2, mt: 1 }}>
-      <Grid container sx={{ height: 'auto' }}>
+    <>
+      <Grid container sx={{ height: 'auto', p: 2, mt: 1 }}>
         <Grid
           item
           xs={12}
@@ -70,7 +70,7 @@ const UserShelve = () => {
           <UserBooksStats books={toRead} title={'Want to Read'} />
         </Box>
       </Grid>
-    </Paper>
+    </>
   )
 }
 

@@ -48,11 +48,6 @@ const Book = () => {
     }
   }, [match]) //this should render only once.
 
-  // useEffect(()=>{
-  //   dispatch(initializeComments(book.id)
-  //   )
-  // },[book])
-
   useEffect(() => {
     if (bookInShelve) {
       setStarred(true)
@@ -69,7 +64,6 @@ const Book = () => {
     return () => window.removeEventListener('resize', updateMedia)
   })
 
-  console.log('book', book.volumeInfo)
   const saveBookToMyShelve = (state, review) => {
     if (!user) {
       return navigate('/login')
@@ -122,8 +116,6 @@ const Book = () => {
     }
   }
 
-  //TODO: Arrange default select after refresh and for non saved books
-  // TODO: Optimize the UX
   const setSelect = () => {
     if (starred) {
       return (
@@ -184,8 +176,6 @@ const Book = () => {
     )
   }
 
-  // console.log('book', book)
-
   return (
     <Paper sx={{ p: 1, m: 1 }}>
       <Typography
@@ -231,20 +221,7 @@ const Book = () => {
                 <ShopOutlinedIcon fontSize='large' />
               </Button>
             </Box>
-            {isDesktop && (
-              <>
-                <CommentPop
-                  review_value={review}
-                  setReviewParent={setReview}
-                  starred={starred}
-                  updateShelf={updateShelf}
-                  saveBookToMyShelve={saveBookToMyShelve}
-                  book_id={book.id}
-                  bookInShelve={bookInShelve}
-                />
-                <ListComments book_id={book.id} />
-              </>
-            )}
+            {isDesktop && <ListComments book_id={book.id} />}
           </Grid>
         </Grid>
         <Grid item xs={12} sm={8}>
@@ -283,6 +260,17 @@ const Book = () => {
             />
 
             {setSelect()}
+            {isDesktop && (
+              <CommentPop
+                review_value={review}
+                setReviewParent={setReview}
+                starred={starred}
+                updateShelf={updateShelf}
+                saveBookToMyShelve={saveBookToMyShelve}
+                book_id={book.id}
+                bookInShelve={bookInShelve}
+              />
+            )}
             <Divider color='black' sx={{ my: 2 }} />
             <Typography
               variant='body1'
