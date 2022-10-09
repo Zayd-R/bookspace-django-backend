@@ -113,6 +113,7 @@ const CommentPop = ({
                     variant='contained'
                     color='secondary'
                     onClick={handleClose}
+                    sx={{ mr: 1 }}
                   >
                     Close
                   </Button>
@@ -169,6 +170,7 @@ const CommentPop = ({
                 variant='contained'
                 color='secondary'
                 onClick={handleClose}
+                sx={{ mr: 1 }}
               >
                 Close
               </Button>

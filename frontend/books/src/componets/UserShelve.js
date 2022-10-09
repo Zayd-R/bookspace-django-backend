@@ -15,7 +15,7 @@ const UserShelve = () => {
   // TODO: Add user image to avatar
 
   return (
-    <Paper sx={{ p: 2, height: '90vh' }}>
+    <Paper sx={{ p: 2, mt: 1 }}>
       <Grid container sx={{ height: 'auto' }}>
         <Grid
           item

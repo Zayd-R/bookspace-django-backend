@@ -9,8 +9,8 @@ const HomePage = () => {
   //TODO: Create footer
   //TODO: Change grid containers to work with flexbox instead of grid values
   return (
-    <Paper sx={{ p: 2 }}>
-      <Grid container sx={{ height: 'auto' }} sx={{ mt: 2 }}>
+    <Paper sx={{ p: 2, mt: 1 }}>
+      <Grid container sx={{ height: 'auto' }}>
         <Grid item xs={12} sm={6}>
           <Grid item xs={12} sm={12} sx={{ mt: 6 }}>
             <Typography variant='myVariant'>
