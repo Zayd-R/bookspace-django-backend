@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import Masonry from '@mui/lab/Masonry'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -27,8 +27,8 @@ const Books = ({ searchResult }) => {
   }, [lastSearch, currentPage, currentSearch])
 
   const { items, totalItems } = searchResult
-  
-  const DATA_LIMIT = 9
+
+  const DATA_LIMIT = 12
   const PAGES = Math.ceil(items.length / DATA_LIMIT)
 
   const handlePageChange = (event, value) => {
@@ -69,11 +69,26 @@ const Books = ({ searchResult }) => {
     )
   }
 
+  // const sortedBooks = getPaginatedData().sort((a, b) => {
+  //   // console.log(b.searchInfo?.textSnippet.length)
+  //   return b.searchInfo?.textSnippet.length - a.searchInfo?.textSnippet.length
+  // })
+
   return (
     <>
       <Box sx={{ my: 2 }}>
-        <Masonry
-          columns={{ xs: 1, sm: 2, md: 3 }}
+        {/* <Masonry
+          columns={{ xs: 1, sm: 2, md: 3, lg: 4 }}
+          spacing={2}
+          sx={{
+            pb: 2,
+            pr: 2,
+            mt: 2,
+            mx: 'auto',
+          }}
+        > */}
+        <Grid
+          container
           spacing={2}
           sx={{
             pb: 2,
@@ -83,9 +98,12 @@ const Books = ({ searchResult }) => {
           }}
         >
           {getPaginatedData().map((book) => (
-            <BookCard key={book.id} book={book} />
+            <Grid item key={book.id} xs={12} sm={6} md={4} lg={3}>
+              <BookCard book={book} />
+            </Grid>
           ))}
-        </Masonry>
+        </Grid>
+        {/* </Masonry> */}
       </Box>
       <Box display='flex' justifyContent='center' sx={{ mb: 2 }}>
         <BasicPagination
