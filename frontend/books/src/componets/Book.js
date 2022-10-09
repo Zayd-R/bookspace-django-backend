@@ -14,8 +14,8 @@ import {
   Grid,
   Divider,
   Button,
-  useTheme,
-  useMediaQuery,
+  Paper,
+  Link,
 } from '@mui/material'
 import CommentPop from './Commentpop'
 import ListComments from './Comments'
@@ -23,6 +23,8 @@ import Form from 'react-bootstrap/Form'
 import { useNavigate } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress'
 import { setNotification } from '../reducers/notificationReducer'
+import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined'
+import ShopOutlinedIcon from '@mui/icons-material/ShopOutlined'
 
 const Book = () => {
   const [book, setBook] = useState([])
@@ -169,7 +171,14 @@ const Book = () => {
 
   if (book.length < 1) {
     return (
-      <Box sx={{ display: 'flex' }}>
+      <Box
+        sx={{
+          height: '92vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <CircularProgress />
       </Box>
     )
@@ -178,18 +187,22 @@ const Book = () => {
   // console.log('book', book)
 
   return (
-    <Box sx={{ p: 1, m: 1 }}>
-      <Typography variant='h4' component='h1' fontWeight='bold'>
+    <Paper sx={{ p: 1, m: 1 }}>
+      <Typography
+        variant='h4'
+        component='h1'
+        fontWeight='bold'
+        sx={{ textAlign: { xs: 'center', sm: 'left' }, p: 1 }}
+      >
         {book.volumeInfo.title}
       </Typography>
 
-      <Divider color='black' />
-      <Grid container height='auto' spacing={2}>
+      <Divider color='black' sx={{ mb: 1 }} />
+      <Grid container height='auto'>
         <Grid item xs={12} sm={4} display='flex'>
-          <Grid item xs={12} sm={12} sx={{ p: 1, m: 1 }}>
+          <Grid item xs={12} sm={12} sx={{ p: 0.5, m: 0.5 }}>
             <Box
               component='img'
-              maxWidth={200}
               src={
                 book.volumeInfo.imageLinks
                   ? book.volumeInfo.imageLinks.large
@@ -198,21 +211,24 @@ const Book = () => {
                   : ''
               }
               alt='book cover'
+              sx={{ width: '100%', height: 'auto' }}
             />
-            <Box>
+            <Box display='flex' sx={{ m: 1 }}>
               <Button
-                variant='outlined'
+                variant='contained'
                 component='a'
+                target='_blank'
                 href={book.volumeInfo.previewLink}
+                sx={{ mr: 1 }}
               >
-                Read a Sample
+                <AutoStoriesOutlinedIcon fontSize='large' />
               </Button>
               <Button
-                variant='outlined'
+                variant='contained'
                 component='a'
                 href={book.volumeInfo.infoLink}
               >
-                I'm in Google Play
+                <ShopOutlinedIcon fontSize='large' />
               </Button>
             </Box>
             {isDesktop && (
@@ -241,7 +257,7 @@ const Book = () => {
                   </Typography>
                 )
               })}
-            <Box>
+            <Box sx={{ my: 1 }}>
               <Typography variant='body1'>
                 {book.volumeInfo.publisher},{' '}
                 {book.volumeInfo.publishedDate.slice(0, 4)}
@@ -263,9 +279,11 @@ const Book = () => {
               value={review}
               onChange={handleStars}
               size='large'
+              sx={{ mb: 2 }}
             />
 
             {setSelect()}
+            <Divider color='black' sx={{ my: 2 }} />
             <Typography
               variant='body1'
               dangerouslySetInnerHTML={{
@@ -276,6 +294,7 @@ const Book = () => {
             />
             {!isDesktop && (
               <>
+                <Divider color='black' sx={{ mb: 5 }} />
                 <CommentPop
                   review_value={review}
                   setReviewParent={setReview}
@@ -291,7 +310,7 @@ const Book = () => {
           </Grid>
         </Grid>
       </Grid>
-    </Box>
+    </Paper>
   )
 }
 
