@@ -1,7 +1,5 @@
 import { Box, Grid, Typography } from '@mui/material'
-import Masonry from '@mui/lab/Masonry'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import search from '../images/search_1.png'
 import BookCard from './BookCard'
 import BasicPagination from './BasicPagination'
@@ -12,8 +10,6 @@ const Books = ({ searchResult }) => {
   const lastSearch = JSON.parse(window.localStorage.getItem('lastSearch'))
   const [currentPage, setCurrentPage] = useState(lastSearch?.currentPage || 1)
   const [currentSearch, setCurrentSearch] = useState(lastSearch?.query || '')
-
-  const dispatch = useDispatch()
 
   // Persisted pagination
   useEffect(() => {

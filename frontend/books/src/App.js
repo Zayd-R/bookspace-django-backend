@@ -11,17 +11,14 @@ import { loginUser } from './reducers/userReducer'
 import LoginForm from './componets/LoginForm'
 import Register from './componets/Register'
 import UserShelve from './componets/UserShelve.js'
-import AlreadyReadList from './componets/AlreadyReadList'
 import Notification from './componets/notification'
 import About from './componets/About'
 import { initializeUserBooks } from './reducers/userBooksReducer'
 import { setNotification } from './reducers/notificationReducer'
 
 import googleService from './services/googleApi'
-import CurrentlyReadingList from './componets/CurrentlyReadingList'
-import WantToReadList from './componets/WantToReadList'
 import ResponsiveAppBar from './componets/ResponsiveNavbar'
-import Footer from './componets/Footer'
+import SingleShelve from './componets/SingleShelve'
 // soon to implement API to allow user to filter the search
 // const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=${filterQuery}&startIndex=20`)
 
@@ -107,7 +104,6 @@ function App() {
     setSearchResult({ items: [], totalItems: null })
   }
 
-  
   return (
     <>
       <ResponsiveAppBar setSearchResult={setSearchResult} />
@@ -138,14 +134,17 @@ function App() {
 
           <Route path='/login' element={<LoginForm />} />
           <Route path='/my-shelve' element={<UserShelve />} />
-          <Route path='/my-shelve/read-books' element={<AlreadyReadList />} />
+          <Route
+            path='/my-shelve/read-books'
+            element={<SingleShelve title={'Books Read'} />}
+          />
           <Route
             path='/my-shelve/reading-books'
-            element={<CurrentlyReadingList />}
+            element={<SingleShelve title={'Currently Reading'} />}
           />
           <Route
             path='/my-shelve/want-to-read-books'
-            element={<WantToReadList />}
+            element={<SingleShelve title={'Want to Read'} />}
           />
           <Route path='/about' element={<About />} />
         </Routes>

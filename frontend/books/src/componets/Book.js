@@ -15,7 +15,6 @@ import {
   Divider,
   Button,
   Paper,
-  Link,
 } from '@mui/material'
 import CommentPop from './Commentpop'
 import ListComments from './Comments'
@@ -70,6 +69,7 @@ const Book = () => {
     return () => window.removeEventListener('resize', updateMedia)
   })
 
+  console.log('book', book.volumeInfo)
   const saveBookToMyShelve = (state, review) => {
     if (!user) {
       return navigate('/login')

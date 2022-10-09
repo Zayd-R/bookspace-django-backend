@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Box, Button, Grid, Typography } from '@mui/material'
+import { Box, Button, Grid, Paper, Typography } from '@mui/material'
 import Footer from './Footer'
 
 // basic homepage that still need styling.
@@ -9,8 +9,8 @@ const HomePage = () => {
   //TODO: Create footer
   //TODO: Change grid containers to work with flexbox instead of grid values
   return (
-    <>
-      <Grid container sx={{ height: 'auto' }}>
+    <Paper sx={{ p: 2 }}>
+      <Grid container sx={{ height: 'auto' }} sx={{ mt: 2 }}>
         <Grid item xs={12} sm={6}>
           <Grid item xs={12} sm={12} sx={{ mt: 6 }}>
             <Typography variant='myVariant'>
@@ -226,8 +226,7 @@ const HomePage = () => {
         }}
       ></Box>
       <Footer />
-
-    </>
+    </Paper>
   )
 }
 

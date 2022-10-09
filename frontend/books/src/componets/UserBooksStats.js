@@ -5,13 +5,13 @@ const UserBooksStats = ({ books, title }) => {
   const numberOfBooks = books.length === 1 ? 'book' : 'books'
 
   const navigate = useNavigate()
-  let url;
-  if(title === 'Read'){
-    url = "read-books"
-  } else if (title === 'Currently Reading'){
-    url = "reading-books"
+  let url
+  if (title === 'Read') {
+    url = 'read-books'
+  } else if (title === 'Currently Reading') {
+    url = 'reading-books'
   } else {
-    url = "want-to-read-books"
+    url = 'want-to-read-books'
   }
 
   // TODO: add books images to avatar
@@ -20,7 +20,7 @@ const UserBooksStats = ({ books, title }) => {
     <Box
       display='flex'
       alignItems='center'
-      onClick={() => navigate(`/my-shelve/${url}`)}
+      onClick={() => navigate(`/my-shelve/${url}`, { state: books })}
       className='categories'
       sx={{
         justifyContent: { md: 'center' },
@@ -50,7 +50,7 @@ const UserBooksStats = ({ books, title }) => {
             {books.length || 0} {numberOfBooks}
           </Typography>
         </Box>
-        <Divider color='black' />
+        <Divider color='black' sx={{ maxWidth: { xs: 200, sm: '100%' } }} />
       </Box>
     </Box>
   )
