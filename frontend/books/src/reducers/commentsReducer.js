@@ -11,7 +11,7 @@ const commentSlice = createSlice({
       return {...state, comments: payload}
     },
     appendComment(state, {payload}) {
-
+      console.log(payload, "the reduxer append +++++++++++++++++++")
       return {...state, comments: [...state.comments, payload]}
     },
     

@@ -32,7 +32,7 @@ def comments(request, book_id):
    if request.method == 'POST':
        data = json.loads(request.body)
        user = User.objects.get(pk=request.user.id)
-       book = BooksAdded.objects.get(book_id=book_id)
+       book = BooksAdded.objects.get(book_id=book_id, user_id=request.user.id)
     #    for each user one review , if exist => update the review
        try:
             if Comments.objects.get(book=book, commenter=user, parentId=None):
@@ -60,7 +60,7 @@ def comments(request, book_id):
 def Comment(request, book_id):
         try:
             user = User.objects.get(pk=request.user.id)
-            book = BooksAdded.objects.get(book_id=book_id)
+            book = BooksAdded.objects.get(book_id=book_id, user_id=request.user.id)
             comment = Comments.objects.get(book=book,commenter=user,parentId=None)
             print(Comments.objects.get(book=book,commenter=user,parentId=None), "---------------------------")
 
@@ -77,7 +77,7 @@ def Reply(request, book_id):
     data = json.loads(request.body)
     parentId = data.get("parentId")
     user = User.objects.get(pk=request.user.id)
-    book = BooksAdded.objects.get(book_id=book_id)
+    book = BooksAdded.objects.get(book_id=book_id, user_id=request.user.id)
     newcomment = Comments.objects.create(parentId=parentId, commenter=user,book=book, comment=data.get("comment"))
     return JsonResponse(newcomment.serialize(), safe=False)
 

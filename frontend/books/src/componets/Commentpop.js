@@ -26,6 +26,8 @@ const CommentPop = ({
 
   const dispatch = useDispatch()
   const comments = useSelector((state) => state.comments.userComment)
+  console.log(comments, "usercomment -----------------------------")
+  console.log(useSelector((state) => state))
 
   useEffect(() => {
     if (bookInShelve) {
@@ -33,7 +35,7 @@ const CommentPop = ({
     } else {
       dispatch(removeUserComment())
     }
-  }, [book_id, dispatch, starred])
+  }, [book_id, dispatch, bookInShelve])
 
   // for editing feature if usercomment is found
   useEffect(() => {
