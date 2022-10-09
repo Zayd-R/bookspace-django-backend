@@ -11,15 +11,9 @@ const commentSlice = createSlice({
     appendComment(state, { payload }) {
       return { ...state, comments: [...state.comments, payload] }
     },
-<<<<<<< HEAD
-    appendComment(state, {payload}) {
-      console.log(payload, "the reduxer append +++++++++++++++++++")
-      return {...state, comments: [...state.comments, payload]}
-=======
 
     setUserComments(state, { payload }) {
       return { ...state, userComment: payload }
->>>>>>> d035485d6e89fb7d38b3ced2d0c9189ffdc547a3
     },
     updateBookComments(state, { payload }) {
       const updated = state.comments.map((comment) =>
