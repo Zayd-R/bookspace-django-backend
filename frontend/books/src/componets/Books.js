@@ -76,7 +76,7 @@ const Books = ({ searchResult }) => {
 
   return (
     <>
-      <Box sx={{ my: 2 }}>
+      <Box sx={{ my: 1 }}>
         {/* <Masonry
           columns={{ xs: 1, sm: 2, md: 3, lg: 4 }}
           spacing={2}
@@ -98,14 +98,14 @@ const Books = ({ searchResult }) => {
           }}
         >
           {getPaginatedData().map((book) => (
-            <Grid item key={book.id} xs={12} sm={6} md={4} lg={3}>
+            <Grid item key={book.id} xs={12} sm={4} md={4} lg={3}>
               <BookCard book={book} />
             </Grid>
           ))}
         </Grid>
         {/* </Masonry> */}
       </Box>
-      <Box display='flex' justifyContent='center' sx={{ mb: 2 }}>
+      <Box display='flex' justifyContent='center' sx={{ mb: 1 }}>
         <BasicPagination
           nPages={PAGES}
           currentPage={currentPage}
