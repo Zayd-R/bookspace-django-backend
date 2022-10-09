@@ -7,7 +7,16 @@ import {
   updateBookAction,
 } from '../reducers/userBooksReducer'
 import googleService from '../services/googleApi'
-import { Rating, Typography, Box, Grid, Divider, Button } from '@mui/material'
+import {
+  Rating,
+  Typography,
+  Box,
+  Grid,
+  Divider,
+  Button,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material'
 import CommentPop from './Commentpop'
 import ListComments from './Comments'
 import Form from 'react-bootstrap/Form'
@@ -19,6 +28,8 @@ const Book = () => {
   const [book, setBook] = useState([])
   const [starred, setStarred] = useState(false)
   const [review, setReview] = useState(0)
+  const [isDesktop, setDesktop] = useState(window.innerWidth > 600)
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -47,6 +58,15 @@ const Book = () => {
       setReview(bookInShelve.review)
     }
   }, [bookInShelve])
+
+  const updateMedia = () => {
+    setDesktop(window.innerWidth > 650)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', updateMedia)
+    return () => window.removeEventListener('resize', updateMedia)
+  })
 
   const saveBookToMyShelve = (state, review) => {
     if (!user) {
@@ -155,7 +175,7 @@ const Book = () => {
     )
   }
 
-  console.log('book', book)
+  // console.log('book', book)
 
   return (
     <Box sx={{ p: 1, m: 1 }}>
@@ -195,7 +215,20 @@ const Book = () => {
                 I'm in Google Play
               </Button>
             </Box>
-            <ListComments book_id={book.id} />
+            {isDesktop && (
+              <>
+                <CommentPop
+                  review_value={review}
+                  setReviewParent={setReview}
+                  starred={starred}
+                  updateShelf={updateShelf}
+                  saveBookToMyShelve={saveBookToMyShelve}
+                  book_id={book.id}
+                  bookInShelve={bookInShelve}
+                />
+                <ListComments book_id={book.id} />
+              </>
+            )}
           </Grid>
         </Grid>
         <Grid item xs={12} sm={8}>
@@ -233,15 +266,6 @@ const Book = () => {
             />
 
             {setSelect()}
-            <CommentPop
-              review_value={review}
-              setReviewParent={setReview}
-              starred={starred}
-              updateShelf={updateShelf}
-              saveBookToMyShelve={saveBookToMyShelve}
-              book_id={book.id}
-              bookInShelve={bookInShelve}
-            />
             <Typography
               variant='body1'
               dangerouslySetInnerHTML={{
@@ -250,6 +274,20 @@ const Book = () => {
                   : 'No description available',
               }}
             />
+            {!isDesktop && (
+              <>
+                <CommentPop
+                  review_value={review}
+                  setReviewParent={setReview}
+                  starred={starred}
+                  updateShelf={updateShelf}
+                  saveBookToMyShelve={saveBookToMyShelve}
+                  book_id={book.id}
+                  bookInShelve={bookInShelve}
+                />
+                <ListComments book_id={book.id} />
+              </>
+            )}
           </Grid>
         </Grid>
       </Grid>
