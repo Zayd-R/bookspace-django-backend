@@ -1,4 +1,12 @@
-import { Box, List, ListItem, Paper, Rating, Typography } from '@mui/material'
+import {
+  Box,
+  Divider,
+  List,
+  ListItem,
+  Paper,
+  Rating,
+  Typography,
+} from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const SingleShelve = ({ title }) => {
@@ -8,7 +16,7 @@ const SingleShelve = ({ title }) => {
 
   return (
     <>
-      <Paper sx={{ p: 2, mt: 1 }}>
+      <Box sx={{ p: 2, mt: 1 }}>
         <Typography
           variant='h3'
           component='h1'
@@ -16,7 +24,8 @@ const SingleShelve = ({ title }) => {
         >
           {title}
         </Typography>
-      </Paper>
+        <Divider color='black' />
+      </Box>
       <List sx={{ width: '100%' }}>
         {books.length >= 1 ? (
           books.map((book) => (

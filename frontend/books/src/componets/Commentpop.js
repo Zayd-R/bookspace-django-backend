@@ -79,7 +79,7 @@ const CommentPop = ({
       <>
         {bookInShelve && (
           <>
-            <Button variant='contained' onClick={handleShow} sx={{ m: 1 }}>
+            <Button variant='contained' onClick={handleShow} sx={{ my: 1 }}>
               Write a review
             </Button>
 

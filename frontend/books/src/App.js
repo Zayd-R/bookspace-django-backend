@@ -19,11 +19,6 @@ import { setNotification } from './reducers/notificationReducer'
 import googleService from './services/googleApi'
 import ResponsiveAppBar from './componets/ResponsiveNavbar'
 import SingleShelve from './componets/SingleShelve'
-// soon to implement API to allow user to filter the search
-// const result = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&filter=${filterQuery}&startIndex=20`)
-
-// TODO: Implement Redux persist
-// TODO: Improve Layout
 // TODO: navigate to home page on logout
 
 function App() {
@@ -33,22 +28,6 @@ function App() {
   })
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
-  // console.log(useSelector(state=>state))
-
-  // New API falied to be better performance than the old API
-  // useEffect(()=>{
-  //   if(user){
-  //     const startTime = performance.now()
-  //     console.log("sending searchResult there")
-  //     dispatch(initializeUserReading())
-  //     // dispatch(initializeUserToRead())
-  //     // dispatch(initializeUserRead())
-
-  //     const endTime = performance.now()
-  //    console.log(`Call to 3 dispatches took ${endTime - startTime} milliseconds`)
-  //   }
-  // },[user,dispatch])
-  // ///////////////////////////////////////////////////////////////////////////////
 
   // make sure to not run this hook unless there is a user , or the server will not reponse and the frontend will get error
   useEffect(() => {
@@ -98,7 +77,6 @@ function App() {
 
   // to prevent crashes
 
-  // TODO: Create Navbar component and move logic there
   const resetStorage = () => {
     window.localStorage.removeItem('lastSearch')
     setSearchResult({ items: [], totalItems: null })

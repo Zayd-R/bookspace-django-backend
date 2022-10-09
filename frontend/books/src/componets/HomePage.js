@@ -6,11 +6,9 @@ import Footer from './Footer'
 const HomePage = () => {
   //TODO: Improve typography
   //TODO: Use theme in index.js to generalize some customized components
-  //TODO: Create footer
-  //TODO: Change grid containers to work with flexbox instead of grid values
   return (
-    <Paper sx={{ p: 2, mt: 1 }}>
-      <Grid container sx={{ height: 'auto' }}>
+    <>
+      <Grid container sx={{ height: 'auto', p: 2, mt: 1 }}>
         <Grid item xs={12} sm={6}>
           <Grid item xs={12} sm={12} sx={{ mt: 6 }}>
             <Typography variant='myVariant'>
@@ -226,7 +224,7 @@ const HomePage = () => {
         }}
       ></Box>
       <Footer />
-    </Paper>
+    </>
   )
 }
 
