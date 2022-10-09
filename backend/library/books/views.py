@@ -1,5 +1,6 @@
 from ast import Return
 from http.client import HTTPResponse
+from urllib import request
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -113,15 +114,17 @@ class TestView(generics.ListAPIView):
 
 class BookView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [AuthorAllStaffAllButEditOrReadOnly]
-
     queryset = BooksAdded.objects.all()
     lookup_field = "book_id"
     serializer_class = BooksSerializers
     # def filter_queryset(self, queryset):
     #     queryset = self.get_queryset().filter(user_id=self.request.user.id).order_by("-added")
     #     return  queryset
-
- 
+    def get_queryset(self):
+        user = self.request.user.id
+        newquery = self.queryset.filter(user_id=user)
+        return newquery
+    
 
 class UserViewSet(generics.ListCreateAPIView):
     authentication_classes = (TokenAuthentication,)
