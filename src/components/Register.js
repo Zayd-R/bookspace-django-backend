@@ -33,6 +33,7 @@ const Register = () => {
       .catch((error) => {
         try {
           dispatch(setNotification(error.response.data.username[0], 'error'))
+          console.log(error)
         } catch {
           dispatch(setNotification(error.response.data.password[0], 'error'))
         }
