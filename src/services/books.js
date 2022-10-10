@@ -1,6 +1,6 @@
 import axios from 'axios'
 import logService from './login'
-const baseUrl = 'books-api/books/'
+const baseUrl = '/books-api/books/'
 
 // for each user just send the token and you will get all the books with difrrent states for that user
 const getUserBooks = () => {

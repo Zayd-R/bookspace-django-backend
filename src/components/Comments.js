@@ -9,14 +9,14 @@ import Box from '@mui/material/Box'
 import { setNotification } from '../reducers/notificationReducer'
 // TODO: Test the componet with more than one user
 function createTree(list) {
-  console.log(list, "The list +++++++++++++++++++++++++++++++++++++++++")
+  // console.log(list, "The list +++++++++++++++++++++++++++++++++++++++++")
   var map = {},
     node,
     roots = []
     
 
   for (let i = 0; i < list.length; i += 1) {
-    console.log(list[i].children, i, list[i],"+++++++++++++++++++++++++++++++++++++++++")
+    // console.log(list[i].children, i, list[i],"+++++++++++++++++++++++++++++++++++++++++")
     map[list[i].id] = i // initialize the map
     list[i].children = [] // initialize the children
   }
@@ -122,11 +122,12 @@ const ListComments = ({ book_id }) => {
   const dispatch = useDispatch()
 
   const reducerComments = useSelector((state) => state.comments)
+  // console.log( useSelector((state) => state),"*/*********************************************************************")
   useEffect(() => {
     dispatch(initializeComments(book_id))
   }, [book_id, dispatch])
 
-  if (!reducerComments) {
+  if (!reducerComments || !Array.isArray(reducerComments.comments)) {
     return (
       <Box
         sx={{
@@ -139,8 +140,10 @@ const ListComments = ({ book_id }) => {
       </Box>
     )
   }
+
+  // console.log(JSON.parse(JSON.stringify(reducerComments.comments)), reducerComments.comments,"-----------------------")
+
   const Tree = commentTree(JSON.parse(JSON.stringify(reducerComments.comments)))
-  console.log(JSON.parse(JSON.stringify(reducerComments.comments)), "++++++++++++++++++++++++++")
   return (
     <Box>
       {Tree.map((comment) => {
