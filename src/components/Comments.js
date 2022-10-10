@@ -9,6 +9,7 @@ import Box from '@mui/material/Box'
 import { setNotification } from '../reducers/notificationReducer'
 // TODO: Test the componet with more than one user
 function createTree(list) {
+  console.log(list, "The list +++++++++++++++++++++++++++++++++++++++++")
   var map = {},
     node,
     roots = []
@@ -139,6 +140,7 @@ const ListComments = ({ book_id }) => {
     )
   }
   const Tree = commentTree(JSON.parse(JSON.stringify(reducerComments.comments)))
+  console.log(JSON.parse(JSON.stringify(reducerComments.comments)), "++++++++++++++++++++++++++")
   return (
     <Box>
       {Tree.map((comment) => {
