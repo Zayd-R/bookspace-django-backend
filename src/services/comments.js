@@ -1,7 +1,7 @@
 import axios from 'axios'
 import logService from './login'
 
-const baseUrl = 'http://127.0.0.1:8000/books-api/v1-comments/'
+const baseUrl = 'books-api/v1-comments/'
 
 const getComments = async (book_id) => {
   const response = await axios.get(`${baseUrl}${book_id}`)

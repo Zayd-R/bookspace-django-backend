@@ -1,7 +1,7 @@
 import axios from 'axios'
 import userService from './user'
 
-const baseurl = 'http://127.0.0.1:8000/users/login/'
+const baseurl = 'users/login/'
 
 const config = () => {
   return { headers: { Authorization: `TOKEN ${userService.getToken()}` } }
