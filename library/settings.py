@@ -26,7 +26,7 @@ SECRET_KEY='django-insecure-z9qm$x&13)vl+p*e42rga_-t^*7ok4fel&*3y0fnfso!i)*lqs'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -89,6 +89,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'build')],
+        # 'DIRS': [os.path.join(BASE_DIR, 'staticfiles')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,6 +107,12 @@ WSGI_APPLICATION = 'library.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=config('DATABASE_URL')
+#     )
+# }
 
 DATABASES = {
     'default': {
@@ -152,9 +159,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 # location where django collect all static files
-STATIC_ROOT = BASE_DIR / "staticfiles"
+# STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # location where you will store your static files
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'build/static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'build/static'), os.path.join(BASE_DIR, 'build')
+]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

@@ -18,6 +18,7 @@ from django.urls import path, include, re_path
 from rest_framework import routers, serializers, viewsets
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
+from .views import index
 
 
 # Routers provide an easy way of automatically determining the URL conf.
@@ -27,5 +28,5 @@ urlpatterns = [
     path("books-api/", include("books.urls")),
     path("users/", include("users.urls")),
     path('browsable-auth/', include("rest_framework.urls"), name='api_token_auth'), 
-    re_path('',TemplateView.as_view(template_name='index.html'))
+    re_path('.*', index)
 ]
