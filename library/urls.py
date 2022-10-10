@@ -14,20 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework import routers, serializers, viewsets
 from django.contrib.auth.models import User
+from django.views.generic import TemplateView
 
 
 # Routers provide an easy way of automatically determining the URL conf.
-
-
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("books-api/", include("books.urls")),
     path("users/", include("users.urls")),
     path('browsable-auth/', include("rest_framework.urls"), name='api_token_auth'), 
-
+    re_path('',TemplateView.as_view(template_name='index.html'))
 ]
