@@ -24,6 +24,7 @@ from .views import index
 # Routers provide an easy way of automatically determining the URL conf.
 
 urlpatterns = [
+    path('app/', include('books.urls')),
     path('admin/', admin.site.urls),
     path("books-api/", include("books.urls")),
     path("users/", include("users.urls")),
