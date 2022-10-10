@@ -1,16 +1,5 @@
-// import { Button } from 'react-bootstrap'
-import Form from 'react-bootstrap/Form'
-import pic from '../images/Books-icon-book-new.png'
 import { useField } from '../hooks/fields'
-import {
-  Box,
-  Button,
-  InputBase,
-  FormControl,
-  FormGroup,
-  TextField,
-  InputAdornment,
-} from '@mui/material'
+import { Box, TextField, InputAdornment } from '@mui/material'
 import { Clear, Search } from '@mui/icons-material'
 
 const SearchForm = ({ handleSearch, resetStorage }) => {

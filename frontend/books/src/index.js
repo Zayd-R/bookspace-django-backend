@@ -8,9 +8,9 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { store } from './store'
 import { createTheme, ThemeProvider } from '@mui/material'
 import { red } from '@mui/material/colors'
-import axios from 'axios';
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
-axios.defaults.xsrfCookieName = "csrftoken"
+import axios from 'axios'
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN'
 
 const theme = createTheme({
   palette: {

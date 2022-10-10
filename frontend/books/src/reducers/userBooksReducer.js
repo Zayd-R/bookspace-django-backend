@@ -11,8 +11,6 @@ const bookSlice = createSlice({
       return action.payload
     },
     appendBook(state, action) {
-      console.log(action.payload,"in reduces")
-
       return [...state, action.payload]
     },
     updateBook(state, action) {
@@ -52,32 +50,29 @@ export const initializeUserBooks = () => {
 export const addBook = (content) => {
   return async (dispatch) => {
     try {
-    const newBook = await bookService.saveBook(content)
-    dispatch(appendBook(newBook))
-   
-      dispatch(setNotification(
-        `A new book has been added`,
-        'success'   
-    ))
+      const newBook = await bookService.saveBook(content)
+      dispatch(appendBook(newBook))
+
+      dispatch(setNotification(`A new book has been added`, 'success'))
     } catch (exception) {
-      dispatch(setNotification('Something went wrong , please try later', 'error'))
+      dispatch(
+        setNotification('Something went wrong , please try later', 'error')
+      )
     }
   }
 }
 
-export const updateBookAction = (book_id,bookToUpdate) => {
+export const updateBookAction = (book_id, bookToUpdate) => {
   return async (dispatch) => {
     try {
-    const updatedBook = await bookService.updateState(book_id,bookToUpdate)
-    dispatch(updateBook(updatedBook))
-    dispatch(setNotification('Book updated', 'success'))
-
+      const updatedBook = await bookService.updateState(book_id, bookToUpdate)
+      dispatch(updateBook(updatedBook))
+      dispatch(setNotification('Book updated', 'success'))
     } catch (exception) {
       dispatch(
         setNotification(
           "Can't give like right now, please try again later",
           'error'
-          
         )
       )
     }
@@ -85,7 +80,6 @@ export const updateBookAction = (book_id,bookToUpdate) => {
 }
 
 export const deleteBookAction = (id) => {
-  console.log('reducerID', id)
   return async (dispatch) => {
     // try {
     await bookService.deleteBook(id)
@@ -109,4 +103,3 @@ export const appendCommentAction = (bookComment) => {
 }
 
 export default bookSlice.reducer
-

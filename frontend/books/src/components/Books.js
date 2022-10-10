@@ -65,24 +65,9 @@ const Books = ({ searchResult }) => {
     )
   }
 
-  // const sortedBooks = getPaginatedData().sort((a, b) => {
-  //   // console.log(b.searchInfo?.textSnippet.length)
-  //   return b.searchInfo?.textSnippet.length - a.searchInfo?.textSnippet.length
-  // })
-
   return (
     <>
       <Box sx={{ my: 1 }}>
-        {/* <Masonry
-          columns={{ xs: 1, sm: 2, md: 3, lg: 4 }}
-          spacing={2}
-          sx={{
-            pb: 2,
-            pr: 2,
-            mt: 2,
-            mx: 'auto',
-          }}
-        > */}
         <Grid
           container
           spacing={2}
@@ -99,7 +84,6 @@ const Books = ({ searchResult }) => {
             </Grid>
           ))}
         </Grid>
-        {/* </Masonry> */}
       </Box>
       <Box display='flex' justifyContent='center' sx={{ mb: 1 }}>
         <BasicPagination

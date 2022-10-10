@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Box, Button, Grid, Paper, Typography } from '@mui/material'
+import { Box, Button, Grid, Typography } from '@mui/material'
 import Footer from './Footer'
 
 // basic homepage that still need styling.

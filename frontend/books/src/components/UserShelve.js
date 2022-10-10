@@ -1,4 +1,4 @@
-import { Avatar, Box, Divider, Grid, Paper, Typography } from '@mui/material'
+import { Avatar, Box, Divider, Grid, Typography } from '@mui/material'
 import { useSelector } from 'react-redux'
 import LinearProgressWithLabel from './LinnearProgressWithLabel'
 import UserBooksStats from './UserBooksStats'

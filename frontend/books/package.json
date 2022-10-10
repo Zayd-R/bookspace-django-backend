@@ -2,6 +2,7 @@
   "name": "books",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -46,6 +47,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "engines": {
+    "node": "16.10.0",
+    "npm": "8.15.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

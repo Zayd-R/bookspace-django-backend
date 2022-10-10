@@ -55,7 +55,6 @@ const Comment = ({ comment, setRerender, book_id }) => {
     setReplyId(comment_id)
   }
 
-
   const handleSubmit = (event) => {
     event.preventDefault()
     if (!user) {
@@ -139,8 +138,6 @@ const ListComments = ({ book_id }) => {
     )
   }
   const Tree = commentTree(JSON.parse(JSON.stringify(reducerComments.comments)))
-  console.log(Tree,"+++++++++++++++++++++++++++++++++++++")
-
   return (
     <Box>
       {Tree.map((comment) => {

@@ -6,7 +6,6 @@ const baseurl = 'http://127.0.0.1:8000/users/login/'
 const config = () => {
   return { headers: { Authorization: `TOKEN ${userService.getToken()}` } }
 }
-// console.log(userService.getToken(), "is this good")
 
 const login = async (credits) => {
   const response = await axios.post(baseurl, credits)

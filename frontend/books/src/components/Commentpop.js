@@ -26,8 +26,6 @@ const CommentPop = ({
 
   const dispatch = useDispatch()
   const comments = useSelector((state) => state.comments.userComment)
-  console.log(comments, "usercomment -----------------------------")
-  console.log(useSelector((state) => state))
 
   useEffect(() => {
     if (bookInShelve) {

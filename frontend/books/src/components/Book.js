@@ -54,7 +54,6 @@ const Book = () => {
       setReview(bookInShelve.review)
     }
   }, [bookInShelve])
-  console.log(bookInShelve,"book inshelve value -----------")
 
   const updateMedia = () => {
     setDesktop(window.innerWidth > 650)

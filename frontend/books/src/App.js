@@ -1,24 +1,24 @@
 import { useState, useEffect } from 'react'
-import Books from './componets/Books'
-import SearchForm from './componets/SearchForm'
+import Books from './components/Books'
+import SearchForm from './components/SearchForm'
 import { Routes, Route, Navigate } from 'react-router-dom'
 
-import HomePage from './componets/HomePage'
-import Book from './componets/Book'
+import HomePage from './components/HomePage'
+import Book from './components/Book'
 import { useDispatch, useSelector } from 'react-redux'
 import userService from './services/user'
 import { loginUser } from './reducers/userReducer'
-import LoginForm from './componets/LoginForm'
-import Register from './componets/Register'
-import UserShelve from './componets/UserShelve.js'
-import Notification from './componets/notification'
-import About from './componets/About'
+import LoginForm from './components/LoginForm'
+import Register from './components/Register'
+import UserShelve from './components/UserShelve.js'
+import Notification from './components/Notification'
+import About from './components/About'
 import { initializeUserBooks } from './reducers/userBooksReducer'
 import { setNotification } from './reducers/notificationReducer'
 
 import googleService from './services/googleApi'
-import ResponsiveAppBar from './componets/ResponsiveNavbar'
-import SingleShelve from './componets/SingleShelve'
+import ResponsiveAppBar from './components/ResponsiveNavbar'
+import SingleShelve from './components/SingleShelve'
 // TODO: navigate to home page on logout
 
 function App() {
@@ -33,8 +33,6 @@ function App() {
   useEffect(() => {
     if (user) {
       dispatch(initializeUserBooks())
-
-      // console.log(`Call to 1 dispatches took ${endTime - startTime} milliseconds`)
     }
   }, [user, dispatch])
 

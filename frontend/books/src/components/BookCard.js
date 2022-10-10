@@ -6,7 +6,6 @@ import { CardActionArea } from '@mui/material'
 import { Link } from 'react-router-dom'
 
 const BookCard = ({ book }) => {
-  // console.log('book', book)
   return (
     <Card sx={{ maxWidth: 345, minHeight: 430 }}>
       <CardActionArea component={Link} to={`/books/${book.id}`}>
