@@ -16,7 +16,7 @@ function createTree(list) {
 
   for (i = 0; i < list.length; i += 1) {
     map[list[i].id] = i // initialize the map
-    list[i].children = [] // initialize the children
+    list[i].children = [''] // initialize the children
   }
 
   for (i = 0; i < list.length; i += 1) {
