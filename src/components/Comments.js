@@ -11,15 +11,15 @@ import { setNotification } from '../reducers/notificationReducer'
 function createTree(list) {
   var map = {},
     node,
-    roots = [],
-    i
+    roots = []
+    
 
-  for (i = 0; i < list.length; i += 1) {
+  for (let i = 0; i < list.length; i += 1) {
     map[list[i].id] = i // initialize the map
-    list[i].children = [''] // initialize the children
+    list[i].children = [] // initialize the children
   }
 
-  for (i = 0; i < list.length; i += 1) {
+  for (let i = 0; i < list.length; i += 1) {
     node = list[i]
     if (node.parentId) {
       // if you have dangling branches check that map[node.parentId] exists
